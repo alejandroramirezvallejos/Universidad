@@ -1,4 +1,4 @@
-package com.example.Server.validadores;
+package com.example.Server.validadores.matricula;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Materia;
 import com.example.Server.modelos.ParaleloMateria;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Order(3)
-public class ValidarMateriaNoInscrita implements IValidar {
+public class ValidarMateriaNoInscrita implements IValidarMatricula {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateriaNuevo) {
         Materia materiaNueva = paraleloMateriaNuevo.getMateria();

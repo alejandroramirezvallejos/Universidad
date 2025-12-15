@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DirectorCarrera {
+public class DirectorCarrera implements Usuario {
     private String codigo;
     private String nombre;
     private String apellido;

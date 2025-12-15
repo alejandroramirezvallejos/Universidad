@@ -1,4 +1,4 @@
-package com.example.Server.validadores;
+package com.example.Server.validadores.matricula;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Materia;
 import com.example.Server.modelos.ParaleloMateria;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 @Order(5)
-public class ValidarMateriasCorrelativas implements IValidar {
+public class ValidarMateriasCorrelativas implements IValidarMatricula {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
         Materia materia = paraleloMateria.getMateria();

@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Estudiante {
+public class Estudiante implements Usuario {
     private String codigo;
     private String nombre;
     private String apellido;

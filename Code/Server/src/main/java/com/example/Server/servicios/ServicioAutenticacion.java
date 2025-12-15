@@ -2,6 +2,7 @@ package com.example.Server.servicios;
 import com.example.Server.dtos.*;
 import com.example.Server.modelos.*;
 import com.example.Server.repositorios.*;
+ import com.example.Server.estrategias.autentificacion.ContextoLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class ServicioAutenticacion {
     private RepositorioDirectorCarrera repositorioDirector;
     @Autowired
     private RepositorioCarrera repositorioCarrera;
+    @Autowired
+    private ContextoLogin contextoLogin;
 
     public DtoRespuestaLogin login(DtoCredenciales credenciales) {
         String email = credenciales.getEmail();
@@ -26,26 +29,9 @@ public class ServicioAutenticacion {
         if (contrasenna == null || contrasenna.trim().isEmpty())
             return new DtoRespuestaLogin(false, "La contraseña es requerida", null);
 
-        Estudiante estudiante = repositorioEstudiante.buscarPorEmail(email);
-
-        if (estudiante != null && contrasenna.equals(estudiante.getContrasenna())) {
-            DtoUsuarioCompleto usuario = mapearEstudiante(estudiante);
-            return new DtoRespuestaLogin(true, "Login exitoso", usuario);
-        }
-
-        Docente docente = repositorioDocente.buscarPorEmail(email);
-
-        if (docente != null && contrasenna.equals(docente.getContrasenna())) {
-            DtoUsuarioCompleto usuario = mapearDocente(docente);
-            return new DtoRespuestaLogin(true, "Login exitoso", usuario);
-        }
-
-        DirectorCarrera director = repositorioDirector.buscarPorEmail(email);
-
-        if (director != null && contrasenna.equals(director.getContrasenna())) {
-            DtoUsuarioCompleto usuario = mapearDirector(director);
-            return new DtoRespuestaLogin(true, "Login exitoso", usuario);
-        }
+        DtoRespuestaLogin respuesta = contextoLogin.login(email, contrasenna);
+        if (respuesta != null)
+            return respuesta;
 
         return new DtoRespuestaLogin(false, "Email o contraseña incorrectos", null);
     }
@@ -80,7 +66,21 @@ public class ServicioAutenticacion {
         estudiante.setCarrera(carrera);
         estudiante.setSemestre(dto.getSemestre() != null ? dto.getSemestre() : 1);
         Estudiante guardado = repositorioEstudiante.guardar(estudiante);
-        DtoUsuarioCompleto usuario = mapearEstudiante(guardado);
+
+        DtoUsuarioCompleto usuario = new DtoUsuarioCompleto();
+        usuario.setCodigo(guardado.getCodigo());
+        usuario.setNombre(guardado.getNombre());
+        usuario.setApellido(guardado.getApellido());
+        usuario.setEmail(guardado.getEmail());
+        usuario.setRol("ESTUDIANTE");
+        usuario.setCodigoEstudiante(guardado.getCodigo());
+        usuario.setSemestre(guardado.getSemestre());
+        if (guardado.getCarrera() != null) {
+            DtoCarrera dtoCarrera = new DtoCarrera();
+            dtoCarrera.setCodigo(guardado.getCarrera().getCodigo());
+            dtoCarrera.setNombre(guardado.getCarrera().getNombre());
+            usuario.setCarrera(dtoCarrera);
+        }
 
         return new DtoRespuestaRegistro(true, "Estudiante registrado exitosamente", usuario);
     }
@@ -110,7 +110,16 @@ public class ServicioAutenticacion {
         docente.setDepartamento(dto.getDepartamento());
         docente.setEspecialidad(dto.getEspecialidad());
         Docente guardado = repositorioDocente.guardar(docente);
-        DtoUsuarioCompleto usuario = mapearDocente(guardado);
+
+        DtoUsuarioCompleto usuario = new DtoUsuarioCompleto();
+        usuario.setCodigo(guardado.getCodigo());
+        usuario.setNombre(guardado.getNombre());
+        usuario.setApellido(guardado.getApellido());
+        usuario.setEmail(guardado.getEmail());
+        usuario.setRol("DOCENTE");
+        usuario.setCodigoDocente(guardado.getCodigo());
+        usuario.setDepartamento(guardado.getDepartamento());
+        usuario.setEspecialidad(guardado.getEspecialidad());
 
         return new DtoRespuestaRegistro(true, "Docente registrado exitosamente", usuario);
     }
@@ -119,50 +128,5 @@ public class ServicioAutenticacion {
         return repositorioEstudiante.buscarPorEmail(email) != null ||
                repositorioDocente.buscarPorEmail(email) != null ||
                repositorioDirector.buscarPorEmail(email) != null;
-    }
-
-    private DtoUsuarioCompleto mapearEstudiante(Estudiante estudiante) {
-        DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
-        dto.setCodigo(estudiante.getCodigo());
-        dto.setNombre(estudiante.getNombre());
-        dto.setApellido(estudiante.getApellido());
-        dto.setEmail(estudiante.getEmail());
-        dto.setRol("ESTUDIANTE");
-        dto.setCodigoEstudiante(estudiante.getCodigo());
-        dto.setSemestre(estudiante.getSemestre());
-        
-        if (estudiante.getCarrera() != null) {
-            DtoCarrera dtoCarrera = new DtoCarrera();
-            dtoCarrera.setCodigo(estudiante.getCarrera().getCodigo());
-            dtoCarrera.setNombre(estudiante.getCarrera().getNombre());
-            dto.setCarrera(dtoCarrera);
-        }
-        
-        return dto;
-    }
-
-    private DtoUsuarioCompleto mapearDocente(Docente docente) {
-        DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
-        dto.setCodigo(docente.getCodigo());
-        dto.setNombre(docente.getNombre());
-        dto.setApellido(docente.getApellido());
-        dto.setEmail(docente.getEmail());
-        dto.setRol("DOCENTE");
-        dto.setCodigoDocente(docente.getCodigo());
-        dto.setDepartamento(docente.getDepartamento());
-        dto.setEspecialidad(docente.getEspecialidad());
-        return dto;
-    }
-
-    private DtoUsuarioCompleto mapearDirector(DirectorCarrera director) {
-        DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
-        dto.setCodigo(director.getCodigo());
-        dto.setNombre(director.getNombre());
-        dto.setApellido(director.getApellido());
-        dto.setEmail(director.getEmail());
-        dto.setRol("DIRECTOR");
-        dto.setCodigoDirector(director.getCodigo());
-        dto.setDepartamento(director.getDepartamento());
-        return dto;
     }
 }

@@ -3,7 +3,7 @@ import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Matricula;
 import com.example.Server.modelos.ParaleloMateria;
 import com.example.Server.repositorios.RepositorioMatricula;
-import com.example.Server.validadores.IValidar;
+import com.example.Server.validadores.matricula.IValidarMatricula;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServicioInscripcion {
     private final RepositorioMatricula repositorio;
-    private final IValidar validador;
+    private final IValidarMatricula validador;
 
     public Matricula inscribir(Estudiante estudiante, ParaleloMateria paralelo) {
         String error = validador.validar(estudiante, paralelo);

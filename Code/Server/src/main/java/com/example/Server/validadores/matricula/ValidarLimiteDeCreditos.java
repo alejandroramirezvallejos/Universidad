@@ -1,4 +1,4 @@
-package com.example.Server.validadores;
+package com.example.Server.validadores.matricula;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.ParaleloMateria;
 import org.springframework.core.annotation.Order;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Order(7)
-public class ValidarLimiteDeCreditos implements IValidar {
+public class ValidarLimiteDeCreditos implements IValidarMatricula {
     private static final int CREDITOS_MAXIMOS = 24;
 
     @Override
