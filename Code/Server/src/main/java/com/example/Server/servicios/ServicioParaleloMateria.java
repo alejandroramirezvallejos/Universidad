@@ -22,15 +22,11 @@ public class ServicioParaleloMateria {
     }
 
     private void asociarDocente(ParaleloMateria paralelo) {
-        List<Docente> docentes = repositorioDocente.getDocentes();
-        Docente docente = paralelo.getDocente();
-
-        for (Docente docenteExistente : docentes)
-            if (docenteExistente.getCodigo().equals(docente.getCodigo())) {
-                docenteExistente.getParaleloMaterias().add(paralelo);
-                repositorioDocente.guardar(docenteExistente);
-                break;
-            }
+        Docente docenteExistente = repositorioDocente.buscarPorCodigo(paralelo.getDocente().getCodigo());
+        if (docenteExistente != null) {
+            docenteExistente.getParaleloMaterias().add(paralelo);
+            repositorioDocente.guardar(docenteExistente);
+        }
     }
 
     private void asociarMateria(ParaleloMateria paralelo) {

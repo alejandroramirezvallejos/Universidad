@@ -26,14 +26,7 @@ public class ServicioHistorialAcademico {
     }
 
     private List<ActaEstudiante> getActasEstudiante(Estudiante estudiante) {
-        List<ActaEstudiante> todas = repositorioActa.getActas();
-        List<ActaEstudiante> resultado = new ArrayList<>();
-
-        for (ActaEstudiante acta : todas)
-            if (acta.getEstudiante().getCodigo().equals(estudiante.getCodigo()))
-                resultado.add(acta);
-
-        return resultado;
+        return repositorioActa.buscarPorEstudiante(estudiante.getCodigo());
     }
 
     private double calcularPromedio(List<ActaEstudiante> actas) {
@@ -76,6 +69,7 @@ public class ServicioHistorialAcademico {
         historial.setPromedioGeneral(promedio);
         historial.setCreditosAprobados(aprobados);
         historial.setCreditosTotales(totales);
+
         return historial;
     }
 

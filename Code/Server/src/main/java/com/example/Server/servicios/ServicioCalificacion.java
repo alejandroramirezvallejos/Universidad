@@ -27,13 +27,7 @@ public class ServicioCalificacion {
         if (estudiante == null)
             return new ArrayList<>();
 
-        List<Calificacion> resultado = new ArrayList<>();
-
-        for (Calificacion calificacion : repositorio.getCalificaciones())
-            if (calificacion.getEstudiante().getCodigo().equals(estudianteCodigo))
-                resultado.add(calificacion);
-
-        return resultado;
+        return repositorio.buscarPorEstudiante(estudianteCodigo);
     }
 
     public void eliminar(Calificacion calificacion) {

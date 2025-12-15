@@ -60,13 +60,7 @@ public class ServicioInscripcion {
     }
 
     public List<Matricula> obtenerPorEstudiante(String estudianteCodigo) {
-        List<Matricula> resultado = new ArrayList<>();
-
-        for (Matricula matricula : repositorio.getMatriculas())
-            if (matricula.getEstudiante() != null && matricula.getEstudiante().getCodigo().equals(estudianteCodigo))
-                resultado.add(matricula);
-
-        return resultado;
+        return repositorio.buscarPorEstudiante(estudianteCodigo);
     }
 
     public List<Matricula> obtenerPorParalelo(String paraleloCodigo) {
@@ -80,11 +74,11 @@ public class ServicioInscripcion {
     }
 
     public void cancelar(String estudianteCodigo, String paraleloCodigo) {
+        List<Matricula> matriculasEstudiante = repositorio.buscarPorEstudiante(estudianteCodigo);
         Matricula matriculaAEliminar = null;
 
-        for (Matricula matricula : repositorio.getMatriculas())
-            if (matricula.getEstudiante() != null && matricula.getEstudiante().getCodigo().equals(estudianteCodigo) &&
-                matricula.getParaleloMateria() != null && matricula.getParaleloMateria().getCodigo().equals(paraleloCodigo)) {
+        for (Matricula matricula : matriculasEstudiante)
+            if (matricula.getParaleloMateria() != null && matricula.getParaleloMateria().getCodigo().equals(paraleloCodigo)) {
                 matriculaAEliminar = matricula;
                 break;
             }

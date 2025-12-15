@@ -41,13 +41,7 @@ public class ServicioEvaluacion {
     }
 
     public List<Evaluacion> obtenerPorParalelo(String paraleloCodigo) {
-        List<Evaluacion> resultado = new ArrayList<>();
-
-        for (Evaluacion evaluacion : repositorio.getEvaluaciones())
-            if (evaluacion.getParaleloMateria() != null && evaluacion.getParaleloMateria().getCodigo().equals(paraleloCodigo))
-                resultado.add(evaluacion);
-
-        return resultado;
+        return repositorio.buscarPorParalelo(paraleloCodigo);
     }
 
     public List<Calificacion> obtenerCalificacionesEstudiante(String estudianteCodigo) {

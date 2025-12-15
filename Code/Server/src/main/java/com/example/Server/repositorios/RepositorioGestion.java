@@ -2,32 +2,30 @@ package com.example.Server.repositorios;
 import com.example.Server.modelos.Gestion;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
 public class RepositorioGestion {
-    private final List<Gestion> gestiones = new ArrayList<>();
+    private final Map<String, Gestion> gestiones = new HashMap<>();
 
     public Gestion guardar(Gestion gestion) {
-        gestiones.add(gestion);
+        gestiones.put(gestion.getCodigo(), gestion);
         return gestion;
     }
 
     public List<Gestion> getGestiones() {
-        return new ArrayList<>(gestiones);
+        return new ArrayList<>(gestiones.values());
     }
 
     public Optional<Gestion> buscarPorCodigo(String codigo) {
-        for (Gestion gestion : gestiones)
-            if (gestion.getCodigo().equals(codigo))
-                return Optional.of(gestion);
-
-        return Optional.empty();
+        return Optional.ofNullable(gestiones.get(codigo));
     }
 
     public Optional<Gestion> buscarGestionActual() {
-        for (Gestion gestion : gestiones)
+        for (Gestion gestion : gestiones.values())
             if ("EN_CURSO".equals(gestion.getEstado()))
                 return Optional.of(gestion);
 
@@ -35,6 +33,6 @@ public class RepositorioGestion {
     }
 
     public void eliminar(Gestion gestion) {
-        gestiones.remove(gestion);
+        gestiones.remove(gestion.getCodigo());
     }
 }
