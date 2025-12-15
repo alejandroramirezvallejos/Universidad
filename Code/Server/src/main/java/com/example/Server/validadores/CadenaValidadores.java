@@ -7,25 +7,25 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 @RequiredArgsConstructor
 public class CadenaValidadores {
-    private final ValidadorCupo validadorCupo;
-    private final ValidadorMateriaNoInscrita validadorMateriaNoInscrita;
-    private final ValidadorMateriasCorrelativas validadorMateriasCorrelativas;
-    private final ValidadorChoqueHorario validadorChoqueHorario;
-    private final ValidadorMateriaAprobada validadorMateriaAprobada;
-    private final ValidadorLimiteCreditos validadorLimiteCreditos;
-    private final ValidadorPeriodoMatricula validadorPeriodoMatricula;
+    private final ValidarCupoDisponible validarCupoDisponible;
+    private final ValidarMateriaNoInscrita validarMateriaNoInscrita;
+    private final ValidarMateriasCorrelativas validarMateriasCorrelativas;
+    private final ValidarChoqueHorario validarChoqueHorario;
+    private final ValidarMateriaAprobada validarMateriaAprobada;
+    private final ValidarLimiteDeCreditos validarLimiteCreditos;
+    private final ValidarPeriodoMatricula validarPeriodoMatricula;
 
     @Bean
     @Primary
-    public IValidador validar() {
-        validadorPeriodoMatricula.setSiguiente(validadorCupo);
-        validadorCupo.setSiguiente(validadorMateriaNoInscrita);
-        validadorMateriaNoInscrita.setSiguiente(validadorMateriaAprobada);
-        validadorMateriaAprobada.setSiguiente(validadorMateriasCorrelativas);
-        validadorMateriasCorrelativas.setSiguiente(validadorChoqueHorario);
-        validadorChoqueHorario.setSiguiente(validadorLimiteCreditos);
-        
-        return validadorPeriodoMatricula;
+    public IValidar validar() {
+        validarPeriodoMatricula
+            .setSiguiente(validarCupoDisponible)
+            .setSiguiente(validarMateriaNoInscrita)
+            .setSiguiente(validarMateriaAprobada)
+            .setSiguiente(validarMateriasCorrelativas)
+            .setSiguiente(validarChoqueHorario)
+            .setSiguiente(validarLimiteCreditos);
+
+        return validarPeriodoMatricula;
     }
 }
-

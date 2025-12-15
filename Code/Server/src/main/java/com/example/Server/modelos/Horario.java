@@ -11,5 +11,11 @@ public class Horario {
     private String diaSemana;
     private LocalTime horaInicio;
     private LocalTime horaFin;
-}
 
+    public boolean seSolapa(Horario otro) {
+        if (!diaSemana.equals(otro.diaSemana))
+            return false;
+
+        return horaInicio.isBefore(otro.horaFin) && horaFin.isAfter(otro.horaInicio);
+    }
+}

@@ -19,9 +19,49 @@ public class Estudiante {
     private List<Materia> materiasInscritas = new ArrayList<>();
     private List<Materia> materiasAprobadas = new ArrayList<>();
 
+    public int calcularCreditosInscritos() {
+        if (materiasInscritas == null) return 0;
+        int total = 0;
+        for (Materia materia : materiasInscritas) {
+            total += materia.getCreditos();
+        }
+        return total;
+    }
+
+    public boolean haAprobado(Materia materia) {
+        if (materiasAprobadas == null) return false;
+        for (Materia aprobada : materiasAprobadas) {
+            if (aprobada.getCodigo().equals(materia.getCodigo())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean estaInscritoEnMateria(Materia materia) {
+        if (materiasInscritas == null) return false;
+        for (Materia inscrita : materiasInscritas) {
+            if (inscrita.getCodigo().equals(materia.getCodigo())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Horario obtenerChoqueHorario(List<Horario> nuevosHorarios) {
+        if (materiasInscritas == null) return null;
+        for (Materia materia : materiasInscritas) {
+            ParaleloMateria paralelo = materia.getParaleloInscrito(this);
+            if (paralelo != null) {
+                Horario choque = paralelo.getHorarioChoque(nuevosHorarios);
+                if (choque != null) return choque;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return nombre + " " + apellido;
     }
 }
-

@@ -1,9 +1,9 @@
 /**
  * Configuración de Rutas de la Aplicación
- * 
+ *
  * Heurística Nielsen #2: Correspondencia sistema-mundo real
  * - URLs claras y descriptivas
- * 
+ *
  * Implementa:
  * - Lazy loading para mejor rendimiento
  * - Guards para protección de rutas
@@ -166,7 +166,15 @@ export const routes: Routes = [
           .then(m => m.ReportesComponent),
         canActivate: [roleGuard(['DIRECTOR'])],
         title: 'Reportes - Universidad'
-      }
+      },
+
+      // Test Observer
+      {
+        path: 'test-observer',
+        loadComponent: () => import('./features/test-observer/test-observer.component')
+          .then(m => m.TestObserverComponent),
+        title: 'Prueba Observer - Universidad'
+      },
     ]
   },
 

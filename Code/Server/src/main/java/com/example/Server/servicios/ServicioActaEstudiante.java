@@ -3,10 +3,9 @@ import com.example.Server.modelos.ActaEstudiante;
 import com.example.Server.modelos.Calificacion;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Evaluacion;
+import com.example.Server.modelos.Materia;
 import com.example.Server.modelos.ParaleloMateria;
 import com.example.Server.alertas.ContextoNotificacion;
-import com.example.Server.alertas.NotificarAprobacion;
-import com.example.Server.alertas.NotificarReprobacion;
 import com.example.Server.repositorios.RepositorioActaEstudiante;
 import com.example.Server.repositorios.RepositorioEvaluacion;
 import lombok.RequiredArgsConstructor;
@@ -42,14 +41,9 @@ public class ServicioActaEstudiante {
     }
 
     private void procesarResultado(Estudiante estudiante, ParaleloMateria paralelo, double nota) {
+        contexto.notificar(estudiante, paralelo.getMateria(), nota);
         if (esAprobado(nota)) {
-            contexto.setEstrategia(new NotificarAprobacion());
-            contexto.notificar(estudiante, paralelo.getMateria(), nota);
             estudiante.getMateriasAprobadas().add(paralelo.getMateria());
-        }
-        else {
-            contexto.setEstrategia(new NotificarReprobacion());
-            contexto.notificar(estudiante, paralelo.getMateria(), nota);
         }
     }
 
@@ -113,5 +107,9 @@ public class ServicioActaEstudiante {
 
     public void eliminar(ActaEstudiante acta) {
         repositorio.eliminar(acta);
+    }
+
+    public void notificar(Estudiante estudiante, Materia materia, Double notaFinal) {
+        contexto.notificar(estudiante, materia, notaFinal);
     }
 }

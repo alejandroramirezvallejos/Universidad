@@ -1,5 +1,6 @@
 package com.example.Server.controladores;
 import com.example.Server.dtos.DtoActaEstudiante;
+import com.example.Server.dtos.DtoNotificacion;
 import com.example.Server.modelos.ActaEstudiante;
 import com.example.Server.servicios.ServicioActaEstudiante;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +61,12 @@ public class ControladorActaEstudiante {
     public ResponseEntity<Void> eliminar(@RequestBody DtoActaEstudiante dto) {
         ActaEstudiante acta = castModelo(dto);
         servicio.eliminar(acta);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/notificar")
+    public ResponseEntity<Void> notificar(@RequestBody DtoNotificacion dto) {
+        servicio.notificar(dto.getEstudiante(), dto.getMateria(), dto.getNotaFinal());
         return ResponseEntity.ok().build();
     }
 

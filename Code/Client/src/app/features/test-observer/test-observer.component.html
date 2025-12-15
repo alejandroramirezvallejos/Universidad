@@ -1,0 +1,37 @@
+<div class="container p-4">
+  <h2>Prueba del Patrón Observer (Backend)</h2>
+
+  <div class="card p-3 mb-3">
+    <h4>Datos del Estudiante</h4>
+    <div class="mb-2">
+      <label>Nombre:</label>
+      <input type="text" class="form-control" [(ngModel)]="estudiante.nombre">
+    </div>
+    <div class="mb-2">
+      <label>Email:</label>
+      <input type="text" class="form-control" [(ngModel)]="estudiante.email">
+    </div>
+  </div>
+
+  <div class="card p-3 mb-3">
+    <h4>Datos de la Materia</h4>
+    <div class="mb-2">
+      <label>Nombre:</label>
+      <input type="text" class="form-control" [(ngModel)]="materia.nombre">
+    </div>
+  </div>
+
+  <div class="card p-3 mb-3">
+    <h4>Calificación</h4>
+    <div class="mb-2">
+      <label>Nota Final:</label>
+      <input type="number" class="form-control" [(ngModel)]="notaFinal">
+    </div>
+  </div>
+
+  <button class="btn btn-primary" (click)="enviarNotificacion()">Enviar Notificación</button>
+
+  <div *ngIf="mensaje" class="alert alert-info mt-3">
+    {{ mensaje }}
+  </div>
+</div>

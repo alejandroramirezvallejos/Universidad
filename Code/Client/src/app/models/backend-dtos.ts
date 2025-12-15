@@ -1,6 +1,6 @@
 /**
  * Backend DTOs - Interfaces que coinciden EXACTAMENTE con los DTOs del backend Spring Boot
- * 
+ *
  * ⚠️ IMPORTANTE:
  * - Los IDs son STRING (no number) - el backend usa String para todos los códigos
  * - Los nombres de propiedades deben coincidir exactamente con los del backend
@@ -243,30 +243,30 @@ export interface DtoInscripcionAprobacionRequest {
 
 /**
  * DIFERENCIAS CLAVE ENTRE BACKEND Y FRONTEND:
- * 
+ *
  * 1. IDs: Backend usa String, Frontend usa number
  *    - Mapper debe convertir: String.parse() y toString()
- * 
+ *
  * 2. Estados de Inscripción:
  *    - Backend: PENDIENTE → ACEPTADA (flujo de dos pasos)
  *    - Frontend: INSCRITO (concepto unificado)
  *    - Mapper debe manejar: ACEPTADA → INSCRITO, otros → NO_INSCRITO
- * 
+ *
  * 3. Gestiones:
  *    - Backend: No tiene modelo Gestion, usa String
  *    - Frontend: Tiene interfaz Gestion completa
  *    - Solución: Frontend debe gestionar sus propias Gestiones localmente
- * 
+ *
  * 4. Campos faltantes en backend:
  *    - Estudiante.apellido: Backend solo tiene "nombre" completo
  *    - Materia.horasTeoricas/horasPracticas: Backend no las tiene
  *    - Solución: Frontend debe inferir o usar valores por defecto
- * 
+ *
  * 5. Fechas:
  *    - Backend: ISO 8601 Strings
  *    - Frontend: Date objects
  *    - Mapper debe convertir con new Date() y toISOString()
- * 
+ *
  * 6. Relaciones:
  *    - Backend: Objetos anidados completos
  *    - Frontend: A veces solo IDs
@@ -281,4 +281,14 @@ export interface DtoActaEstudiante {
   estudiante: DtoEstudiante;
   paraleloMateria: DtoParaleloMateria;
   // ⚠️ Backend usa modelos completos, no DTOs anidados
+}
+
+// ============================================================================
+// NOTIFICACIÓN (Observer Pattern)
+// ============================================================================
+
+export interface DtoNotificacion {
+  estudiante: DtoEstudiante;
+  materia: DtoMateria;
+  notaFinal: number;
 }
