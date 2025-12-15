@@ -1,10 +1,12 @@
 package com.example.Server.validadores;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.ParaleloMateria;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidarLimiteDeCreditos extends Validar {
+@Order(7)
+public class ValidarLimiteDeCreditos implements IValidar {
     private static final int CREDITOS_MAXIMOS = 24;
 
     @Override
@@ -19,6 +21,6 @@ public class ValidarLimiteDeCreditos extends Validar {
                 creditosActuales, creditosNuevos, creditosTotales, CREDITOS_MAXIMOS
             );
 
-        return super.validar(estudiante, paraleloMateria);
+        return null;
     }
 }

@@ -2,10 +2,12 @@ package com.example.Server.validadores;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Materia;
 import com.example.Server.modelos.ParaleloMateria;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidarMateriaNoInscrita extends Validar {
+@Order(3)
+public class ValidarMateriaNoInscrita implements IValidar {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateriaNuevo) {
         Materia materiaNueva = paraleloMateriaNuevo.getMateria();
@@ -13,6 +15,6 @@ public class ValidarMateriaNoInscrita extends Validar {
         if (estudiante.estaInscritoEnMateria(materiaNueva))
             return "El estudiante ya esta inscrito en un paralelo de esta materia";
 
-        return super.validar(estudiante, paraleloMateriaNuevo);
+        return null;
     }
 }

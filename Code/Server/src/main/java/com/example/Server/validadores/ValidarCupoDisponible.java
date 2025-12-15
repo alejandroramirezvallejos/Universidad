@@ -1,15 +1,17 @@
 package com.example.Server.validadores;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.ParaleloMateria;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidarCupoDisponible extends Validar {
+@Order(2)
+public class ValidarCupoDisponible implements IValidar {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
         if (!paraleloMateria.tieneCupo())
             return "El paralelo no tiene cupos disponibles";
 
-        return super.validar(estudiante, paraleloMateria);
+        return null;
     }
 }
