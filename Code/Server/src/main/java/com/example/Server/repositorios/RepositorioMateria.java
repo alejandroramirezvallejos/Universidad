@@ -22,10 +22,10 @@ public class RepositorioMateria {
     }
 
     public Materia buscarPorCodigo(String codigo) {
-        return materias.stream()
-                .filter(m -> m.getCodigo().equals(codigo))
-                .findFirst()
-                .orElse(null);
+        for (Materia materia : materias)
+            if (materia.getCodigo().equals(codigo))
+                return materia;
+
+        return null;
     }
 }
-

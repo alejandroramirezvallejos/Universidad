@@ -41,28 +41,25 @@ public class ServicioEvaluacion {
     }
 
     public List<Evaluacion> obtenerPorParalelo(String paraleloCodigo) {
-        List<Evaluacion> todasEvaluaciones = repositorio.getEvaluaciones();
-        return todasEvaluaciones.stream()
-                .filter(e -> e.getParaleloMateria() != null &&
-                        e.getParaleloMateria().getCodigo().equals(paraleloCodigo))
-                .toList();
+        List<Evaluacion> resultado = new ArrayList<>();
+
+        for (Evaluacion evaluacion : repositorio.getEvaluaciones())
+            if (evaluacion.getParaleloMateria() != null && evaluacion.getParaleloMateria().getCodigo().equals(paraleloCodigo))
+                resultado.add(evaluacion);
+
+        return resultado;
     }
 
     public List<Calificacion> obtenerCalificacionesEstudiante(String estudianteCodigo) {
-        List<Evaluacion> todasEvaluaciones = repositorio.getEvaluaciones();
         List<Calificacion> calificaciones = new ArrayList<>();
         
-        for (Evaluacion evaluacion : todasEvaluaciones) {
-            for (Calificacion calificacion : evaluacion.getCalificaciones()) {
-                if (calificacion.getEstudiante() != null &&
-                        calificacion.getEstudiante().getCodigo().equals(estudianteCodigo)) {
-                    // Establecer la evaluación en la calificación para tener contexto
+        for (Evaluacion evaluacion : repositorio.getEvaluaciones())
+            for (Calificacion calificacion : evaluacion.getCalificaciones())
+                if (calificacion.getEstudiante() != null && calificacion.getEstudiante().getCodigo().equals(estudianteCodigo)) {
                     calificacion.setEvaluacion(evaluacion);
                     calificaciones.add(calificacion);
                 }
-            }
-        }
-        
+
         return calificaciones;
     }
 }

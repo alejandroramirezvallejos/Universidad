@@ -55,9 +55,10 @@ public class ControladorEvaluacion {
     public ResponseEntity<List<DtoEvaluacion>> obtenerPorParalelo(@PathVariable String paraleloCodigo) {
         List<Evaluacion> evaluaciones = servicio.obtenerPorParalelo(paraleloCodigo);
         List<DtoEvaluacion> dtos = new ArrayList<>();
-        for (Evaluacion e : evaluaciones) {
-            dtos.add(castDto(e));
-        }
+
+        for (Evaluacion evaluacion : evaluaciones)
+            dtos.add(castDto(evaluacion));
+
         return ResponseEntity.ok(dtos);
     }
 
@@ -65,13 +66,13 @@ public class ControladorEvaluacion {
     public ResponseEntity<List<DtoCalificacion>> obtenerPorEstudiante(@PathVariable String estudianteCodigo) {
         List<Calificacion> calificaciones = servicio.obtenerCalificacionesEstudiante(estudianteCodigo);
         List<DtoCalificacion> dtos = new ArrayList<>();
-        for (Calificacion c : calificaciones) {
+
+        for (Calificacion calificacion : calificaciones) {
             DtoCalificacion dto = new DtoCalificacion();
-            dto.setEstudiante(c.getEstudiante());
-            dto.setValor(c.getValor());
-            dto.setObservaciones(c.getObservaciones());
-            // Agregar evaluación si existe
-            dto.setEvaluacion(c.getEvaluacion());
+            dto.setEstudiante(calificacion.getEstudiante());
+            dto.setValor(calificacion.getValor());
+            dto.setObservaciones(calificacion.getObservaciones());
+            dto.setEvaluacion(calificacion.getEvaluacion());
             dtos.add(dto);
         }
         return ResponseEntity.ok(dtos);

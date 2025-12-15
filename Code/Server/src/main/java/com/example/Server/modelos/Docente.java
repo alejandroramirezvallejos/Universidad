@@ -13,8 +13,8 @@ public class Docente {
     private String nombre;
     private String apellido;
     private String email;
-    private String password; // Agregado para autenticación simple
-    private String departamento; // Agregado para registro
+    private String contrasenna;
+    private String departamento;
     private String especialidad;
     private boolean activo = true;
     private List<ParaleloMateria> paraleloMaterias = new ArrayList<>();

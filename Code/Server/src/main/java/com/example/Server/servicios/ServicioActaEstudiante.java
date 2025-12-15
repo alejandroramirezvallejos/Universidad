@@ -76,12 +76,14 @@ public class ServicioActaEstudiante {
         double suma = 0.0;
         int cantidad = 0;
 
-        for (Evaluacion evaluacion : evaluaciones)
+        for (Evaluacion evaluacion : evaluaciones) {
             for (Calificacion calificacion : evaluacion.getCalificaciones()) {
-                if (calificacion.getEstudiante().getCodigo().equals(estudiante.getCodigo()))
+                if (calificacion.getEstudiante().getCodigo().equals(estudiante.getCodigo())) {
                     suma += calificacion.getValor();
                     ++cantidad;
                 }
+            }
+        }
 
         return cantidad > 0 ? suma / cantidad : 0.0;
     }
@@ -113,6 +115,3 @@ public class ServicioActaEstudiante {
         repositorio.eliminar(acta);
     }
 }
-
-
-

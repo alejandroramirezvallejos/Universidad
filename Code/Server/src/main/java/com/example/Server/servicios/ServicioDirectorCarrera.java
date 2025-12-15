@@ -5,9 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-/**
- * Servicio para gestionar DirectorCarrera
- */
 @Service
 @RequiredArgsConstructor
 public class ServicioDirectorCarrera {

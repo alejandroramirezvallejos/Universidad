@@ -56,9 +56,10 @@ public class ControladorDocente {
     @GetMapping("/{codigo}")
     public ResponseEntity<DtoDocente> obtenerPorCodigo(@PathVariable String codigo) {
         Docente docente = servicio.buscarPorCodigo(codigo);
-        if (docente == null) {
+
+        if (docente == null)
             return ResponseEntity.notFound().build();
-        }
+
         return ResponseEntity.ok(castDto(docente));
     }
 

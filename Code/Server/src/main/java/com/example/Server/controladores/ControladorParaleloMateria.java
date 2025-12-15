@@ -47,28 +47,30 @@ public class ControladorParaleloMateria {
             @PathVariable String codigo,
             @RequestBody DtoParaleloMateria dto) {
         ParaleloMateria paralelo = servicio.buscarPorCodigo(codigo);
-        if (paralelo == null) {
+
+        if (paralelo == null)
             return ResponseEntity.notFound().build();
-        }
 
         paralelo.setMateria(dto.getMateria());
         paralelo.setDocente(dto.getDocente());
         paralelo.setAula(dto.getAula());
         paralelo.setCupoMaximo(dto.getCupoMaximo());
-        if (dto.getHorarios() != null) {
+
+        if (dto.getHorarios() != null)
             paralelo.setHorarios(dto.getHorarios());
-        }
 
         ParaleloMateria actualizado = servicio.actualizar(paralelo);
+
         return ResponseEntity.ok(castDto(actualizado));
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<DtoParaleloMateria> obtenerPorCodigo(@PathVariable String codigo) {
         ParaleloMateria paralelo = servicio.buscarPorCodigo(codigo);
-        if (paralelo == null) {
+
+        if (paralelo == null)
             return ResponseEntity.notFound().build();
-        }
+
         return ResponseEntity.ok(castDto(paralelo));
     }
 
@@ -76,9 +78,10 @@ public class ControladorParaleloMateria {
     public ResponseEntity<List<DtoParaleloMateria>> obtenerPorDocente(@PathVariable String docenteCodigo) {
         List<ParaleloMateria> paralelos = servicio.obtenerPorDocente(docenteCodigo);
         List<DtoParaleloMateria> dtos = new ArrayList<>();
-        for (ParaleloMateria p : paralelos) {
-            dtos.add(castDto(p));
-        }
+
+        for (ParaleloMateria paralelo : paralelos)
+            dtos.add(castDto(paralelo));
+
         return ResponseEntity.ok(dtos);
     }
 
@@ -86,9 +89,10 @@ public class ControladorParaleloMateria {
     public ResponseEntity<List<DtoParaleloMateria>> obtenerPorMateria(@PathVariable String materiaCodigo) {
         List<ParaleloMateria> paralelos = servicio.obtenerPorMateria(materiaCodigo);
         List<DtoParaleloMateria> dtos = new ArrayList<>();
-        for (ParaleloMateria p : paralelos) {
-            dtos.add(castDto(p));
-        }
+
+        for (ParaleloMateria paralelo : paralelos)
+            dtos.add(castDto(paralelo));
+
         return ResponseEntity.ok(dtos);
     }
 

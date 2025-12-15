@@ -22,10 +22,10 @@ public class RepositorioParaleloMateria {
     }
 
     public ParaleloMateria buscarPorCodigo(String codigo) {
-        return paraleloMaterias.stream()
-                .filter(p -> p.getCodigo().equals(codigo))
-                .findFirst()
-                .orElse(null);
+        for (ParaleloMateria paraleloMateria : paraleloMaterias)
+            if (paraleloMateria.getCodigo().equals(codigo))
+                return paraleloMateria;
+
+        return null;
     }
 }
-

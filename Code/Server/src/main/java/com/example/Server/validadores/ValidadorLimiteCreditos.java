@@ -1,15 +1,10 @@
 package com.example.Server.validadores;
-
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Materia;
 import com.example.Server.modelos.ParaleloMateria;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
-/**
- * Validador que verifica el límite de créditos por semestre
- * Un estudiante no puede inscribirse a más de 24 créditos por gestión
- */
 @Component
 public class ValidadorLimiteCreditos implements IValidador {
     private static final int CREDITOS_MAXIMOS = 24;
@@ -26,32 +21,28 @@ public class ValidadorLimiteCreditos implements IValidador {
         int creditosNuevos = paraleloMateria.getMateria().getCreditos();
         int creditosTotales = creditosActuales + creditosNuevos;
 
-        if (creditosTotales > CREDITOS_MAXIMOS) {
+        if (creditosTotales > CREDITOS_MAXIMOS)
             return String.format(
                 "Límite de créditos excedido. Actual: %d, Nuevo: %d, Total: %d (Máximo: %d)",
                 creditosActuales, creditosNuevos, creditosTotales, CREDITOS_MAXIMOS
             );
-        }
 
-        if (siguiente != null) {
+        if (siguiente != null)
             return siguiente.validar(estudiante, paraleloMateria);
-        }
 
         return null;
     }
 
-    /**
-     * Calcula el total de créditos de las materias inscritas
-     */
     private int calcularCreditosInscritos(Estudiante estudiante) {
         List<Materia> materiasInscritas = estudiante.getMateriasInscritas();
         
-        if (materiasInscritas == null || materiasInscritas.isEmpty()) {
+        if (materiasInscritas == null || materiasInscritas.isEmpty())
             return 0;
-        }
 
-        return materiasInscritas.stream()
-                .mapToInt(Materia::getCreditos)
-                .sum();
+        int totalCreditos = 0;
+        for (Materia materia : materiasInscritas)
+            totalCreditos += materia.getCreditos();
+
+        return totalCreditos;
     }
 }

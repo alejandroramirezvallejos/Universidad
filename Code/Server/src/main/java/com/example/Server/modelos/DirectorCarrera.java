@@ -11,8 +11,8 @@ public class DirectorCarrera {
     private String nombre;
     private String apellido;
     private String email;
-    private String password; // Agregado para autenticación simple
-    private String departamento; // Agregado para registro
+    private String contrasenna;
+    private String departamento;
     private Carrera carrera;
 
     @Override

@@ -4,23 +4,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
 
-/**
- * Modelo Gestion - Representa un periodo académico
- * Ejemplo: "II-2025" (Segundo semestre del 2025)
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Gestion {
-    private String codigo;                  // "II-2025", "I-2025"
-    private String nombre;                  // "Segundo Semestre 2025"
-    private Integer anio;                   // 2025
-    private Integer periodo;                // 1 o 2
-    private Date fechaInicio;               // Inicio de clases
-    private Date fechaFin;                  // Fin de clases
-    private Date fechaInicioMatricula;      // Inicio periodo de matrícula
-    private Date fechaFinMatricula;         // Fin periodo de matrícula
-    private String estado;                  // EN_CURSO, CERRADA, PLANIFICADA
+    private String codigo;
+    private String nombre;
+    private Integer anio;
+    private Integer periodo;
+    private Date fechaInicio;
+    private Date fechaFin;
+    private Date fechaInicioMatricula;
+    private Date fechaFinMatricula;
+    private String estado;
     
     @Override
     public String toString() {

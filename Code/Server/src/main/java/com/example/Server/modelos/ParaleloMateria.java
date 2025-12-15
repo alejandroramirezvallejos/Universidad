@@ -13,7 +13,7 @@ public class ParaleloMateria {
     private Materia materia;
     private Docente docente;
     private Aula aula;
-    private Gestion gestion; // Agregado para vincular paralelo a una gestión
+    private Gestion gestion;
     private Integer cupoMaximo;
     private List<Estudiante> estudiantes = new ArrayList<>();
     private List<Horario> horarios = new ArrayList<>();

@@ -2,8 +2,10 @@ package com.example.Server.dtos;
 import lombok.Data;
 
 @Data
-public class DtoDirectorCarrera {
+public class DtoEstudianteBasico {
     private String codigo;
-    private String nombre;
+    private String nombreCompleto;
+    private int semestre;
     private String email;
 }
+

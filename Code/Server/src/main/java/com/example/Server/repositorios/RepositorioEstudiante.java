@@ -22,17 +22,18 @@ public class RepositorioEstudiante {
     }
 
     public Estudiante buscarPorCodigo(String codigo) {
-        return estudiantes.stream()
-                .filter(e -> e.getCodigo().equals(codigo))
-                .findFirst()
-                .orElse(null);
+        for (Estudiante estudiante : estudiantes)
+            if (estudiante.getCodigo().equals(codigo))
+                return estudiante;
+
+        return null;
     }
 
     public Estudiante buscarPorEmail(String email) {
-        return estudiantes.stream()
-                .filter(e -> e.getEmail() != null && e.getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
+        for (Estudiante estudiante : estudiantes)
+            if (estudiante.getEmail() != null && estudiante.getEmail().equals(email))
+                return estudiante;
+
+        return null;
     }
 }
-

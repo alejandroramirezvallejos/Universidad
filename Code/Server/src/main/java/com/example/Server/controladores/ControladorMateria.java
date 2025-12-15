@@ -53,10 +53,10 @@ public class ControladorMateria {
     @PutMapping("/{codigo}")
     public ResponseEntity<DtoMateria> actualizar(@PathVariable String codigo, @RequestBody DtoMateria dto) {
         Materia materia = servicio.buscarPorCodigo(codigo);
-        if (materia == null) {
+
+        if (materia == null)
             return ResponseEntity.notFound().build();
-        }
-        
+
         materia.setNombre(dto.getNombre());
         materia.setSemestre(dto.getSemestre());
         materia.setCreditos(dto.getCreditos());
@@ -68,10 +68,10 @@ public class ControladorMateria {
     @PatchMapping("/{codigo}/estado")
     public ResponseEntity<DtoMateria> cambiarEstado(@PathVariable String codigo) {
         Materia materia = servicio.buscarPorCodigo(codigo);
-        if (materia == null) {
+
+        if (materia == null)
             return ResponseEntity.notFound().build();
-        }
-        
+
         materia.setActiva(!materia.isActiva());
         Materia actualizada = servicio.actualizar(materia);
         
@@ -81,9 +81,10 @@ public class ControladorMateria {
     @GetMapping("/{codigo}")
     public ResponseEntity<DtoMateria> obtenerPorCodigo(@PathVariable String codigo) {
         Materia materia = servicio.buscarPorCodigo(codigo);
-        if (materia == null) {
+
+        if (materia == null)
             return ResponseEntity.notFound().build();
-        }
+
         return ResponseEntity.ok(castDto(materia));
     }
 

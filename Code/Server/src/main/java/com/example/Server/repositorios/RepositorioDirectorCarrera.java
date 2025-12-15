@@ -4,9 +4,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Repositorio para gestionar DirectorCarrera en memoria
- */
 @Repository
 public class RepositorioDirectorCarrera {
     private final List<DirectorCarrera> directores = new ArrayList<>();
@@ -25,16 +22,18 @@ public class RepositorioDirectorCarrera {
     }
 
     public DirectorCarrera buscarPorCodigo(String codigo) {
-        return directores.stream()
-                .filter(d -> d.getCodigo().equals(codigo))
-                .findFirst()
-                .orElse(null);
+        for (DirectorCarrera director : directores)
+            if (director.getCodigo().equals(codigo))
+                return director;
+
+        return null;
     }
 
     public DirectorCarrera buscarPorEmail(String email) {
-        return directores.stream()
-                .filter(d -> d.getEmail() != null && d.getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
+        for (DirectorCarrera director : directores)
+            if (director.getEmail() != null && director.getEmail().equals(email))
+                return director;
+
+        return null;
     }
 }

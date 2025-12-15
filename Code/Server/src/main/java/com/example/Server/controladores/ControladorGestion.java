@@ -8,20 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Controlador REST para gestionar Gestiones (periodos académicos)
- * Expone endpoint /api/gestiones
- */
 @RestController
 @RequestMapping("/api/gestiones")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorGestion {
     private final ServicioGestion servicio;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
 
     @PostMapping
     public ResponseEntity<DtoGestion> crear(@RequestBody DtoGestion dto) {
@@ -30,7 +26,8 @@ public class ControladorGestion {
             Gestion creada = servicio.crear(gestion);
             DtoGestion respuesta = castDto(creada);
             return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
-        } catch (Exception e) {
+        }
+        catch (Exception excepcion) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -48,16 +45,30 @@ public class ControladorGestion {
 
     @GetMapping("/actual")
     public ResponseEntity<DtoGestion> getGestionActual() {
-        return servicio.getGestionActual()
-                .map(g -> ResponseEntity.ok(castDto(g)))
-                .orElse(ResponseEntity.notFound().build());
+        List<Gestion> gestiones = new ArrayList<>();
+        Optional<Gestion> gestionActual = servicio.getGestionActual();
+
+        if (gestionActual.isPresent())
+            gestiones.add(gestionActual.get());
+
+        for (Gestion gestion : gestiones)
+            return ResponseEntity.ok(castDto(gestion));
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<DtoGestion> getPorCodigo(@PathVariable String codigo) {
-        return servicio.buscarPorCodigo(codigo)
-                .map(g -> ResponseEntity.ok(castDto(g)))
-                .orElse(ResponseEntity.notFound().build());
+        List<Gestion> gestiones = new ArrayList<>();
+        Optional<Gestion> gestionActual = servicio.buscarPorCodigo(codigo);
+
+        if (gestionActual.isPresent())
+            gestiones.add(gestionActual.get());
+
+        for (Gestion gestion : gestiones)
+            return ResponseEntity.ok(castDto(gestion));
+
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping
@@ -66,7 +77,8 @@ public class ControladorGestion {
             Gestion gestion = castModelo(dto);
             servicio.eliminar(gestion);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
+        }
+        catch (Exception excepcion) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -79,20 +91,15 @@ public class ControladorGestion {
         gestion.setPeriodo(dto.getPeriodo());
         gestion.setEstado(dto.getEstado());
         
-        // Parsear fechas
-        if (dto.getFechaInicio() != null) {
-            gestion.setFechaInicio(dateFormat.parse(dto.getFechaInicio()));
-        }
-        if (dto.getFechaFin() != null) {
-            gestion.setFechaFin(dateFormat.parse(dto.getFechaFin()));
-        }
-        if (dto.getFechaInicioMatricula() != null) {
-            gestion.setFechaInicioMatricula(dateFormat.parse(dto.getFechaInicioMatricula()));
-        }
-        if (dto.getFechaFinMatricula() != null) {
-            gestion.setFechaFinMatricula(dateFormat.parse(dto.getFechaFinMatricula()));
-        }
-        
+        if (dto.getFechaInicio() != null)
+            gestion.setFechaInicio(fecha.parse(dto.getFechaInicio()));
+        if (dto.getFechaFin() != null)
+            gestion.setFechaFin(fecha.parse(dto.getFechaFin()));
+        if (dto.getFechaInicioMatricula() != null)
+            gestion.setFechaInicioMatricula(fecha.parse(dto.getFechaInicioMatricula()));
+        if (dto.getFechaFinMatricula() != null)
+            gestion.setFechaFinMatricula(fecha.parse(dto.getFechaFinMatricula()));
+
         return gestion;
     }
 
@@ -104,20 +111,15 @@ public class ControladorGestion {
         dto.setPeriodo(gestion.getPeriodo());
         dto.setEstado(gestion.getEstado());
         
-        // Formatear fechas
-        if (gestion.getFechaInicio() != null) {
-            dto.setFechaInicio(dateFormat.format(gestion.getFechaInicio()));
-        }
-        if (gestion.getFechaFin() != null) {
-            dto.setFechaFin(dateFormat.format(gestion.getFechaFin()));
-        }
-        if (gestion.getFechaInicioMatricula() != null) {
-            dto.setFechaInicioMatricula(dateFormat.format(gestion.getFechaInicioMatricula()));
-        }
-        if (gestion.getFechaFinMatricula() != null) {
-            dto.setFechaFinMatricula(dateFormat.format(gestion.getFechaFinMatricula()));
-        }
-        
+        if (gestion.getFechaInicio() != null)
+            dto.setFechaInicio(fecha.format(gestion.getFechaInicio()));
+        if (gestion.getFechaFin() != null)
+            dto.setFechaFin(fecha.format(gestion.getFechaFin()));
+        if (gestion.getFechaInicioMatricula() != null)
+            dto.setFechaInicioMatricula(fecha.format(gestion.getFechaInicioMatricula()));
+        if (gestion.getFechaFinMatricula() != null)
+            dto.setFechaFinMatricula(fecha.format(gestion.getFechaFinMatricula()));
+
         return dto;
     }
 }

@@ -13,8 +13,8 @@ public class Estudiante {
     private String nombre;
     private String apellido;
     private String email;
-    private String password; // Agregado para autenticación simple
-    private int semestre; // Agregado para registro
+    private String contrasenna;
+    private int semestre;
     private Carrera carrera;
     private List<Materia> materiasInscritas = new ArrayList<>();
     private List<Materia> materiasAprobadas = new ArrayList<>();

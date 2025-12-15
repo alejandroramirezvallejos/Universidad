@@ -6,9 +6,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Servicio para gestionar Gestiones (periodos académicos)
- */
 @Service
 @RequiredArgsConstructor
 public class ServicioGestion {

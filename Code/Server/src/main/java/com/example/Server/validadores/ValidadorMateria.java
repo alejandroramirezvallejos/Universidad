@@ -5,9 +5,9 @@ import java.util.List;
 
 @Component
 public class ValidadorMateria {
-    public boolean existeEnLista(Materia materiaBuscada, List<Materia> listaDeMaterias) {
-        for (Materia materiaEnLista : listaDeMaterias)
-            if (materiaEnLista.getCodigo().equals(materiaBuscada.getCodigo()))
+    public boolean existeEnLista(Materia materiaBuscada, List<Materia> materias) {
+        for (Materia materia : materias)
+            if (materia.getCodigo().equals(materiaBuscada.getCodigo()))
                 return true;
 
         return false;

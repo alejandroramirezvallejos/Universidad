@@ -6,6 +6,7 @@ import com.example.Server.repositorios.RepositorioMatricula;
 import com.example.Server.validadores.IValidador;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,7 +46,6 @@ public class ServicioInscripcion {
     private void agregarEstudiante(Matricula matricula) {
         Estudiante estudiante = matricula.getEstudiante();
         ParaleloMateria paralelo = matricula.getParaleloMateria();
-
         paralelo.getEstudiantes().add(estudiante);
         estudiante.getMateriasInscritas().add(paralelo.getMateria());
     }
@@ -60,34 +60,37 @@ public class ServicioInscripcion {
     }
 
     public List<Matricula> obtenerPorEstudiante(String estudianteCodigo) {
-        List<Matricula> todasMatriculas = repositorio.getMatriculas();
-        return todasMatriculas.stream()
-                .filter(m -> m.getEstudiante() != null &&
-                        m.getEstudiante().getCodigo().equals(estudianteCodigo))
-                .toList();
+        List<Matricula> resultado = new ArrayList<>();
+
+        for (Matricula matricula : repositorio.getMatriculas())
+            if (matricula.getEstudiante() != null && matricula.getEstudiante().getCodigo().equals(estudianteCodigo))
+                resultado.add(matricula);
+
+        return resultado;
     }
 
     public List<Matricula> obtenerPorParalelo(String paraleloCodigo) {
-        List<Matricula> todasMatriculas = repositorio.getMatriculas();
-        return todasMatriculas.stream()
-                .filter(m -> m.getParaleloMateria() != null &&
-                        m.getParaleloMateria().getCodigo().equals(paraleloCodigo))
-                .toList();
+        List<Matricula> resultado = new ArrayList<>();
+
+        for (Matricula matricula : repositorio.getMatriculas())
+            if (matricula.getParaleloMateria() != null && matricula.getParaleloMateria().getCodigo().equals(paraleloCodigo))
+                resultado.add(matricula);
+
+        return resultado;
     }
 
     public void cancelar(String estudianteCodigo, String paraleloCodigo) {
-        List<Matricula> todasMatriculas = repositorio.getMatriculas();
-        Matricula matriculaAEliminar = todasMatriculas.stream()
-                .filter(m -> m.getEstudiante() != null &&
-                        m.getEstudiante().getCodigo().equals(estudianteCodigo) &&
-                        m.getParaleloMateria() != null &&
-                        m.getParaleloMateria().getCodigo().equals(paraleloCodigo))
-                .findFirst()
-                .orElse(null);
+        Matricula matriculaAEliminar = null;
 
-        if (matriculaAEliminar != null) {
+        for (Matricula matricula : repositorio.getMatriculas())
+            if (matricula.getEstudiante() != null && matricula.getEstudiante().getCodigo().equals(estudianteCodigo) &&
+                matricula.getParaleloMateria() != null && matricula.getParaleloMateria().getCodigo().equals(paraleloCodigo)) {
+                matriculaAEliminar = matricula;
+                break;
+            }
+
+        if (matriculaAEliminar != null)
             repositorio.eliminar(matriculaAEliminar);
-        }
     }
 }
 

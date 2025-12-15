@@ -22,10 +22,10 @@ public class RepositorioCarrera {
     }
 
     public Carrera buscarPorCodigo(String codigo) {
-        return carreras.stream()
-                .filter(c -> c.getCodigo().equals(codigo))
-                .findFirst()
-                .orElse(null);
+        for (Carrera carrera : carreras)
+            if (carrera.getCodigo().equals(codigo))
+                return carrera;
+
+        return null;
     }
 }
-

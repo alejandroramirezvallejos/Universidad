@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Repositorio para gestionar Gestiones (periodos académicos) en memoria
- */
 @Repository
 public class RepositorioGestion {
     private final List<Gestion> gestiones = new ArrayList<>();
@@ -22,15 +19,19 @@ public class RepositorioGestion {
     }
 
     public Optional<Gestion> buscarPorCodigo(String codigo) {
-        return gestiones.stream()
-                .filter(g -> g.getCodigo().equals(codigo))
-                .findFirst();
+        for (Gestion gestion : gestiones)
+            if (gestion.getCodigo().equals(codigo))
+                return Optional.of(gestion);
+
+        return Optional.empty();
     }
 
     public Optional<Gestion> buscarGestionActual() {
-        return gestiones.stream()
-                .filter(g -> "EN_CURSO".equals(g.getEstado()))
-                .findFirst();
+        for (Gestion gestion : gestiones)
+            if ("EN_CURSO".equals(gestion.getEstado()))
+                return Optional.of(gestion);
+
+        return Optional.empty();
     }
 
     public void eliminar(Gestion gestion) {

@@ -22,17 +22,18 @@ public class RepositorioDocente {
     }
 
     public Docente buscarPorCodigo(String codigo) {
-        return docentes.stream()
-                .filter(d -> d.getCodigo().equals(codigo))
-                .findFirst()
-                .orElse(null);
+        for (Docente docente : docentes)
+            if (docente.getCodigo().equals(codigo))
+                return docente;
+
+        return null;
     }
 
     public Docente buscarPorEmail(String email) {
-        return docentes.stream()
-                .filter(d -> d.getEmail() != null && d.getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
+        for (Docente docente : docentes)
+            if (docente.getEmail() != null && docente.getEmail().equals(email))
+                return docente;
+
+        return null;
     }
 }
-

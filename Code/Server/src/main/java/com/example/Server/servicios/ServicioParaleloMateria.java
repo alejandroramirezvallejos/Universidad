@@ -6,6 +6,7 @@ import com.example.Server.repositorios.RepositorioDocente;
 import com.example.Server.repositorios.RepositorioParaleloMateria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,17 +55,23 @@ public class ServicioParaleloMateria {
     }
 
     public List<ParaleloMateria> obtenerPorDocente(String docenteCodigo) {
-        List<ParaleloMateria> todosParalelos = repositorio.getParalelos();
-        return todosParalelos.stream()
-                .filter(p -> p.getDocente() != null && p.getDocente().getCodigo().equals(docenteCodigo))
-                .toList();
+        List<ParaleloMateria> resultado = new ArrayList<>();
+
+        for (ParaleloMateria paralelo : repositorio.getParalelos())
+            if (paralelo.getDocente() != null && paralelo.getDocente().getCodigo().equals(docenteCodigo))
+                resultado.add(paralelo);
+
+        return resultado;
     }
 
     public List<ParaleloMateria> obtenerPorMateria(String materiaCodigo) {
-        List<ParaleloMateria> todosParalelos = repositorio.getParalelos();
-        return todosParalelos.stream()
-                .filter(p -> p.getMateria() != null && p.getMateria().getCodigo().equals(materiaCodigo))
-                .toList();
+        List<ParaleloMateria> resultado = new ArrayList<>();
+
+        for (ParaleloMateria paralelo : repositorio.getParalelos())
+            if (paralelo.getMateria() != null && paralelo.getMateria().getCodigo().equals(materiaCodigo))
+                resultado.add(paralelo);
+
+        return resultado;
     }
 }
 

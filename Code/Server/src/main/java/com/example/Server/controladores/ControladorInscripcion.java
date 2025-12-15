@@ -57,9 +57,8 @@ public class ControladorInscripcion {
                     inscripcion.getParaleloMateria()
             );
 
-            if (matricula != null) {
+            if (matricula != null)
                 matriculasCreadas.add(castDto(matricula));
-            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(matriculasCreadas);
@@ -69,9 +68,10 @@ public class ControladorInscripcion {
     public ResponseEntity<List<DtoMatricula>> obtenerPorEstudiante(@PathVariable String estudianteCodigo) {
         List<Matricula> matriculas = servicio.obtenerPorEstudiante(estudianteCodigo);
         List<DtoMatricula> dtos = new ArrayList<>();
-        for (Matricula m : matriculas) {
-            dtos.add(castDto(m));
-        }
+
+        for (Matricula materia : matriculas)
+            dtos.add(castDto(materia));
+
         return ResponseEntity.ok(dtos);
     }
 
@@ -79,9 +79,10 @@ public class ControladorInscripcion {
     public ResponseEntity<List<DtoMatricula>> obtenerPorParalelo(@PathVariable String paraleloCodigo) {
         List<Matricula> matriculas = servicio.obtenerPorParalelo(paraleloCodigo);
         List<DtoMatricula> dtos = new ArrayList<>();
-        for (Matricula m : matriculas) {
-            dtos.add(castDto(m));
-        }
+
+        for (Matricula matricula : matriculas)
+            dtos.add(castDto(matricula));
+
         return ResponseEntity.ok(dtos);
     }
 

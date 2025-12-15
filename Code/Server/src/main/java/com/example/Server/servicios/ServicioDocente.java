@@ -3,6 +3,7 @@ import com.example.Server.modelos.Docente;
 import com.example.Server.repositorios.RepositorioDocente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,9 +24,13 @@ public class ServicioDocente {
     }
 
     public List<Docente> getDocentesActivos() {
-        return repositorio.getDocentes().stream()
-                .filter(d -> d.isActivo())
-                .toList();
+        List<Docente> activos = new ArrayList<>();
+
+        for (Docente docente : repositorio.getDocentes())
+            if (docente.isActivo())
+                activos.add(docente);
+
+        return activos;
     }
 
     public Docente buscarPorCodigo(String codigo) {

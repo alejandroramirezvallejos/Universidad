@@ -1,5 +1,4 @@
 package com.example.Server.servicios;
-
 import com.example.Server.dtos.DtoActualizarUsuario;
 import com.example.Server.dtos.DtoUsuarioCompleto;
 import com.example.Server.dtos.DtoCarrera;
@@ -8,67 +7,51 @@ import com.example.Server.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Servicio para gestión de usuarios (perfil)
- * Maneja obtención y actualización de datos de usuario
- */
 @Service
 public class ServicioUsuario {
-
     @Autowired
     private RepositorioEstudiante repositorioEstudiante;
-
     @Autowired
     private RepositorioDocente repositorioDocente;
-
     @Autowired
     private RepositorioDirectorCarrera repositorioDirector;
 
-    /**
-     * Obtiene los datos completos de un usuario por su código
-     */
     public DtoUsuarioCompleto obtenerPorCodigo(String codigo) {
-        // Buscar en estudiantes
         Estudiante estudiante = repositorioEstudiante.buscarPorCodigo(codigo);
-        if (estudiante != null) {
+
+        if (estudiante != null)
             return mapearEstudiante(estudiante);
-        }
 
-        // Buscar en docentes
         Docente docente = repositorioDocente.buscarPorCodigo(codigo);
-        if (docente != null) {
-            return mapearDocente(docente);
-        }
 
-        // Buscar en directores
+        if (docente != null)
+            return mapearDocente(docente);
+
         DirectorCarrera director = repositorioDirector.buscarPorCodigo(codigo);
-        if (director != null) {
+
+        if (director != null)
             return mapearDirector(director);
-        }
 
         return null;
     }
 
-    /**
-     * Actualiza los datos de un usuario
-     */
     public DtoUsuarioCompleto actualizar(String codigo, DtoActualizarUsuario dto) {
-        // Buscar en estudiantes
         Estudiante estudiante = repositorioEstudiante.buscarPorCodigo(codigo);
+
         if (estudiante != null) {
             actualizarEstudiante(estudiante, dto);
             return mapearEstudiante(estudiante);
         }
 
-        // Buscar en docentes
         Docente docente = repositorioDocente.buscarPorCodigo(codigo);
+
         if (docente != null) {
             actualizarDocente(docente, dto);
             return mapearDocente(docente);
         }
 
-        // Buscar en directores
         DirectorCarrera director = repositorioDirector.buscarPorCodigo(codigo);
+
         if (director != null) {
             actualizarDirector(director, dto);
             return mapearDirector(director);
@@ -77,78 +60,66 @@ public class ServicioUsuario {
         return null;
     }
 
-    /**
-     * Actualiza datos de estudiante
-     */
     private void actualizarEstudiante(Estudiante estudiante, DtoActualizarUsuario dto) {
-        if (dto.getNombre() != null) {
+        if (dto.getNombre() != null)
             estudiante.setNombre(dto.getNombre());
-        }
-        if (dto.getApellido() != null) {
+
+        if (dto.getApellido() != null)
             estudiante.setApellido(dto.getApellido());
-        }
-        if (dto.getEmail() != null) {
+
+        if (dto.getEmail() != null)
             estudiante.setEmail(dto.getEmail());
-        }
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-            estudiante.setPassword(dto.getPassword());
-        }
-        if (dto.getSemestre() != null) {
+
+        if (dto.getContrasenna() != null && !dto.getContrasenna().isEmpty())
+            estudiante.setContrasenna(dto.getContrasenna());
+
+        if (dto.getSemestre() != null)
             estudiante.setSemestre(dto.getSemestre());
-        }
+
         repositorioEstudiante.guardar(estudiante);
     }
 
-    /**
-     * Actualiza datos de docente
-     */
     private void actualizarDocente(Docente docente, DtoActualizarUsuario dto) {
-        if (dto.getNombre() != null) {
+        if (dto.getNombre() != null)
             docente.setNombre(dto.getNombre());
-        }
-        if (dto.getApellido() != null) {
+
+        if (dto.getApellido() != null)
             docente.setApellido(dto.getApellido());
-        }
-        if (dto.getEmail() != null) {
+
+        if (dto.getEmail() != null)
             docente.setEmail(dto.getEmail());
-        }
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-            docente.setPassword(dto.getPassword());
-        }
-        if (dto.getDepartamento() != null) {
+
+        if (dto.getContrasenna() != null && !dto.getContrasenna().isEmpty())
+            docente.setContrasenna(dto.getContrasenna());
+
+        if (dto.getDepartamento() != null)
             docente.setDepartamento(dto.getDepartamento());
-        }
-        if (dto.getEspecialidad() != null) {
+
+        if (dto.getEspecialidad() != null)
             docente.setEspecialidad(dto.getEspecialidad());
-        }
+
         repositorioDocente.guardar(docente);
     }
 
-    /**
-     * Actualiza datos de director
-     */
     private void actualizarDirector(DirectorCarrera director, DtoActualizarUsuario dto) {
-        if (dto.getNombre() != null) {
+        if (dto.getNombre() != null)
             director.setNombre(dto.getNombre());
-        }
-        if (dto.getApellido() != null) {
+
+        if (dto.getApellido() != null)
             director.setApellido(dto.getApellido());
-        }
-        if (dto.getEmail() != null) {
+
+        if (dto.getEmail() != null)
             director.setEmail(dto.getEmail());
-        }
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-            director.setPassword(dto.getPassword());
-        }
-        if (dto.getDepartamento() != null) {
+
+        if (dto.getContrasenna() != null && !dto.getContrasenna().isEmpty())
+            director.setContrasenna(dto.getContrasenna());
+
+        if (dto.getDepartamento() != null)
             director.setDepartamento(dto.getDepartamento());
-        }
+
         repositorioDirector.guardar(director);
     }
 
-    /**
-     * Mapea Estudiante a DtoUsuarioCompleto
-     */
     private DtoUsuarioCompleto mapearEstudiante(Estudiante estudiante) {
         DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
         dto.setCodigo(estudiante.getCodigo());
@@ -169,9 +140,6 @@ public class ServicioUsuario {
         return dto;
     }
 
-    /**
-     * Mapea Docente a DtoUsuarioCompleto
-     */
     private DtoUsuarioCompleto mapearDocente(Docente docente) {
         DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
         dto.setCodigo(docente.getCodigo());
@@ -185,9 +153,6 @@ public class ServicioUsuario {
         return dto;
     }
 
-    /**
-     * Mapea DirectorCarrera a DtoUsuarioCompleto
-     */
     private DtoUsuarioCompleto mapearDirector(DirectorCarrera director) {
         DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
         dto.setCodigo(director.getCodigo());

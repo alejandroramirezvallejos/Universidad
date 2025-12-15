@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.dtos.DtoCalificacion;
 import com.example.Server.modelos.Calificacion;
 import com.example.Server.servicios.ServicioCalificacion;
@@ -7,14 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Controlador REST para gestión de Calificaciones
- * Endpoint: /api/calificaciones
- */
 @RestController
 @RequestMapping("/api/calificaciones")
 @RequiredArgsConstructor
@@ -22,10 +16,6 @@ import java.util.List;
 public class ControladorCalificacion {
     private final ServicioCalificacion servicio;
 
-    /**
-     * Crea una nueva calificación
-     * POST /api/calificaciones
-     */
     @PostMapping
     public ResponseEntity<DtoCalificacion> crear(@RequestBody DtoCalificacion dto) {
         Calificacion calificacion = castModelo(dto);
@@ -35,10 +25,6 @@ public class ControladorCalificacion {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
-    /**
-     * Obtiene todas las calificaciones
-     * GET /api/calificaciones
-     */
     @GetMapping
     public ResponseEntity<List<DtoCalificacion>> getCalificaciones() {
         List<Calificacion> calificaciones = servicio.getCalificaciones();
@@ -50,10 +36,6 @@ public class ControladorCalificacion {
         return ResponseEntity.ok(dtos);
     }
 
-    /**
-     * Obtiene calificaciones de un estudiante
-     * GET /api/calificaciones/estudiante/{codigo}
-     */
     @GetMapping("/estudiante/{estudianteCodigo}")
     public ResponseEntity<List<DtoCalificacion>> obtenerPorEstudiante(@PathVariable String estudianteCodigo) {
         List<Calificacion> calificaciones = servicio.obtenerPorEstudiante(estudianteCodigo);
@@ -65,10 +47,6 @@ public class ControladorCalificacion {
         return ResponseEntity.ok(dtos);
     }
 
-    /**
-     * Elimina una calificación
-     * DELETE /api/calificaciones
-     */
     @DeleteMapping
     public ResponseEntity<Void> eliminar(@RequestBody DtoCalificacion dto) {
         Calificacion calificacion = castModelo(dto);
@@ -82,10 +60,9 @@ public class ControladorCalificacion {
         calificacion.setValor(dto.getValor());
         calificacion.setObservaciones(dto.getObservaciones());
         
-        if (dto.getEvaluacion() != null) {
+        if (dto.getEvaluacion() != null)
             calificacion.setEvaluacion(dto.getEvaluacion());
-        }
-        
+
         return calificacion;
     }
 
@@ -95,10 +72,9 @@ public class ControladorCalificacion {
         dto.setValor(calificacion.getValor());
         dto.setObservaciones(calificacion.getObservaciones());
         
-        if (calificacion.getEvaluacion() != null) {
+        if (calificacion.getEvaluacion() != null)
             dto.setEvaluacion(calificacion.getEvaluacion());
-        }
-        
+
         return dto;
     }
 }

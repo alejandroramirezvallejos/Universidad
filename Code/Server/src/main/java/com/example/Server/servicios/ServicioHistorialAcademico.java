@@ -88,24 +88,23 @@ public class ServicioHistorialAcademico {
     }
 
     public HistorialAcademico obtenerPorEstudiante(String estudianteCodigo) {
-        List<HistorialAcademico> historiales = repositorio.getHistoriales();
-        return historiales.stream()
-                .filter(h -> h.getEstudiante() != null &&
-                        h.getEstudiante().getCodigo().equals(estudianteCodigo))
-                .findFirst()
-                .orElse(null);
+        for (HistorialAcademico historial : repositorio.getHistoriales())
+            if (historial.getEstudiante() != null && historial.getEstudiante().getCodigo().equals(estudianteCodigo))
+                return historial;
+
+        return null;
     }
 
     public Double calcularPromedioGeneral(String estudianteCodigo) {
-        List<ActaEstudiante> actas = repositorioActa.getActas().stream()
-                .filter(a -> a.getEstudiante() != null &&
-                        a.getEstudiante().getCodigo().equals(estudianteCodigo))
-                .toList();
-        
-        if (actas.isEmpty()) {
+        List<ActaEstudiante> actas = new ArrayList<>();
+
+        for (ActaEstudiante acta : repositorioActa.getActas())
+            if (acta.getEstudiante() != null && acta.getEstudiante().getCodigo().equals(estudianteCodigo))
+                actas.add(acta);
+
+        if (actas.isEmpty())
             return 0.0;
-        }
-        
+
         return calcularPromedio(actas);
     }
 }

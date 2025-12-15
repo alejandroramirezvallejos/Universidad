@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Controlador REST para gestionar DirectorCarrera
- * Expone endpoint /api/directores
- */
 @RestController
 @RequestMapping("/api/directores")
 @RequiredArgsConstructor
@@ -49,7 +45,6 @@ public class ControladorDirectorCarrera {
     private DirectorCarrera castModelo(DtoDirectorCarrera dto) {
         DirectorCarrera director = new DirectorCarrera();
         director.setCodigo(dto.getCodigo());
-        // Separar nombre completo en nombre y apellido
         String[] partes = dto.getNombre().split(" ", 2);
         director.setNombre(partes.length > 0 ? partes[0] : dto.getNombre());
         director.setApellido(partes.length > 1 ? partes[1] : "");

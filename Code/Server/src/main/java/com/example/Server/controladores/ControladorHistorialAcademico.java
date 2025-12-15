@@ -48,9 +48,10 @@ public class ControladorHistorialAcademico {
     @GetMapping("/estudiante/{estudianteCodigo}")
     public ResponseEntity<DtoHistorialAcademico> obtenerPorEstudiante(@PathVariable String estudianteCodigo) {
         HistorialAcademico historial = servicio.obtenerPorEstudiante(estudianteCodigo);
-        if (historial == null) {
+
+        if (historial == null)
             return ResponseEntity.notFound().build();
-        }
+
         return ResponseEntity.ok(castDto(historial));
     }
 
@@ -61,8 +62,8 @@ public class ControladorHistorialAcademico {
         DtoPromedio dto = new DtoPromedio();
         dto.setEstudianteCodigo(estudianteCodigo);
         dto.setPromedio(promedio);
-        dto.setTotalMaterias(0); // TODO: calcular total de materias
-        
+        dto.setTotalMaterias(0);
+
         return ResponseEntity.ok(dto);
     }
 
