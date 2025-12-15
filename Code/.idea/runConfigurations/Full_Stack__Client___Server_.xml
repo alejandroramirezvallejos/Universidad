@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Full Stack (Client + Server)" type="CompoundRunConfigurationType">
+    <toRun name="Spring Boot Server" type="SpringBootApplicationConfigurationType" />
+    <toRun name="Angular Client" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
+

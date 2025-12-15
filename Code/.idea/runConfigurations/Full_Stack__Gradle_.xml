@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Full Stack (Gradle)" type="CompoundRunConfigurationType">
+    <toRun name="Server (Gradle)" type="GradleRunConfiguration" />
+    <toRun name="Angular Client" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
+
