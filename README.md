@@ -10,7 +10,7 @@ Este sistema proporciona una solución tecnológica robusta que facilita la comu
 
 ---
 
-## 🏛️ CONTEXTO DEL PROYECTO
+## CONTEXTO DEL PROYECTO
 
 ### Problemática Actual
 
@@ -53,7 +53,7 @@ Desarrollar e implementar un sistema web de gestión universitaria que digitalic
 
 ---
 
-## 📐 ALCANCE
+## ALCANCE
 
 ### Dentro del Alcance
 
@@ -183,7 +183,7 @@ El sistema define tres roles principales con funcionalidades específicas:
 
 ---
 
-## 🛠️ TECNOLOGÍAS UTILIZADAS
+## TECNOLOGÍAS UTILIZADAS
 
 ### Frontend
 
