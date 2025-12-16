@@ -390,6 +390,7 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario redirigido a su dashboard correspondiente según su rol
 
 <img width="495" height="285" alt="Image" src="https://github.com/user-attachments/assets/2a291cf8-bd99-42ac-a0ac-00c8aecfd85f" />
+
 ---
 
 ## CU-2: REGISTRARSE COMO ESTUDIANTE
@@ -522,6 +523,7 @@ En FP2, el sistema detecta que no hay carreras registradas, el flujo no puede co
 - Usuario puede iniciar sesión inmediatamente
 
 <img width="408" height="178" alt="Image" src="https://github.com/user-attachments/assets/e60de8ea-dbfd-4ba2-8785-2b0eb279cb6e" />
+
 ---
 
 ## CU-3: REGISTRARSE COMO DOCENTE
@@ -650,6 +652,7 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario puede iniciar sesión inmediatamente
 
 <img width="422" height="219" alt="Image" src="https://github.com/user-attachments/assets/860709b2-eb47-47b7-866d-a6089e95ecad" />
+
 ---
 
 ## CU-4: EDITAR INFORMACIÓN PERSONAL
@@ -761,6 +764,7 @@ En FP13, si ocurre un error de base de datos, el sistema mantiene los datos ante
 - El nombre actualizado aparece en el header/menú del sistema
 
 <img width="494" height="281" alt="Image" src="https://github.com/user-attachments/assets/fda35b87-4827-4daa-a08d-de66f782bc13" />
+
 ---
 
 
@@ -893,6 +897,7 @@ En FP4, el sistema no encuentra grupos para la carrera del estudiante, muestra m
 - Estudiante puede identificar materias con prerrequisitos cumplidos o no cumplidos
 
 <img width="497" height="340" alt="Image" src="https://github.com/user-attachments/assets/40acc22a-b8de-4f0a-9cbb-01510642b97d" />
+
 ---
 
 ## CU-6: INSCRIBIRSE EN MATERIA
@@ -1025,6 +1030,7 @@ Durante el proceso, si el período cambia de estado, el sistema muestra mensaje:
 - Cupos sin cambios
 
 <img width="499" height="253" alt="Image" src="https://github.com/user-attachments/assets/b90c2593-3597-4e26-aaf9-3aacbfd7279d" />
+
 ---
 
 ## CU-7: CANCELAR INSCRIPCIÓN DE MATERIA
@@ -1119,6 +1125,7 @@ El sistema detecta que el período cambió a EN_CURSO o FINALIZADO, muestra mens
 - Sistema mantiene estado anterior
 
 <img width="497" height="169" alt="Image" src="https://github.com/user-attachments/assets/a738b34f-872c-4ade-964d-29563bd212f6" />
+
 ---
 
 ## CU-8: VER MI MATRÍCULA
@@ -1222,6 +1229,7 @@ En FP2, el sistema no encuentra inscripciones, muestra mensaje: "No tienes mater
 - Estudiante conoce qué inscripciones están pendientes, aceptadas o rechazadas
 
 <img width="498" height="209" alt="Image" src="https://github.com/user-attachments/assets/3a231833-167f-4bc1-81eb-677776488693" />
+
 ---
 
 ## CU-9: VER MIS CALIFICACIONES
@@ -1333,6 +1341,7 @@ El sistema detecta que el período está en estado MATRICULA, muestra mensaje in
 - Estudiante conoce su promedio general de la gestión actual
 
 <img width="499" height="190" alt="Image" src="https://github.com/user-attachments/assets/ef003612-5579-43b4-8419-6508206c2816" />
+
 ---
 
 ## CU-10: VER MI HORARIO PERSONAL
@@ -1441,6 +1450,7 @@ En FP2, el sistema no encuentra inscripciones ACEPTADAS, muestra mensaje: "No ti
 - Estudiante visualiza su horario semanal completo en formato de calendario
 
 <img width="494" height="207" alt="Image" src="https://github.com/user-attachments/assets/66bd2b9d-a483-4c38-8da6-e3c164e84cc8" />
+
 ---
 
 # 3. GESTIÓN DE CALIFICACIONES - DOCENTE
@@ -1580,6 +1590,7 @@ En FP2, el docente no tiene grupos asignados en la gestión actual, el sistema m
 - Promedio de la materia del estudiante recalculado automáticamente
 
 <img width="500" height="221" alt="Image" src="https://github.com/user-attachments/assets/2b64426f-9095-4c2b-bd6f-cbd7cb3a6d69" />
+
 ---
 
 ## CU-12: EDITAR CALIFICACIÓN DE ESTUDIANTE
@@ -1691,6 +1702,7 @@ El sistema detecta que el período no está en estado EN_CURSO, muestra mensaje:
 - Promedio de la materia del estudiante recalculado automáticamente
 
 <img width="500" height="198" alt="Image" src="https://github.com/user-attachments/assets/13c756ff-7eae-4455-853d-e7db2e9d298c" />
+
 ---
 
 ## CU-13: VER HORARIO PERSONAL DOCENTE
@@ -1790,6 +1802,7 @@ En FP2, el sistema no encuentra grupos asignados al docente en la gestión actua
 - Docente conoce su carga horaria total en horas semanales
 
 <img width="499" height="215" alt="Image" src="https://github.com/user-attachments/assets/e44cb516-8338-4d97-8d4d-800306498f01" />
+
 ---
 
 # 4. GESTIÓN DE MATRÍCULAS - DIRECTOR
@@ -1930,6 +1943,7 @@ En FP10, el sistema detecta que ya fue aceptada o rechazada por otro Director si
 - Cupo del paralelo decrementado (o marcado como sobrecupo si aplica)
 
 <img width="502" height="277" alt="Image" src="https://github.com/user-attachments/assets/f0faacc3-7ed7-43f2-84d4-387ec72bc594" />
+
 ---
 
 ## CU-15: RECHAZAR SOLICITUD DE MATRÍCULA
@@ -2053,6 +2067,7 @@ El sistema detecta que el período cambió de estado, muestra mensaje: "El perí
 - Cupo del paralelo liberado (incrementado en 1) 
 
 <img width="506" height="254" alt="Image" src="https://github.com/user-attachments/assets/78cc5787-1027-452f-b73a-b1f378afbda4" />
+
 ---
 
 # 5. PERÍODOS ACADÉMICOS - DIRECTOR
@@ -2181,6 +2196,7 @@ En FP19, si ocurre un error al guardar el período en la base de datos, el siste
 - Período disponible para crear grupos, paralelos y oferta académica
 
 <img width="486" height="109" alt="Image" src="https://github.com/user-attachments/assets/7b5518b8-0bbf-4190-9b64-9fdb2919a62d" />
+
 ---
 
 ## CU-17: EDITAR PERÍODO ACADÉMICO
@@ -2271,6 +2287,7 @@ Si entre FP4 y FP11 otro Director eliminó el período, el sistema muestra mensa
 - Cambios reflejados inmediatamente en toda la gestión académica
 
 <img width="500" height="120" alt="Image" src="https://github.com/user-attachments/assets/cb233084-3d94-4bf8-b6f4-5211919ffc3f" />
+
 ---
 
 ## CU-18: ACTIVAR PERÍODO ACADÉMICO
@@ -2361,6 +2378,7 @@ Si entre FP4 y FP10 otro Director modificó o eliminó el período, el sistema m
 - Período cambia a estado MATRICULA (activo) en la base de datos
 
 <img width="506" height="99" alt="Image" src="https://github.com/user-attachments/assets/c6d9fa32-04db-4713-8f50-8cb9b925e7ff" />
+
 ---
 
 ## CU-19: CERRAR PERÍODO ACADÉMICO
@@ -2465,6 +2483,7 @@ En FP14, si ocurre un error al actualizar el estado del período en la base de d
 - Período cambia a estado FINALIZADA en la base de datos
 
 <img width="492" height="152" alt="Image" src="https://github.com/user-attachments/assets/526e40c7-6ea9-44c9-b735-159949982cd6" />
+
 ---
 
 ## CU-20: ELIMINAR PERÍODO ACADÉMICO
@@ -2556,6 +2575,7 @@ Si entre FP4 y FP10 otro Director modificó o eliminó el período, el sistema m
 - Período eliminado permanentemente 
 
 <img width="498" height="180" alt="Image" src="https://github.com/user-attachments/assets/139c85aa-56fe-4653-8cb0-c4c66501d1cf" />
+
 ---
 
 # 6. MATERIAS - DIRECTOR
@@ -2681,6 +2701,7 @@ En FP19, si ocurre un error al guardar la materia en la base de datos, el sistem
 - Código único asignado en formato MAT-XXX-YY
 
 <img width="499" height="153" alt="Image" src="https://github.com/user-attachments/assets/78c54f65-4388-4f66-bc23-bdfba72a578b" />
+
 ---
 
 ## CU-22: EDITAR MATERIA
@@ -2797,6 +2818,7 @@ Si entre FP4 y FP15 otro Director eliminó la materia, el sistema muestra mensaj
 - Cambios reflejados inmediatamente en el catálogo de materias
 
 <img width="502" height="192" alt="Image" src="https://github.com/user-attachments/assets/3188c73a-e604-4c9d-82fd-2de1f8d483d6" />
+
 ---
 
 ## CU-23: ELIMINAR MATERIA
@@ -2885,6 +2907,7 @@ Si entre FP4 y FP11 otro Director modificó o eliminó la materia, el sistema mu
 - Materia removida del catálogo de materias
 
 <img width="474" height="163" alt="Image" src="https://github.com/user-attachments/assets/128b51ba-4f56-4136-9ae3-6d56d9334ad9" />
+
 ---
 
 ## CU-24: CONSULTAR CATÁLOGO DE MATERIAS
@@ -2974,6 +2997,7 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Estadísticas visibles (total materias, créditos totales, materias por nivel)
 
 <img width="499" height="292" alt="Image" src="https://github.com/user-attachments/assets/15640857-a370-425d-96fd-a44c3308bd59" />
+
 ---
 
 ## CU-25: VER DETALLE DE MATERIA
@@ -3072,6 +3096,7 @@ Si entre FP1 y FP2 otro Director eliminó la materia, el sistema muestra mensaje
 - Prerrequisitos listados con código y nombre (o "Sin prerrequisitos")
 
 <img width="358" height="199" alt="Image" src="https://github.com/user-attachments/assets/402710ed-daf6-4d60-b702-23c46507e764" />
+
 ---
 
 # 7. GRUPOS/PARALELOS - DIRECTOR
@@ -3185,6 +3210,7 @@ En FP11, si ocurre un error al guardar el grupo en la base de datos, el sistema 
 - Cupo máximo configurado
 
 <img width="498" height="192" alt="Image" src="https://github.com/user-attachments/assets/98562dda-4757-43ac-9ea1-d09a821ea66a" />
+
 ---
 
 ## CU-27: EDITAR GRUPO DE MATERIA
@@ -3295,6 +3321,7 @@ Si entre FP4 y FP12 otro Director eliminó el grupo, el sistema muestra mensaje:
 - Cambios visibles en oferta académica inmediatamente
 
 <img width="498" height="149" alt="Image" src="https://github.com/user-attachments/assets/a0f33400-98cf-4963-82b3-5ec433539ddb" />
+
 ---
 
 ## CU-28: ASIGNAR DOCENTE A GRUPO
@@ -3405,6 +3432,7 @@ Si entre FP4 y FP15 otro Director eliminó el grupo, el sistema muestra mensaje:
 - Docente puede ver el grupo en su panel de docente
 
 <img width="500" height="240" alt="Image" src="https://github.com/user-attachments/assets/dfc8d18b-dddf-4b64-baa9-66d828c296f6" />
+
 ---
 
 ## CU-29: ASIGNAR AULA Y HORARIO A GRUPO
@@ -3543,6 +3571,7 @@ Si entre FP4 y FP19 otro Director eliminó el grupo, el sistema muestra mensaje:
 - Horarios visibles en oferta académica (CU-5) para estudiantes
 
 <img width="497" height="273" alt="Image" src="https://github.com/user-attachments/assets/9293340c-545c-4b44-bf03-6cae8e20867c" />
+
 ---
 
 ## CU-30: ELIMINAR GRUPO
@@ -3643,6 +3672,7 @@ Si entre FP4 y FP15 otro Director modificó el grupo (agregó inscripciones acep
 - Grupo eliminado permanentemente de la base de datos
 
 <img width="455" height="188" alt="Image" src="https://github.com/user-attachments/assets/601ee364-217a-4a5c-8d58-90ced9681990" />
+
 ---
 
 ## CU-31: CONSULTAR GRUPOS
@@ -3737,6 +3767,7 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Información ordenable por cualquier columna
 
 <img width="497" height="217" alt="Image" src="https://github.com/user-attachments/assets/e1266ef7-cc9f-411b-b033-a71bf681e88f" />
+
 ---
 
 # 8. ESTUDIANTES - DIRECTOR
@@ -3871,6 +3902,7 @@ En FP14, si ocurre un error al guardar el estudiante en la base de datos, el sis
 - Código único asignado en formato EST-YYYY-NNNN
 
 <img width="469" height="191" alt="Image" src="https://github.com/user-attachments/assets/296dde11-1e52-4f7c-9ee7-e1a35e45a33c" />
+
 ---
 
 ## CU-33: EDITAR ESTUDIANTE
@@ -3979,6 +4011,7 @@ En FP15, si otro Director eliminó al estudiante mientras se editaba, el sistema
 - Cambios reflejados inmediatamente en todas las vistas
 
 <img width="467" height="189" alt="Image" src="https://github.com/user-attachments/assets/210f22b8-ca25-456d-a0b8-03888098192a" />
+
 ---
 
 ## CU-34: CAMBIAR ESTADO DE ESTUDIANTE
@@ -4098,6 +4131,7 @@ En FP13, si otro Director eliminó al estudiante mientras se cambiaba el estado,
 - Cambio reflejado inmediatamente en todas las vistas
 
 <img width="506" height="213" alt="Image" src="https://github.com/user-attachments/assets/985525b5-d117-4a90-be46-900fc9ea9f80" />
+
 ---
 
 ## CU-35: ELIMINAR ESTUDIANTE
@@ -4189,6 +4223,7 @@ En FP11, si otro Director ya eliminó al estudiante, el sistema muestra mensaje:
 - Registro removido de la base de datos
 
 <img width="498" height="204" alt="Image" src="https://github.com/user-attachments/assets/c636f385-3c3c-48ae-973b-8ad0673083fb" />
+
 ---
 
 ## CU-36: CONSULTAR ESTUDIANTES
@@ -4283,6 +4318,7 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Filtros aplicables por carrera, estado y búsqueda
 
 <img width="494" height="282" alt="Image" src="https://github.com/user-attachments/assets/f88e8d34-91a9-4eee-a545-f1cbba491fe5" />
+
 ---
 
 # 9. DOCENTES - DIRECTOR
@@ -4439,6 +4475,7 @@ En FP17, si ocurre un error al guardar el docente en la base de datos, el sistem
 - Código único asignado en formato DOC-YYYY-NNNN
 
 <img width="494" height="212" alt="Image" src="https://github.com/user-attachments/assets/436fcd4f-155f-4708-8665-1b5539953494" />
+
 ---
 
 ## CU-38: EDITAR DOCENTE
@@ -4564,6 +4601,7 @@ En FP16, si otro Director eliminó al docente mientras se editaba, el sistema mu
 - Cambios reflejados inmediatamente en todas las vistas
 
 <img width="502" height="155" alt="Image" src="https://github.com/user-attachments/assets/c5710979-4bb1-49f0-8b34-0ecef0fa2d3c" />
+
 ---
 
 ## CU-39: ELIMINAR DOCENTE
@@ -4653,6 +4691,7 @@ En FP11, si otro Director ya eliminó al docente, el sistema muestra mensaje: "E
 - Registro removido 
 
 <img width="445" height="167" alt="Image" src="https://github.com/user-attachments/assets/3384aa1b-48d5-42b0-9e2b-0b9bd5300a9a" />
+
 ---
 
 ## CU-40: CONSULTAR DOCENTES
@@ -4750,6 +4789,7 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Filtros aplicables por especialidad, departamento, grado académico y estado
 
 <img width="501" height="286" alt="Image" src="https://github.com/user-attachments/assets/6960f0a9-638f-4a10-85b2-83607dea1445" />
+
 ---
 
 # 10. AULAS - DIRECTOR
@@ -4869,6 +4909,7 @@ En FP16, si ocurre un error al guardar el aula en la base de datos, el sistema m
 - Código único asignado con formato AULA-XXX
 
 <img width="501" height="153" alt="Image" src="https://github.com/user-attachments/assets/aef40b5a-941b-45c6-9d46-727f19a5cf86" />
+
 ---
 
 ## CU-42: EDITAR AULA
@@ -4985,6 +5026,7 @@ En FP15, si otro Director eliminó el aula mientras se editaba, el sistema muest
 - Cambios reflejados inmediatamente en todas las vistas
 
 <img width="498" height="185" alt="Image" src="https://github.com/user-attachments/assets/5b33bb05-d3c9-4727-984e-b1b6ad9ed3ec" />
+
 ---
 
 ## CU-43: ELIMINAR AULA
@@ -5073,6 +5115,7 @@ En FP11, si otro Director ya eliminó el aula, el sistema muestra mensaje: "El a
 - Registro removido 
 
 <img width="502" height="165" alt="Image" src="https://github.com/user-attachments/assets/7721f4b3-2667-46fe-b531-f3577af6f7ed" />
+
 ---
 
 ## CU-44: CONSULTAR AULAS
@@ -5169,6 +5212,7 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Información de cada aula visible (código, edificio, piso, tipo, capacidad, % ocupación, grupos asignados, disponibilidad)
 
 <img width="501" height="254" alt="Image" src="https://github.com/user-attachments/assets/4c0dcfb0-078a-46cb-8b4d-ccb7b55a9a12" />
+
 ---
 
 # 11. CONSULTAS Y REPORTES
@@ -5264,6 +5308,7 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Estadísticas generales actualizadas y visibles
 
 <img width="506" height="332" alt="Image" src="https://github.com/user-attachments/assets/b55351e9-8500-4c4a-ad29-741fe1cf55d9" />
+
 ---
 
 ## CU-46: GENERAR REPORTE ESTADÍSTICO
@@ -5371,6 +5416,7 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Gráficos visuales generados automáticamente según tipo de reporte
 
 <img width="499" height="308" alt="Image" src="https://github.com/user-attachments/assets/aad2c596-4d83-40a0-8375-f7add0765494" />
+
 ---
 
 ## CU-47: VER DASHBOARD PERSONALIZADO
@@ -5440,5 +5486,6 @@ Si el sistema backend no está disponible, el sistema muestra mensaje de error e
 - Información resumida y actualizada visible en widgets
 
 <img width="507" height="293" alt="Image" src="https://github.com/user-attachments/assets/4102f515-d5f3-44cb-81ef-d222e1e9b939" />
+
 ---
 
