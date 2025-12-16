@@ -1,10 +1,9 @@
 package com.example.Server.controladores;
-import com.example.Server.dtos.DtoDashboardEstudiante;
-import com.example.Server.dtos.DtoDashboardDocente;
 import com.example.Server.servicios.ServicioDashboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/dashboard")
@@ -14,8 +13,8 @@ public class ControladorDashboard {
     private ServicioDashboard servicio;
 
     @GetMapping("/estudiante/{codigo}")
-    public ResponseEntity<DtoDashboardEstudiante> dashboardEstudiante(@PathVariable String codigo) {
-        DtoDashboardEstudiante dashboard = servicio.generarDashboardEstudiante(codigo);
+    public ResponseEntity<Map<String, Object>> getDashboardEstudiante(@PathVariable String codigo) {
+        Map<String, Object> dashboard = servicio.generarDashboardEstudiante(codigo);
 
         if (dashboard == null)
             return ResponseEntity.notFound().build();
@@ -24,8 +23,8 @@ public class ControladorDashboard {
     }
 
     @GetMapping("/docente/{codigo}")
-    public ResponseEntity<DtoDashboardDocente> dashboardDocente(@PathVariable String codigo) {
-        DtoDashboardDocente dashboard = servicio.generarDashboardDocente(codigo);
+    public ResponseEntity<Map<String, Object>> getDashboardDocente(@PathVariable String codigo) {
+        Map<String, Object> dashboard = servicio.generarDashboardDocente(codigo);
 
         if (dashboard == null)
             return ResponseEntity.notFound().build();

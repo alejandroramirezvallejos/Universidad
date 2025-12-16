@@ -1,7 +1,5 @@
 package com.example.Server.controladores;
 
-import com.example.Server.casts.CastEstudiante;
-import com.example.Server.dtos.DtoEstudiante;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.servicios.ServicioEstudiante;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,30 +15,21 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorEstudiante {
     private final ServicioEstudiante servicio;
-    private final CastEstudiante convertidor;
 
     @PostMapping
-    public ResponseEntity<DtoEstudiante> crear(@RequestBody DtoEstudiante dto) {
-        Estudiante estudiante = convertidor.getModelo(dto);
+    public ResponseEntity<Estudiante> crear(@RequestBody Estudiante estudiante) {
         Estudiante creado = servicio.crear(estudiante);
-        DtoEstudiante respuesta = convertidor.getDto(creado);
-        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
     @GetMapping
-    public ResponseEntity<List<DtoEstudiante>> getEstudiantes() {
+    public ResponseEntity<List<Estudiante>> getEstudiantes() {
         List<Estudiante> estudiantes = servicio.getEstudiantes();
-        List<DtoEstudiante> dtos = new ArrayList<>();
-
-        for (Estudiante estudiante : estudiantes)
-            dtos.add(convertidor.getDto(estudiante));
-
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok(estudiantes);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> eliminar(@RequestBody DtoEstudiante dto) {
-        Estudiante estudiante = convertidor.getModelo(dto);
+    public ResponseEntity<Void> eliminar(@RequestBody Estudiante estudiante) {
         servicio.eliminar(estudiante);
         return ResponseEntity.ok().build();
     }

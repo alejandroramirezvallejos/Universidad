@@ -1,9 +1,10 @@
 package com.example.Server.controladores;
-import com.example.Server.dtos.*;
+import com.example.Server.modelos.*;
 import com.example.Server.servicios.ServicioAutenticacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -13,35 +14,35 @@ public class ControladorAutenticacion {
     private ServicioAutenticacion servicio;
 
     @PostMapping("/login")
-    public ResponseEntity<DtoRespuestaLogin> login(@RequestBody DtoCredenciales credenciales) {
-        DtoRespuestaLogin respuesta = servicio.login(credenciales);
-
-        if (respuesta.isExito())
-            return ResponseEntity.ok(respuesta);
-        else
-            return ResponseEntity.status(401).body(respuesta);
+    public ResponseEntity<?> login(@RequestBody Usuario credenciales) {
+        try {
+            Usuario usuario = servicio.login(credenciales);
+            return ResponseEntity.ok(usuario);
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity.status(401).body(Collections.singletonMap("mensaje", e.getMessage()));
+        }
     }
 
     @PostMapping("/registro/estudiante")
-    public ResponseEntity<DtoRespuestaRegistro> registrarEstudiante(
-            @RequestBody DtoRegistroEstudiante dto) {
-        
-        DtoRespuestaRegistro respuesta = servicio.registrarEstudiante(dto);
-
-        if (respuesta.isExito())
-            return ResponseEntity.ok(respuesta);
-        else
-            return ResponseEntity.badRequest().body(respuesta);
+    public ResponseEntity<?> registrarEstudiante(@RequestBody Estudiante estudiante) {
+        try {
+            Estudiante creado = servicio.registrarEstudiante(estudiante);
+            return ResponseEntity.ok(creado);
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", e.getMessage()));
+        }
     }
 
     @PostMapping("/registro/docente")
-    public ResponseEntity<DtoRespuestaRegistro> registrarDocente(
-            @RequestBody DtoRegistroDocente dto) {
-        DtoRespuestaRegistro respuesta = servicio.registrarDocente(dto);
-
-        if (respuesta.isExito())
-            return ResponseEntity.ok(respuesta);
-        else
-            return ResponseEntity.badRequest().body(respuesta);
+    public ResponseEntity<?> registrarDocente(@RequestBody Docente docente) {
+        try {
+            Docente creado = servicio.registrarDocente(docente);
+            return ResponseEntity.ok(creado);
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", e.getMessage()));
+        }
     }
 }

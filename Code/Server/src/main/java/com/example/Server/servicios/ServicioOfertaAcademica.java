@@ -1,35 +1,19 @@
 package com.example.Server.servicios;
-import com.example.Server.casts.CastOfertaAcademica;
-import com.example.Server.dtos.*;
-import com.example.Server.modelos.*;
-import com.example.Server.repositorios.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Server.componentes.GeneradorOferta;
+import com.example.Server.modelos.Gestion;
+import com.example.Server.repositorios.RepositorioGestion;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class ServicioOfertaAcademica {
-    @Autowired
-    private RepositorioGestion repositorioGestion;
-    @Autowired
-    private RepositorioMateria repositorioMateria;
-    @Autowired
-    private RepositorioParaleloMateria repositorioParalelo;
-    @Autowired
-    private RepositorioMatricula repositorioMatricula;
-    @Autowired
-    private CastOfertaAcademica convertidor;
+    private final RepositorioGestion repositorioGestion;
+    private final GeneradorOferta generador;
 
-    public DtoOfertaAcademica obtenerOfertaPorGestion(String codigoGestion) {
+    public Gestion getOfertaPorGestion(String codigoGestion) {
         Gestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion).orElse(null);
-
-        if (gestion == null)
-            return null;
-
-        List<Materia> todasLasMaterias = repositorioMateria.getMaterias();
-        List<ParaleloMateria> todosLosParalelos = repositorioParalelo.getParalelos();
-
-        return convertidor.getDto(gestion, todasLasMaterias, todosLosParalelos);
+        if (gestion == null) return null;
+        return generador.generar(gestion);
     }
 }

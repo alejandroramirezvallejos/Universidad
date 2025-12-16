@@ -1,5 +1,5 @@
 package com.example.Server.estrategias.autentificacion;
-import com.example.Server.dtos.DtoRespuestaLogin;
+import com.example.Server.modelos.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.List;
 public class ContextoLogin {
     private final List<IEstrategiaLogin> estrategias;
 
-    public DtoRespuestaLogin login(String email, String contrasenna) {
+    public Usuario login(String email, String contrasenna) {
         for (IEstrategiaLogin estrategia : estrategias) {
-            DtoRespuestaLogin respuesta = estrategia.login(email, contrasenna);
+            Usuario usuario = estrategia.login(email, contrasenna);
 
-            if (respuesta != null)
-                return respuesta;
+            if (usuario != null)
+                return usuario;
         }
 
         return null;

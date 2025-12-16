@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ServicioGestion {
     private final RepositorioGestion repositorio;
 
-    public Gestion crear(Gestion gestion) {
+    public Gestion setGestion(Gestion gestion) {
         return repositorio.guardar(gestion);
     }
 
@@ -19,7 +19,7 @@ public class ServicioGestion {
         return repositorio.getGestiones();
     }
 
-    public Optional<Gestion> buscarPorCodigo(String codigo) {
+    public Optional<Gestion> getGestionPorCodigo(String codigo) {
         return repositorio.buscarPorCodigo(codigo);
     }
 

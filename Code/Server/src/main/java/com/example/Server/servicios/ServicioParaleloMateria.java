@@ -15,7 +15,7 @@ public class ServicioParaleloMateria {
     private final RepositorioParaleloMateria repositorio;
     private final RepositorioDocente repositorioDocente;
 
-    public ParaleloMateria crear(ParaleloMateria paralelo) {
+    public ParaleloMateria setParalelo(ParaleloMateria paralelo) {
         asociarDocente(paralelo);
         asociarMateria(paralelo);
         return repositorio.guardar(paralelo);
@@ -42,27 +42,24 @@ public class ServicioParaleloMateria {
         repositorio.eliminar(paralelo);
     }
 
-    public ParaleloMateria actualizar(ParaleloMateria paralelo) {
+    public ParaleloMateria setParalelo(ParaleloMateria paralelo, boolean actualizar) {
         return repositorio.guardar(paralelo);
     }
 
-    public ParaleloMateria buscarPorCodigo(String codigo) {
+    public ParaleloMateria getParaleloPorCodigo(String codigo) {
         return repositorio.buscarPorCodigo(codigo);
     }
 
-    public List<ParaleloMateria> obtenerPorDocente(String docenteCodigo) {
+    public List<ParaleloMateria> getParalelosPorDocente(String docenteCodigo) {
         List<ParaleloMateria> resultado = new ArrayList<>();
-
         for (ParaleloMateria paralelo : repositorio.getParalelos())
             if (paralelo.getDocente() != null && paralelo.getDocente().getCodigo().equals(docenteCodigo))
                 resultado.add(paralelo);
-
         return resultado;
     }
 
-    public List<ParaleloMateria> obtenerPorMateria(String materiaCodigo) {
+    public List<ParaleloMateria> getParalelosPorMateria(String materiaCodigo) {
         List<ParaleloMateria> resultado = new ArrayList<>();
-
         for (ParaleloMateria paralelo : repositorio.getParalelos())
             if (paralelo.getMateria() != null && paralelo.getMateria().getCodigo().equals(materiaCodigo))
                 resultado.add(paralelo);

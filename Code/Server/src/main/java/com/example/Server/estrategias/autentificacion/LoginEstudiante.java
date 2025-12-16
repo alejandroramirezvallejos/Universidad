@@ -1,7 +1,6 @@
 package com.example.Server.estrategias.autentificacion;
-import com.example.Server.casts.CastUsuarioEstudiante;
-import com.example.Server.dtos.DtoRespuestaLogin;
 import com.example.Server.modelos.Estudiante;
+import com.example.Server.modelos.Usuario;
 import com.example.Server.repositorios.RepositorioEstudiante;
 import com.example.Server.validadores.autentificacion.IValidarLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,9 @@ public class LoginEstudiante implements IEstrategiaLogin {
     private RepositorioEstudiante repositorioEstudiante;
     @Autowired
     private IValidarLogin validadorLogin;
-    @Autowired
-    private CastUsuarioEstudiante convertidor;
 
     @Override
-    public DtoRespuestaLogin login(String email, String contrasenna) {
+    public Usuario login(String email, String contrasenna) {
         Estudiante estudiante = repositorioEstudiante.buscarPorEmail(email);
 
         if (estudiante == null)
@@ -26,8 +23,9 @@ public class LoginEstudiante implements IEstrategiaLogin {
         String error = validadorLogin.validar(estudiante, contrasenna);
 
         if (error != null)
-            return new DtoRespuestaLogin(false, error, null);
+            return null;
 
-        return new DtoRespuestaLogin(true, "Login exitoso", convertidor.getDto(estudiante));
+        estudiante.setRol("ESTUDIANTE");
+        return estudiante;
     }
 }

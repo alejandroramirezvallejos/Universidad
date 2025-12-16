@@ -1,14 +1,18 @@
 package com.example.Server.modelos;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public interface Usuario {
-    String getCodigo();
-    String getNombre();
-    String getApellido();
-    String getEmail();
-    String getContrasenna();
-    void setNombre(String nombre);
-    void setApellido(String apellido);
-    void setEmail(String email);
-    void setContrasenna(String contrasenna);
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Usuario {
+    private String codigo;
+    private String nombre;
+    private String apellido;
+    private String email;
+    private String contrasenna;
+    private String rol;
 }
-

@@ -1,18 +1,18 @@
 package com.example.Server.estrategias.usuario;
-import com.example.Server.dtos.DtoActualizarUsuario;
-import com.example.Server.dtos.DtoUsuarioCompleto;
+import com.example.Server.modelos.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @AllArgsConstructor
 public class ContextoUsuario {
     private final List<IEstrategiaUsuario> estrategias;
 
-    public DtoUsuarioCompleto buscar(String codigo) {
+    public Usuario buscarPorCodigo(String codigo) {
         for (IEstrategiaUsuario estrategia : estrategias) {
-            DtoUsuarioCompleto usuario = estrategia.buscar(codigo);
+            Usuario usuario = estrategia.buscar(codigo);
 
             if (usuario != null)
                 return usuario;
@@ -21,9 +21,9 @@ public class ContextoUsuario {
         return null;
     }
 
-    public DtoUsuarioCompleto actualizar(String codigo, DtoActualizarUsuario dto) {
+    public Usuario actualizar(String codigo, Map<String, Object> datos) {
         for (IEstrategiaUsuario estrategia : estrategias) {
-            DtoUsuarioCompleto usuario = estrategia.actualizar(codigo, dto);
+            Usuario usuario = estrategia.actualizar(codigo, datos);
 
             if (usuario != null)
                 return usuario;

@@ -1,14 +1,10 @@
 package com.example.Server.controladores;
-import com.example.Server.casts.CastMateria;
-import com.example.Server.dtos.DtoMateria;
-import com.example.Server.dtos.DtoMateriaCarrera;
 import com.example.Server.modelos.Materia;
 import com.example.Server.servicios.ServicioMateria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,58 +13,48 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorMateria {
     private final ServicioMateria servicio;
-    private final CastMateria convertidor;
 
     @PostMapping
-    public ResponseEntity<DtoMateria> crear(@RequestBody DtoMateria dto) {
-        Materia materia = convertidor.getModelo(dto);
+    public ResponseEntity<Materia> crear(@RequestBody Materia materia) {
         Materia creada = servicio.crear(materia);
-        DtoMateria respuesta = convertidor.getDto(creada);
-        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
     }
 
     @PostMapping("/agregar-carrera")
-    public ResponseEntity<DtoMateria> agregarCarrera(@RequestBody DtoMateriaCarrera dto) {
-        Materia materia = servicio.agregarCarrera(dto.getMateria(), dto.getCarrera());
-        DtoMateria respuesta = convertidor.getDto(materia);
-        return ResponseEntity.ok(respuesta);
+    public ResponseEntity<Materia> agregar(@RequestBody Materia materia) {
+        Materia resultado = servicio.agregarCarrera(materia, materia.getCarrera());
+        return ResponseEntity.ok(resultado);
     }
 
     @GetMapping
-    public ResponseEntity<List<DtoMateria>> getMaterias() {
+    public ResponseEntity<List<Materia>> getMaterias() {
         List<Materia> materias = servicio.getMaterias();
-        List<DtoMateria> dtos = new ArrayList<>();
-
-        for (Materia materia : materias)
-            dtos.add(convertidor.getDto(materia));
-
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok(materias);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> eliminar(@RequestBody DtoMateria dto) {
-        Materia materia = convertidor.getModelo(dto);
+    public ResponseEntity<Void> eliminar(@RequestBody Materia materia) {
         servicio.eliminar(materia);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<DtoMateria> actualizar(@PathVariable String codigo, @RequestBody DtoMateria dto) {
+    public ResponseEntity<Materia> actualizar(@PathVariable String codigo, @RequestBody Materia materiaDto) {
         Materia materia = servicio.buscarPorCodigo(codigo);
 
         if (materia == null)
             return ResponseEntity.notFound().build();
 
-        materia.setNombre(dto.getNombre());
-        materia.setSemestre(dto.getSemestre());
-        materia.setCreditos(dto.getCreditos());
-        
+        materia.setNombre(materiaDto.getNombre());
+        materia.setSemestre(materiaDto.getSemestre());
+        materia.setCreditos(materiaDto.getCreditos());
+
         Materia actualizada = servicio.actualizar(materia);
-        return ResponseEntity.ok(convertidor.getDto(actualizada));
+        return ResponseEntity.ok(actualizada);
     }
 
     @PatchMapping("/{codigo}/estado")
-    public ResponseEntity<DtoMateria> cambiarEstado(@PathVariable String codigo) {
+    public ResponseEntity<Materia> setEstado(@PathVariable String codigo) {
         Materia materia = servicio.buscarPorCodigo(codigo);
 
         if (materia == null)
@@ -77,16 +63,16 @@ public class ControladorMateria {
         materia.setActiva(!materia.isActiva());
         Materia actualizada = servicio.actualizar(materia);
         
-        return ResponseEntity.ok(convertidor.getDto(actualizada));
+        return ResponseEntity.ok(actualizada);
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<DtoMateria> obtenerPorCodigo(@PathVariable String codigo) {
+    public ResponseEntity<Materia> getMateria(@PathVariable String codigo) {
         Materia materia = servicio.buscarPorCodigo(codigo);
 
         if (materia == null)
             return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(convertidor.getDto(materia));
+        return ResponseEntity.ok(materia);
     }
 }

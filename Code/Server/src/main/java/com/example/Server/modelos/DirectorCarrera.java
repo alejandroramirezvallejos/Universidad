@@ -1,23 +1,19 @@
 package com.example.Server.modelos;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DirectorCarrera implements Usuario {
-    private String codigo;
-    private String nombre;
-    private String apellido;
-    private String email;
-    private String contrasenna;
+public class DirectorCarrera extends Usuario {
     private String departamento;
     private Carrera carrera;
 
     @Override
     public String toString() {
-        return nombre + " " + apellido;
+        return getNombre() + " " + getApellido();
     }
 }
-

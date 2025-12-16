@@ -1,4 +1,5 @@
 package com.example.Server.servicios;
+import com.example.Server.componentes.CalculadoraHistorial;
 import com.example.Server.modelos.ActaEstudiante;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.HistorialAcademico;
@@ -14,51 +15,19 @@ import java.util.List;
 public class ServicioHistorialAcademico {
     private final RepositorioActaEstudiante repositorioActa;
     private final RepositorioHistorialAcademico repositorio;
+    private final CalculadoraHistorial calculadora;
 
-    public HistorialAcademico crear(Estudiante estudiante) {
+    public HistorialAcademico setHistorial(Estudiante estudiante) {
         List<ActaEstudiante> actas = getActasEstudiante(estudiante);
-        double promedio = calcularPromedio(actas);
-        int aprobados = calcularCreditosAprobados(actas);
-        int totales = calcularCreditosTotales(actas);
-
+        double promedio = calculadora.calcularPromedio(actas);
+        int aprobados = calculadora.calcularCreditosAprobados(actas);
+        int totales = calculadora.calcularCreditosTotales(actas);
         HistorialAcademico historial = construir(estudiante, actas, promedio, aprobados, totales);
         return repositorio.guardar(historial);
     }
 
     private List<ActaEstudiante> getActasEstudiante(Estudiante estudiante) {
         return repositorioActa.buscarPorEstudiante(estudiante.getCodigo());
-    }
-
-    private double calcularPromedio(List<ActaEstudiante> actas) {
-        if (actas.isEmpty())
-            return 0.0;
-
-        double suma = 0.0;
-
-        for (ActaEstudiante acta : actas)
-            if (acta.isAprobado())
-                suma += acta.getCalificacionFinal();
-
-        return suma / actas.size();
-    }
-
-    private int calcularCreditosAprobados(List<ActaEstudiante> actas) {
-        int creditos = 0;
-
-        for (ActaEstudiante acta : actas)
-            if (acta.isAprobado())
-                creditos += acta.getParaleloMateria().getMateria().getCreditos();
-
-        return creditos;
-    }
-
-    private int calcularCreditosTotales(List<ActaEstudiante> actas) {
-        int creditos = 0;
-
-        for (ActaEstudiante acta : actas)
-            creditos += acta.getParaleloMateria().getMateria().getCreditos();
-
-        return creditos;
     }
 
     private HistorialAcademico construir(Estudiante estudiante, List<ActaEstudiante> actas,
@@ -69,7 +38,6 @@ public class ServicioHistorialAcademico {
         historial.setPromedioGeneral(promedio);
         historial.setCreditosAprobados(aprobados);
         historial.setCreditosTotales(totales);
-
         return historial;
     }
 
@@ -81,7 +49,7 @@ public class ServicioHistorialAcademico {
         repositorio.eliminar(historial);
     }
 
-    public HistorialAcademico obtenerPorEstudiante(String estudianteCodigo) {
+    public HistorialAcademico getHistorialPorEstudiante(String estudianteCodigo) {
         for (HistorialAcademico historial : repositorio.getHistoriales())
             if (historial.getEstudiante() != null && historial.getEstudiante().getCodigo().equals(estudianteCodigo))
                 return historial;
@@ -89,7 +57,7 @@ public class ServicioHistorialAcademico {
         return null;
     }
 
-    public Double calcularPromedioGeneral(String estudianteCodigo) {
+    public Double getPromedioGeneral(String estudianteCodigo) {
         List<ActaEstudiante> actas = new ArrayList<>();
 
         for (ActaEstudiante acta : repositorioActa.getActas())
@@ -99,9 +67,6 @@ public class ServicioHistorialAcademico {
         if (actas.isEmpty())
             return 0.0;
 
-        return calcularPromedio(actas);
+        return calculadora.calcularPromedio(actas);
     }
 }
-
-
-

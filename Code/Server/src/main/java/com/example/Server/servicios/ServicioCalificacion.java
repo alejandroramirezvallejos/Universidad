@@ -22,7 +22,7 @@ public class ServicioCalificacion {
         return repositorio.getCalificaciones();
     }
 
-    public List<Calificacion> obtenerPorEstudiante(String estudianteCodigo) {
+    public List<Calificacion> getCalificacionesPorEstudiante(String estudianteCodigo) {
         Estudiante estudiante = repositorioEstudiante.buscarPorCodigo(estudianteCodigo);
         if (estudiante == null)
             return new ArrayList<>();

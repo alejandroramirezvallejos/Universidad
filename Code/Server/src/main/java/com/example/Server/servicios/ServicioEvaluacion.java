@@ -13,7 +13,7 @@ import java.util.List;
 public class ServicioEvaluacion {
     private final RepositorioEvaluacion repositorio;
 
-    public Evaluacion crear(ParaleloMateria paralelo, String nombre, Double porcentaje) {
+    public Evaluacion setEvaluacion(ParaleloMateria paralelo, String nombre, Double porcentaje) {
         Evaluacion evaluacion = construir(paralelo, nombre, porcentaje);
         return repositorio.guardar(evaluacion);
     }
@@ -27,7 +27,7 @@ public class ServicioEvaluacion {
         return evaluacion;
     }
 
-    public void agregar(Evaluacion evaluacion, Calificacion calificacion) {
+    public void addCalificacion(Evaluacion evaluacion, Calificacion calificacion) {
         evaluacion.getCalificaciones().add(calificacion);
         repositorio.guardar(evaluacion);
     }
@@ -36,27 +36,32 @@ public class ServicioEvaluacion {
         return repositorio.getEvaluaciones();
     }
 
-    public void eliminar(Evaluacion evaluacion) {
+    public void eliminarEvaluacion(Evaluacion evaluacion) {
         repositorio.eliminar(evaluacion);
     }
 
-    public List<Evaluacion> obtenerPorParalelo(String paraleloCodigo) {
+    public List<Evaluacion> getEvaluacionesPorParalelo(String paraleloCodigo) {
         return repositorio.buscarPorParalelo(paraleloCodigo);
     }
 
-    public List<Calificacion> obtenerCalificacionesEstudiante(String estudianteCodigo) {
+    public List<Calificacion> getCalificacionesEstudiante(String estudianteCodigo) {
         List<Calificacion> calificaciones = new ArrayList<>();
-        
         for (Evaluacion evaluacion : repositorio.getEvaluaciones())
             for (Calificacion calificacion : evaluacion.getCalificaciones())
                 if (calificacion.getEstudiante() != null && calificacion.getEstudiante().getCodigo().equals(estudianteCodigo)) {
                     calificacion.setEvaluacion(evaluacion);
                     calificaciones.add(calificacion);
                 }
-
         return calificaciones;
     }
-}
 
+    public Evaluacion setEvaluacion(Evaluacion evaluacion) {
+        return setEvaluacion(evaluacion.getParaleloMateria(), evaluacion.getNombre(), evaluacion.getPorcentaje());
+    }
+
+    public void addCalificacion(Calificacion calificacion) {
+        addCalificacion(calificacion.getEvaluacion(), calificacion);
+    }
+}
 
 

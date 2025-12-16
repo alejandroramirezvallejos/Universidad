@@ -13,14 +13,13 @@ public class ServicioMateria {
     private final RepositorioMateria repositorio;
     private final RepositorioCarrera repositorioCarrera;
 
-    public Materia agregarCarrera(Materia materia, Carrera carrera) {
+    public Materia agregar(Materia materia, Carrera carrera) {
         asociarCarrera(materia, carrera);
         return repositorio.guardar(materia);
     }
 
     private void asociarCarrera(Materia materia, Carrera carrera) {
         List<Carrera> carreras = repositorioCarrera.getCarreras();
-
         for (Carrera carreraExistente : carreras)
             if (carreraExistente.getCodigo().equals(carrera.getCodigo())) {
                 carreraExistente.getMaterias().add(materia);
@@ -33,7 +32,7 @@ public class ServicioMateria {
         return repositorio.getMaterias();
     }
 
-    public Materia crear(Materia materia) {
+    public Materia setMateria(Materia materia) {
         return repositorio.guardar(materia);
     }
 
@@ -41,11 +40,7 @@ public class ServicioMateria {
         repositorio.eliminar(materia);
     }
 
-    public Materia actualizar(Materia materia) {
-        return repositorio.guardar(materia);
-    }
-
-    public Materia buscarPorCodigo(String codigo) {
+    public Materia getMateriaPorCodigo(String codigo) {
         return repositorio.buscarPorCodigo(codigo);
     }
 }

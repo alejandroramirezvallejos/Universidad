@@ -1,10 +1,15 @@
 package com.example.Server.modelos;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Gestion {
@@ -12,25 +17,16 @@ public class Gestion {
     private String nombre;
     private Integer anio;
     private Integer periodo;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date fechaInicio;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date fechaFin;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date fechaInicioMatricula;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date fechaFinMatricula;
     private String estado;
-    
-    public String verificarPeriodoInscripcion() {
-        if (!"EN_CURSO".equals(estado))
-            return "La gestión no está activa para inscripciones";
-
-        Date hoy = new Date();
-        if (fechaInicioMatricula != null && hoy.before(fechaInicioMatricula))
-            return "El período de matrícula aún no ha iniciado";
-
-        if (fechaFinMatricula != null && hoy.after(fechaFinMatricula))
-            return "El período de matrícula ha finalizado";
-
-        return null;
-    }
+    private List<Materia> materias = new ArrayList<>();
 
     @Override
     public String toString() {

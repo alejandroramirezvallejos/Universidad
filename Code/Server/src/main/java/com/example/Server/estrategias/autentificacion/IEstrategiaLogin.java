@@ -1,6 +1,6 @@
 package com.example.Server.estrategias.autentificacion;
-import com.example.Server.dtos.DtoRespuestaLogin;
+import com.example.Server.modelos.Usuario;
 
 public interface IEstrategiaLogin {
-    DtoRespuestaLogin login(String email, String contrasenna);
+    Usuario login(String email, String contrasenna);
 }

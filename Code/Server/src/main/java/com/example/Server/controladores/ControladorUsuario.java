@@ -1,10 +1,10 @@
 package com.example.Server.controladores;
-import com.example.Server.dtos.DtoActualizarUsuario;
-import com.example.Server.dtos.DtoUsuarioCompleto;
+import com.example.Server.modelos.Usuario;
 import com.example.Server.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -14,8 +14,8 @@ public class ControladorUsuario {
     private ServicioUsuario servicio;
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<DtoUsuarioCompleto> obtenerUsuario(@PathVariable String codigo) {
-        DtoUsuarioCompleto usuario = servicio.obtenerPorCodigo(codigo);
+    public ResponseEntity<Usuario> getUsuario(@PathVariable String codigo) {
+        Usuario usuario = servicio.obtenerPorCodigo(codigo);
 
         if (usuario == null)
             return ResponseEntity.notFound().build();
@@ -24,11 +24,11 @@ public class ControladorUsuario {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<DtoUsuarioCompleto> actualizarUsuario(
+    public ResponseEntity<Usuario> actualizar(
             @PathVariable String codigo,
-            @RequestBody DtoActualizarUsuario dto) {
-        
-        DtoUsuarioCompleto usuario = servicio.actualizar(codigo, dto);
+            @RequestBody Map<String, Object> datos) {
+
+        Usuario usuario = servicio.actualizar(codigo, datos);
 
         if (usuario == null)
             return ResponseEntity.notFound().build();

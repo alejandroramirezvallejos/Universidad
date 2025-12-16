@@ -1,8 +1,4 @@
 package com.example.Server.controladores;
-import com.example.Server.casts.CastMatricula;
-import com.example.Server.dtos.DtoInscripcion;
-import com.example.Server.dtos.DtoInscripcionBatch;
-import com.example.Server.dtos.DtoMatricula;
 import com.example.Server.modelos.Matricula;
 import com.example.Server.servicios.ServicioInscripcion;
 import lombok.RequiredArgsConstructor;
@@ -18,74 +14,56 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorInscripcion {
     private final ServicioInscripcion servicio;
-    private final CastMatricula convertidor;
 
     @PostMapping
-    public ResponseEntity<DtoMatricula> inscribir(@RequestBody DtoInscripcion dto) {
-        Matricula matricula = servicio.inscribir(dto.getEstudiante(), dto.getParaleloMateria());
+    public ResponseEntity<Matricula> inscribir(@RequestBody Matricula matricula) {
+        Matricula creada = servicio.inscribir(matricula.getEstudiante(), matricula.getParaleloMateria());
 
-        if (matricula == null)
+        if (creada == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        DtoMatricula dtoMatricula = convertidor.getDto(matricula);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dtoMatricula);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
     }
 
     @PutMapping("/aceptar")
-    public ResponseEntity<Void> aceptar(@RequestBody DtoMatricula dto) {
-        Matricula matricula = convertidor.getModelo(dto);
+    public ResponseEntity<Void> aceptar(@RequestBody Matricula matricula) {
         servicio.aceptar(matricula);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<DtoMatricula>> getMatriculas() {
+    public ResponseEntity<List<Matricula>> getMatriculas() {
         List<Matricula> matriculas = servicio.getMatriculas();
-        List<DtoMatricula> dtos = new ArrayList<>();
-
-        for (Matricula matricula : matriculas)
-            dtos.add(convertidor.getDto(matricula));
-
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok(matriculas);
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<DtoMatricula>> inscribirBatch(@RequestBody DtoInscripcionBatch dtoBatch) {
-        List<DtoMatricula> matriculasCreadas = new ArrayList<>();
+    public ResponseEntity<List<Matricula>> inscribirBatch(@RequestBody List<Matricula> inscripciones) {
+        List<Matricula> matriculasCreadas = new ArrayList<>();
 
-        for (DtoInscripcion inscripcion : dtoBatch.getInscripciones()) {
+        for (Matricula inscripcion : inscripciones) {
             Matricula matricula = servicio.inscribir(
                     inscripcion.getEstudiante(),
                     inscripcion.getParaleloMateria()
             );
 
             if (matricula != null)
-                matriculasCreadas.add(convertidor.getDto(matricula));
+                matriculasCreadas.add(matricula);
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(matriculasCreadas);
     }
 
     @GetMapping("/estudiante/{estudianteCodigo}")
-    public ResponseEntity<List<DtoMatricula>> obtenerPorEstudiante(@PathVariable String estudianteCodigo) {
+    public ResponseEntity<List<Matricula>> getInscripcionesPorEstudiante(@PathVariable String estudianteCodigo) {
         List<Matricula> matriculas = servicio.obtenerPorEstudiante(estudianteCodigo);
-        List<DtoMatricula> dtos = new ArrayList<>();
-
-        for (Matricula materia : matriculas)
-            dtos.add(convertidor.getDto(materia));
-
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok(matriculas);
     }
 
     @GetMapping("/paralelo/{paraleloCodigo}")
-    public ResponseEntity<List<DtoMatricula>> obtenerPorParalelo(@PathVariable String paraleloCodigo) {
+    public ResponseEntity<List<Matricula>> getInscripcionesPorParalelo(@PathVariable String paraleloCodigo) {
         List<Matricula> matriculas = servicio.obtenerPorParalelo(paraleloCodigo);
-        List<DtoMatricula> dtos = new ArrayList<>();
-
-        for (Matricula matricula : matriculas)
-            dtos.add(convertidor.getDto(matricula));
-
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok(matriculas);
     }
 
     @DeleteMapping("/{estudianteCodigo}/{paraleloCodigo}")

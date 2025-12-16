@@ -1,12 +1,10 @@
 package com.example.Server.servicios;
-import com.example.Server.casts.CastDashboardDocente;
-import com.example.Server.casts.CastDashboardEstudiante;
-import com.example.Server.dtos.DtoDashboardEstudiante;
-import com.example.Server.dtos.DtoDashboardDocente;
 import com.example.Server.modelos.*;
 import com.example.Server.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ServicioDashboard {
@@ -16,26 +14,28 @@ public class ServicioDashboard {
     private RepositorioDocente repositorioDocente;
     @Autowired
     private RepositorioParaleloMateria repositorioParalelo;
-    @Autowired
-    private CastDashboardEstudiante convertidorEstudiante;
-    @Autowired
-    private CastDashboardDocente convertidorDocente;
 
-    public DtoDashboardEstudiante generarDashboardEstudiante(String codigoEstudiante) {
+    public Map<String, Object> generarDashboardEstudiante(String codigoEstudiante) {
         Estudiante estudiante = repositorioEstudiante.buscarPorCodigo(codigoEstudiante);
-        
+
         if (estudiante == null)
             return null;
 
-        return convertidorEstudiante.getDto(estudiante);
+        Map<String, Object> dashboard = new HashMap<>();
+        dashboard.put("estudiante", estudiante);
+
+        return dashboard;
     }
 
-    public DtoDashboardDocente generarDashboardDocente(String codigoDocente) {
+    public Map<String, Object> generarDashboardDocente(String codigoDocente) {
         Docente docente = repositorioDocente.buscarPorCodigo(codigoDocente);
-        
+
         if (docente == null)
             return null;
 
-        return convertidorDocente.getDto(docente, repositorioParalelo.getParalelos());
+        Map<String, Object> dashboard = new HashMap<>();
+        dashboard.put("docente", docente);
+
+        return dashboard;
     }
 }

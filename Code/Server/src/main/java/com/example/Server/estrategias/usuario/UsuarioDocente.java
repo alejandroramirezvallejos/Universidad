@@ -1,47 +1,36 @@
 package com.example.Server.estrategias.usuario;
 
-import com.example.Server.casts.CastUsuarioDocente;
-import com.example.Server.dtos.DtoActualizarUsuario;
-import com.example.Server.dtos.DtoUsuarioCompleto;
 import com.example.Server.modelos.Docente;
+import com.example.Server.modelos.Usuario;
 import com.example.Server.repositorios.RepositorioDocente;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.Map;
 
 @Component
 public class UsuarioDocente implements IEstrategiaUsuario {
     @Autowired
     private RepositorioDocente repositorioDocente;
-    @Autowired
-    private CastUsuarioDocente convertidor;
 
     @Override
-    public DtoUsuarioCompleto buscar(String codigo) {
-        Docente docente = repositorioDocente.buscarPorCodigo(codigo);
-
-        if (docente == null)
-            return null;
-
-        return convertidor.getDto(docente);
+    public Usuario buscar(String codigo) {
+        return repositorioDocente.buscarPorCodigo(codigo);
     }
 
     @Override
-    public DtoUsuarioCompleto actualizar(String codigo, DtoActualizarUsuario dto) {
+    public Usuario actualizar(String codigo, Map<String, Object> datos) {
         Docente docente = repositorioDocente.buscarPorCodigo(codigo);
 
         if (docente == null)
             return null;
 
-        BeanUtils.copyProperties(dto, docente);
+        if (datos.containsKey("nombre")) docente.setNombre((String) datos.get("nombre"));
+        if (datos.containsKey("apellido")) docente.setApellido((String) datos.get("apellido"));
+        if (datos.containsKey("email")) docente.setEmail((String) datos.get("email"));
+        if (datos.containsKey("contrasenna")) docente.setContrasenna((String) datos.get("contrasenna"));
+        if (datos.containsKey("departamento")) docente.setDepartamento((String) datos.get("departamento"));
+        if (datos.containsKey("especialidad")) docente.setEspecialidad((String) datos.get("especialidad"));
 
-        if (dto.getDepartamento() != null)
-            docente.setDepartamento(dto.getDepartamento());
-        if (dto.getEspecialidad() != null)
-            docente.setEspecialidad(dto.getEspecialidad());
-
-        repositorioDocente.guardar(docente);
-
-        return convertidor.getDto(docente);
+        return repositorioDocente.guardar(docente);
     }
 }

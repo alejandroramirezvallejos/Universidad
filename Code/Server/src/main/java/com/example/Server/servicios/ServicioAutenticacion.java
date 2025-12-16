@@ -1,10 +1,7 @@
 package com.example.Server.servicios;
-import com.example.Server.casts.CastDocente;
-import com.example.Server.casts.CastEstudiante;
-import com.example.Server.dtos.*;
 import com.example.Server.modelos.*;
 import com.example.Server.repositorios.*;
- import com.example.Server.estrategias.autentificacion.ContextoLogin;
+import com.example.Server.estrategias.autentificacion.ContextoLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,93 +17,74 @@ public class ServicioAutenticacion {
     private RepositorioCarrera repositorioCarrera;
     @Autowired
     private ContextoLogin contextoLogin;
-    @Autowired
-    private CastEstudiante castEstudiante;
-    @Autowired
-    private CastDocente castDocente;
 
-    public DtoRespuestaLogin login(DtoCredenciales credenciales) {
+    public Usuario login(Usuario credenciales) {
         String email = credenciales.getEmail();
         String contrasenna = credenciales.getContrasenna();
 
         if (email == null || email.trim().isEmpty())
-            return new DtoRespuestaLogin(false, "El email es requerido", null);
+            throw new RuntimeException("El email es requerido");
 
         if (contrasenna == null || contrasenna.trim().isEmpty())
-            return new DtoRespuestaLogin(false, "La contraseña es requerida", null);
+            throw new RuntimeException("La contraseña es requerida");
 
-        DtoRespuestaLogin respuesta = contextoLogin.login(email, contrasenna);
-        if (respuesta != null)
-            return respuesta;
+        Usuario usuario = contextoLogin.login(email, contrasenna);
 
-        return new DtoRespuestaLogin(false, "Email o contraseña incorrectos", null);
+        if (usuario != null)
+            return usuario;
+
+        throw new RuntimeException("Email o contraseña incorrectos");
     }
 
-    public DtoRespuestaRegistro registrarEstudiante(DtoRegistroEstudiante dto) {
-        if (dto.getEmail() == null || dto.getEmail().trim().isEmpty())
-            return new DtoRespuestaRegistro(false, "El email es requerido", null);
+    public Estudiante registrarEstudiante(Estudiante estudiante) {
+        if (estudiante.getEmail() == null || estudiante.getEmail().trim().isEmpty())
+            throw new RuntimeException("El email es requerido");
 
-        if (dto.getContrasenna() == null || dto.getContrasenna().trim().isEmpty())
-            return new DtoRespuestaRegistro(false, "La contraseña es requerida", null);
+        if (estudiante.getContrasenna() == null || estudiante.getContrasenna().trim().isEmpty())
+            throw new RuntimeException("La contraseña es requerida");
 
-        if (dto.getCodigoEstudiante() == null || dto.getCodigoEstudiante().trim().isEmpty())
-            return new DtoRespuestaRegistro(false, "El código de estudiante es requerido", null);
+        if (estudiante.getCodigo() == null || estudiante.getCodigo().trim().isEmpty())
+            throw new RuntimeException("El código de estudiante es requerido");
 
-        if (emailYaExiste(dto.getEmail()))
-            return new DtoRespuestaRegistro(false, "El email ya está registrado", null);
+        if (emailYaExiste(estudiante.getEmail()))
+            throw new RuntimeException("El email ya está registrado");
 
-        if (repositorioEstudiante.buscarPorCodigo(dto.getCodigoEstudiante()) != null)
-            return new DtoRespuestaRegistro(false, "El código de estudiante ya existe", null);
+        if (repositorioEstudiante.buscarPorCodigo(estudiante.getCodigo()) != null)
+            throw new RuntimeException("El código de estudiante ya existe");
 
-        Carrera carrera = repositorioCarrera.buscarPorCodigo(dto.getCodigoCarrera());
+        if (estudiante.getCarrera() != null && estudiante.getCarrera().getCodigo() != null) {
+             Carrera carrera = repositorioCarrera.buscarPorCodigo(estudiante.getCarrera().getCodigo());
+             if (carrera == null)
+                 throw new RuntimeException("La carrera no existe");
+             estudiante.setCarrera(carrera);
+        }
+        else
+             throw new RuntimeException("La carrera es requerida");
 
-        if (carrera == null)
-            return new DtoRespuestaRegistro(false, "La carrera no existe", null);
 
-        Estudiante estudiante = new Estudiante();
-        estudiante.setCodigo(dto.getCodigoEstudiante());
-        estudiante.setNombre(dto.getNombre());
-        estudiante.setApellido(dto.getApellido());
-        estudiante.setEmail(dto.getEmail());
-        estudiante.setContrasenna(dto.getContrasenna());
-        estudiante.setCarrera(carrera);
-        estudiante.setSemestre(dto.getSemestre() != null ? dto.getSemestre() : 1);
-        Estudiante guardado = repositorioEstudiante.guardar(estudiante);
+        if (estudiante.getSemestre() == 0)
+            estudiante.setSemestre(1);
 
-        DtoUsuarioCompleto usuario = castEstudiante.getDto(guardado);
-
-        return new DtoRespuestaRegistro(true, "Estudiante registrado exitosamente", usuario);
+        return repositorioEstudiante.guardar(estudiante);
     }
 
-    public DtoRespuestaRegistro registrarDocente(DtoRegistroDocente dto) {
-        if (dto.getEmail() == null || dto.getEmail().trim().isEmpty())
-            return new DtoRespuestaRegistro(false, "El email es requerido", null);
+    public Docente registrarDocente(Docente docente) {
+        if (docente.getEmail() == null || docente.getEmail().trim().isEmpty())
+            throw new RuntimeException("El email es requerido");
 
-        if (dto.getContrasenna() == null || dto.getContrasenna().trim().isEmpty())
-            return new DtoRespuestaRegistro(false, "La contraseña es requerida", null);
+        if (docente.getContrasenna() == null || docente.getContrasenna().trim().isEmpty())
+            throw new RuntimeException("La contraseña es requerida");
 
-        if (dto.getCodigoDocente() == null || dto.getCodigoDocente().trim().isEmpty())
-            return new DtoRespuestaRegistro(false, "El código de docente es requerido", null);
+        if (docente.getCodigo() == null || docente.getCodigo().trim().isEmpty())
+            throw new RuntimeException("El código de docente es requerido");
 
-        if (emailYaExiste(dto.getEmail()))
-            return new DtoRespuestaRegistro(false, "El email ya está registrado", null);
+        if (emailYaExiste(docente.getEmail()))
+            throw new RuntimeException("El email ya está registrado");
 
-        if (repositorioDocente.buscarPorCodigo(dto.getCodigoDocente()) != null)
-            return new DtoRespuestaRegistro(false, "El código de docente ya existe", null);
+        if (repositorioDocente.buscarPorCodigo(docente.getCodigo()) != null)
+            throw new RuntimeException("El código de docente ya existe");
 
-        Docente docente = new Docente();
-        docente.setCodigo(dto.getCodigoDocente());
-        docente.setNombre(dto.getNombre());
-        docente.setApellido(dto.getApellido());
-        docente.setEmail(dto.getEmail());
-        docente.setContrasenna(dto.getContrasenna());
-        docente.setDepartamento(dto.getDepartamento());
-        docente.setEspecialidad(dto.getEspecialidad());
-        Docente guardado = repositorioDocente.guardar(docente);
-
-        DtoUsuarioCompleto usuario = castDocente.getDto(guardado);
-
-        return new DtoRespuestaRegistro(true, "Docente registrado exitosamente", usuario);
+        return repositorioDocente.guardar(docente);
     }
 
     private boolean emailYaExiste(String email) {

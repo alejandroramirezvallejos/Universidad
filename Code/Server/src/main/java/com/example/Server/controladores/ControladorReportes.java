@@ -1,10 +1,10 @@
 package com.example.Server.controladores;
-import com.example.Server.dtos.*;
 import com.example.Server.servicios.ServicioReportes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reportes")
@@ -20,10 +20,10 @@ public class ControladorReportes {
     }
 
     @GetMapping("/estudiantes-por-carrera/{codigoCarrera}")
-    public ResponseEntity<DtoReporteEstudiantesPorCarrera> reporteEstudiantesPorCarrera(
+    public ResponseEntity<Map<String, Object>> reporteEstudiantesPorCarrera(
             @PathVariable String codigoCarrera) {
         
-        DtoReporteEstudiantesPorCarrera reporte = 
+        Map<String, Object> reporte =
                 servicio.reporteEstudiantesPorCarrera(codigoCarrera);
 
         if (reporte == null)
@@ -33,10 +33,10 @@ public class ControladorReportes {
     }
 
     @GetMapping("/inscripciones/{codigoGestion}")
-    public ResponseEntity<DtoReporteInscripciones> reporteInscripciones(
+    public ResponseEntity<Map<String, Object>> reporteInscripciones(
             @PathVariable String codigoGestion) {
         
-        DtoReporteInscripciones reporte = 
+        Map<String, Object> reporte =
                 servicio.reporteInscripcionesPorGestion(codigoGestion);
 
         if (reporte == null)
@@ -46,10 +46,10 @@ public class ControladorReportes {
     }
 
     @GetMapping("/rendimiento/{codigoParalelo}")
-    public ResponseEntity<DtoReporteRendimiento> reporteRendimiento(
+    public ResponseEntity<Map<String, Object>> reporteRendimiento(
             @PathVariable String codigoParalelo) {
         
-        DtoReporteRendimiento reporte = 
+        Map<String, Object> reporte =
                 servicio.reporteRendimientoPorParalelo(codigoParalelo);
 
         if (reporte == null)
