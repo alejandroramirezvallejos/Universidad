@@ -390,7 +390,6 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario redirigido a su dashboard correspondiente según su rol
 
 ---
-![alt text](image.png)
 
 ## CU-2: REGISTRARSE COMO ESTUDIANTE
 
