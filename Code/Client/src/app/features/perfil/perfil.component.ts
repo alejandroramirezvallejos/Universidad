@@ -287,7 +287,7 @@ import { AuthService } from '../../core/services/auth.service';
     /* Banner superior */
     .perfil-banner {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 3rem 2rem 4rem;
+      padding: 2rem 2rem 3rem;
       position: relative;
     }
 
@@ -386,6 +386,7 @@ import { AuthService } from '../../core/services/auth.service';
       max-width: 900px;
       margin: -2rem auto 2rem;
       padding: 0 1rem;
+      position: relative;
     }
 
     /* Grid de estadísticas */
