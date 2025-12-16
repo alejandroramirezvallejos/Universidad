@@ -11,14 +11,14 @@ import java.time.LocalTime;
 @Component
 @RequiredArgsConstructor
 public class Loader implements ApplicationRunner {
-    private final ServicioCarrera servicioCarrera;
-    private final ServicioEstudiante servicioEstudiante;
-    private final ServicioDocente servicioDocente;
-    private final ServicioDirectorCarrera servicioDirector;
-    private final ServicioGestion servicioGestion;
-    private final ServicioMateria servicioMateria;
-    private final ServicioAula servicioAula;
-    private final ServicioParaleloMateria servicioParaleloMateria;
+    private final ServicioCarrera carreraServicio;
+    private final ServicioEstudiante estudianteServicio;
+    private final ServicioDocente docenteServicio;
+    private final ServicioDirectorCarrera directorCarreraServicio;
+    private final ServicioGestion gestionServicio;
+    private final ServicioMateria materiaServicio;
+    private final ServicioAula aulaServicio;
+    private final ServicioParaleloMateria paraleloMateriaServicio;
 
     @Override
     public void run(ApplicationArguments args){
@@ -59,7 +59,7 @@ public class Loader implements ApplicationRunner {
         gestion.setFechaInicioMatricula(Date.valueOf(inicioMatricula));
         gestion.setFechaFinMatricula(Date.valueOf(finMatricula));
         gestion.setEstado(estado);
-        servicioGestion.crear(gestion);
+        gestionServicio.crear(gestion);
         System.out.println("   ✓ " + codigo + " (" + estado + ")");
     }
 
@@ -74,13 +74,13 @@ public class Loader implements ApplicationRunner {
         Carrera carrera = new Carrera();
         carrera.setCodigo(codigo);
         carrera.setNombre(nombre);
-        servicioCarrera.crear(carrera);
+        carreraServicio.crear(carrera);
         System.out.println("   ✓ " + nombre + " (" + codigo + ")");
     }
 
     private void crearEstudiantes() {
         System.out.println("\n👨‍🎓 Creando Estudiante de Prueba...");
-        Carrera carrera = servicioCarrera.getCarreras().get(0);
+        Carrera carrera = carreraServicio.getCarreras().get(0);
         crearEstudiante("EST001", "Juan", "Pérez", "juan.perez@ucb.edu.bo", carrera);
 
         System.out.println("   ✓ Juan Pérez");
@@ -96,7 +96,7 @@ public class Loader implements ApplicationRunner {
         estudiante.setApellido(apellido);
         estudiante.setEmail(email);
         estudiante.setCarrera(carrera);
-        servicioEstudiante.crear(estudiante);
+        estudianteServicio.crear(estudiante);
     }
 
     private void crearDocentes() {
@@ -116,12 +116,12 @@ public class Loader implements ApplicationRunner {
         docente.setApellido(apellido);
         docente.setEmail(email);
         docente.setEspecialidad(especialidad);
-        servicioDocente.crear(docente);
+        docenteServicio.crear(docente);
     }
 
     private void crearDirectores() {
         System.out.println("\n👔 Creando Director de Carrera de Prueba...");
-        Carrera carrera = servicioCarrera.getCarreras().get(0);
+        Carrera carrera = carreraServicio.getCarreras().get(0);
         crearDirector("DIR001", "Carlos", "Rodríguez", "carlos.rodriguez@ucb.edu.bo", carrera);
 
         System.out.println("   ✓ Carlos Rodríguez");
@@ -137,12 +137,12 @@ public class Loader implements ApplicationRunner {
         director.setApellido(apellido);
         director.setEmail(email);
         director.setCarrera(carrera);
-        servicioDirector.crear(director);
+        directorCarreraServicio.crear(director);
     }
 
     private void crearUsuariosAdicionales() {
         System.out.println("\n🧪 Creando Usuarios Adicionales...");
-        Carrera ingInd = servicioCarrera.getCarreras().get(1);
+        Carrera ingInd = carreraServicio.getCarreras().get(1);
         crearEstudiante("EST002", "Ana", "Martínez", "ana.martinez@ucb.edu.bo", ingInd);
         System.out.println("   ✓ Ana Martínez (Estudiante - Ing. Industrial)");
         crearDocente("DOC002", "Pedro", "López", "pedro.lopez@ucb.edu.bo", "Base de Datos");
@@ -162,7 +162,7 @@ public class Loader implements ApplicationRunner {
 
     private void crearAula(boolean disponible, int capacidad, String edificio, String codigo) {
         Aula aula = new Aula(disponible, capacidad, edificio, codigo);
-        servicioAula.crear(aula);
+        aulaServicio.crear(aula);
         System.out.println("   ✓ Aula " + codigo + " (Capacidad: " + capacidad + ")");
     }
 
@@ -174,33 +174,33 @@ public class Loader implements ApplicationRunner {
 
         Materia prog2 = crearMateria("SIS-201", "Programación II", 2, 4);
         prog2.getMateriasCorrelativas().add(prog1);
-        servicioMateria.actualizar(prog2);
+        materiaServicio.crear(prog2);
 
         Materia estDatos = crearMateria("SIS-202", "Estructuras de Datos", 2, 4);
         estDatos.getMateriasCorrelativas().add(prog1);
-        servicioMateria.actualizar(estDatos);
+        materiaServicio.crear(estDatos);
 
         Materia bd1 = crearMateria("SIS-203", "Base de Datos I", 2, 3);
 
         Materia alg = crearMateria("SIS-301", "Algoritmos Avanzados", 3, 4);
         alg.getMateriasCorrelativas().add(estDatos);
-        servicioMateria.actualizar(alg);
+        materiaServicio.crear(alg);
 
         Materia bd2 = crearMateria("SIS-302", "Base de Datos II", 3, 4);
         bd2.getMateriasCorrelativas().add(bd1);
-        servicioMateria.actualizar(bd2);
+        materiaServicio.crear(bd2);
 
         Materia ingSw = crearMateria("SIS-303", "Ingeniería de Software", 3, 4);
         ingSw.getMateriasCorrelativas().add(prog2);
-        servicioMateria.actualizar(ingSw);
+        materiaServicio.crear(ingSw);
 
         Materia arqSw = crearMateria("SIS-401", "Arquitectura de Software", 4, 4);
         arqSw.getMateriasCorrelativas().add(ingSw);
-        servicioMateria.actualizar(arqSw);
+        materiaServicio.crear(arqSw);
 
         Materia devWeb = crearMateria("SIS-402", "Desarrollo Web", 4, 4);
         devWeb.getMateriasCorrelativas().add(bd1);
-        servicioMateria.actualizar(devWeb);
+        materiaServicio.crear(devWeb);
     }
 
     private Materia crearMateria(String codigo, String nombre, int semestre, int creditos) {
@@ -209,7 +209,7 @@ public class Loader implements ApplicationRunner {
         materia.setNombre(nombre);
         materia.setSemestre(semestre);
         materia.setCreditos(creditos);
-        servicioMateria.crear(materia);
+        materiaServicio.crear(materia);
         System.out.println("   ✓ " + nombre + " (" + codigo + ") - Semestre " + semestre);
         return materia;
     }
@@ -217,17 +217,17 @@ public class Loader implements ApplicationRunner {
     private void crearParalelos() {
         System.out.println("\n📅 Creando Paralelos con Horarios...");
         
-        Materia prog1 = servicioMateria.buscarPorCodigo("SIS-101");
-        Materia bd1 = servicioMateria.buscarPorCodigo("SIS-203");
-        Materia ingSw = servicioMateria.buscarPorCodigo("SIS-303");
-        Materia devWeb = servicioMateria.buscarPorCodigo("SIS-402");
-        Docente doc1 = servicioDocente.buscarPorCodigo("DOC001");
-        Docente doc2 = servicioDocente.buscarPorCodigo("DOC002");
-        Aula aula201 = servicioAula.getAulas().get(0);
-        Aula aula202 = servicioAula.getAulas().get(1);
-        Aula aulaB101 = servicioAula.getAulas().get(2);
-        Aula aulaB102 = servicioAula.getAulas().get(3);
-        Aula aulaC301 = servicioAula.getAulas().get(4);
+        Materia prog1 = materiaServicio.getMateriaPorCodigo("SIS-101");
+        Materia bd1 = materiaServicio.getMateriaPorCodigo("SIS-203");
+        Materia ingSw = materiaServicio.getMateriaPorCodigo("SIS-303");
+        Materia devWeb = materiaServicio.getMateriaPorCodigo("SIS-402");
+        Docente doc1 = docenteServicio.buscarPorCodigo("DOC001");
+        Docente doc2 = docenteServicio.buscarPorCodigo("DOC002");
+        Aula aula201 = aulaServicio.getAulas().get(0);
+        Aula aula202 = aulaServicio.getAulas().get(1);
+        Aula aulaB101 = aulaServicio.getAulas().get(2);
+        Aula aulaB102 = aulaServicio.getAulas().get(3);
+        Aula aulaC301 = aulaServicio.getAulas().get(4);
 
         crearParalelo("SIS-101-A", prog1, doc1, aula201, 30,
             new Horario("LUNES", LocalTime.of(8, 0), LocalTime.of(10, 0)),
@@ -260,7 +260,7 @@ public class Loader implements ApplicationRunner {
         for (Horario horario : horarios)
             paralelo.getHorarios().add(horario);
 
-        servicioParaleloMateria.crear(paralelo);
+        paraleloMateriaServicio.crear(paralelo);
         System.out.println("   ✓ " + codigo + ": " + materia.getNombre());
     }
 
