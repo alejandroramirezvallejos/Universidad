@@ -1,5 +1,5 @@
 package com.example.Server.controladores;
-import com.example.Server.servicios.ServicioReportes;
+import com.example.Server.servicios.ServicioReporte;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +9,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/reportes")
 @CrossOrigin(origins = "http://localhost:4200")
-public class ControladorReportes {
+public class ControladorReporte {
     @Autowired
-    private ServicioReportes servicio;
+    private ServicioReporte servicio;
 
     @GetMapping
     public ResponseEntity<List<String>> listarReportes() {
@@ -21,10 +21,11 @@ public class ControladorReportes {
 
     @GetMapping("/estudiantes-por-carrera/{codigoCarrera}")
     public ResponseEntity<Map<String, Object>> reporteEstudiantesPorCarrera(
-            @PathVariable String codigoCarrera) {
-        
+            @PathVariable String codigoCarrera,
+            @RequestParam(defaultValue = "Sistema") String solicitante) {
+
         Map<String, Object> reporte =
-                servicio.getReporteEstudiantesPorCarrera(codigoCarrera);
+                servicio.getReporteEstudiantesPorCarrera(codigoCarrera, solicitante);
 
         if (reporte == null)
             return ResponseEntity.notFound().build();
@@ -35,9 +36,8 @@ public class ControladorReportes {
     @GetMapping("/inscripciones/{codigoGestion}")
     public ResponseEntity<Map<String, Object>> reporteInscripciones(
             @PathVariable String codigoGestion) {
-        
-        Map<String, Object> reporte =
-                servicio.getReporteInscripcionesPorGestion(codigoGestion);
+
+        Map<String, Object> reporte = servicio.getReporteInscripcionesPorGestion(codigoGestion);
 
         if (reporte == null)
             return ResponseEntity.notFound().build();
@@ -47,10 +47,11 @@ public class ControladorReportes {
 
     @GetMapping("/rendimiento/{codigoParalelo}")
     public ResponseEntity<Map<String, Object>> reporteRendimiento(
-            @PathVariable String codigoParalelo) {
-        
+            @PathVariable String codigoParalelo,
+            @RequestParam(defaultValue = "Sistema") String solicitante) {
+
         Map<String, Object> reporte =
-                servicio.getReporteRendimientoPorParalelo(codigoParalelo);
+                servicio.getReporteRendimientoPorParalelo(codigoParalelo, solicitante);
 
         if (reporte == null)
             return ResponseEntity.notFound().build();

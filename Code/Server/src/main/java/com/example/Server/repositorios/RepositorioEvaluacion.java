@@ -17,7 +17,13 @@ public class RepositorioEvaluacion {
             evaluaciones.put(codigo, new ArrayList<>());
 
         List<Evaluacion> lista = evaluaciones.get(codigo);
-        lista.removeIf(e -> e.getCodigo().equals(evaluacion.getCodigo()));
+        List<Evaluacion> eliminar = new ArrayList<>();
+
+        for (Evaluacion evaluacionExistente : lista)
+            if (evaluacionExistente.getCodigo().equals(evaluacion.getCodigo()))
+                eliminar.add(evaluacionExistente);
+
+        lista.removeAll(eliminar);
         lista.add(evaluacion);
 
         return evaluacion;
@@ -52,4 +58,3 @@ public class RepositorioEvaluacion {
         return null;
     }
 }
-

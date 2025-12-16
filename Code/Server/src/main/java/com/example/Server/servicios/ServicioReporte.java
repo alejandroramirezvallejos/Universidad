@@ -1,8 +1,11 @@
 package com.example.Server.servicios;
-import com.example.Server.componentes.GeneradorReportes;
+import com.example.Server.estrategias.reporte.ContextoReportes;
 import com.example.Server.modelos.Carrera;
 import com.example.Server.modelos.Gestion;
 import com.example.Server.modelos.ParaleloMateria;
+import com.example.Server.modelos.ReporteDeCarrera;
+import com.example.Server.modelos.ReporteDeInscripciones;
+import com.example.Server.modelos.ReporteDeRendimiento;
 import com.example.Server.repositorios.RepositorioCarrera;
 import com.example.Server.repositorios.RepositorioEstudiante;
 import com.example.Server.repositorios.RepositorioGestion;
@@ -16,21 +19,25 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ServicioReportes {
+public class ServicioReporte {
     private final RepositorioEstudiante repositorioEstudiante;
     private final RepositorioCarrera repositorioCarrera;
     private final RepositorioMatricula repositorioMatricula;
     private final RepositorioGestion repositorioGestion;
     private final RepositorioParaleloMateria repositorioParalelo;
-    private final GeneradorReportes generador;
+    private final ContextoReportes contexto;
 
-    public Map<String, Object> getReporteEstudiantesPorCarrera(String codigoCarrera) {
+    public Map<String, Object> getReporteEstudiantesPorCarrera(String codigoCarrera, String solicitante) {
         Carrera carrera = repositorioCarrera.buscarPorCodigo(codigoCarrera);
 
         if (carrera == null)
             return null;
 
-        return generador.generarReporteCarrera(carrera, repositorioEstudiante.getEstudiantes());
+        return contexto.generarReporte(ReporteDeCarrera.builder()
+                .carrera(carrera)
+                .estudiantes(repositorioEstudiante.getEstudiantes())
+                .solicitante(solicitante)
+                .build());
     }
 
     public Map<String, Object> getReporteInscripcionesPorGestion(String codigoGestion) {
@@ -39,16 +46,19 @@ public class ServicioReportes {
         if (gestion == null)
             return null;
 
-        return generador.generarReporteInscripciones(gestion, repositorioMatricula.getMatriculas());
+        return contexto.generarReporte(new ReporteDeInscripciones(gestion, repositorioMatricula.getMatriculas()));
     }
 
-    public Map<String, Object> getReporteRendimientoPorParalelo(String codigoParalelo) {
+    public Map<String, Object> getReporteRendimientoPorParalelo(String codigoParalelo, String solicitante) {
         ParaleloMateria paralelo = repositorioParalelo.buscarPorCodigo(codigoParalelo);
 
         if (paralelo == null)
             return null;
 
-        return generador.generarReporteRendimiento(paralelo);
+        return contexto.generarReporte(ReporteDeRendimiento.builder()
+                .paralelo(paralelo)
+                .solicitante(solicitante)
+                .build());
     }
 
     public List<String> getReportesDisponibles() {
@@ -57,6 +67,7 @@ public class ServicioReportes {
         reportes.add("inscripciones-por-gestion");
         reportes.add("rendimiento-por-paralelo");
         reportes.add("estadisticas-generales");
+
         return reportes;
     }
 }
