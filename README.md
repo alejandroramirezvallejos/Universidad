@@ -390,6 +390,7 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario redirigido a su dashboard correspondiente según su rol
 
 ---
+<img width="495" height="285" alt="Image" src="https://github.com/user-attachments/assets/2a291cf8-bd99-42ac-a0ac-00c8aecfd85f" />
 
 ## CU-2: REGISTRARSE COMO ESTUDIANTE
 
