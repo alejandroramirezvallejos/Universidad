@@ -1,7 +1,7 @@
-package com.example.Server.alertas;
+package com.example.Server.notificaciones;
 import com.example.Server.modelos.NotificacionEvento;
 
-public interface IPublisherNotificacion {
+public interface IPublicadorDeNotificaciones {
     void suscribir(IObservador observador);
     void desuscribir(IObservador observador);
     void notificar(NotificacionEvento evento);

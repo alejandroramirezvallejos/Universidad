@@ -1,4 +1,4 @@
-package com.example.Server.alertas;
+package com.example.Server.notificaciones;
 import com.example.Server.modelos.NotificacionEvento;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -8,28 +8,31 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ObservadorDirector implements IObservador {
-    private final PublisherNotificacion sujeto;
+    private final IPublicadorDeNotificaciones publicadorDeNotificaciones;
 
     @PostConstruct
     public void suscribir() {
-        sujeto.suscribir(this);
+        publicadorDeNotificaciones.suscribir(this);
     }
 
     @PreDestroy
     public void desuscribir() {
-        sujeto.desuscribir(this);
+        publicadorDeNotificaciones.desuscribir(this);
+    }
+
+    @Override
+    public boolean debeNotificar(NotificacionEvento evento) {
+        return evento.getEstudiante() != null && evento.getEstudiante().getCarrera() != null;
     }
 
     @Override
     public void actualizar(NotificacionEvento evento) {
-        String mensaje = evento.getNotaFinal() >= 51.0 ? "APROBADO" : "REPROBADO";
+        String estado = evento.getNotaFinal() >= 51.0 ? "APROBADO" : "REPROBADO";
         System.out.println("NOTIFICACIÓN A DIRECTOR DE CARRERA:");
-        System.out.println("Reporte de calificación:");
         System.out.println("Estudiante: " + evento.getEstudiante().getNombre() + " " + evento.getEstudiante().getApellido());
-        System.out.println("Carrera: " + (evento.getEstudiante().getCarrera() != null ? evento.getEstudiante().getCarrera().getNombre() : "N/A"));
+        System.out.println("Carrera: " + evento.getEstudiante().getCarrera().getNombre());
         System.out.println("Materia: " + evento.getMateria().getNombre());
-        System.out.println("Nota Final: " + evento.getNotaFinal());
-        System.out.println("Estado: " + mensaje);
+        System.out.println("Nota: " + evento.getNotaFinal() + " - " + estado);
         System.out.println("----------------------------------------");
     }
 }

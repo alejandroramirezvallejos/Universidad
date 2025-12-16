@@ -7,7 +7,7 @@ import { DtoNotificacion } from '../../models/backend-dtos';
   providedIn: 'root'
 })
 export class BackendNotificacionService {
-  private apiUrl = 'http://localhost:8080/api/actas/notificar'; // Ajustar según environment si es necesario
+  private apiUrl = 'http://localhost:8080/api/notificaciones';
 
   constructor(private http: HttpClient) { }
 

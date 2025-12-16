@@ -1,5 +1,5 @@
 package com.example.Server.servicios;
-import com.example.Server.alertas.PublisherNotificacion;
+import com.example.Server.notificaciones.IPublicadorDeNotificaciones;
 import com.example.Server.estrategias.calificacion.CalcularCalificacionFinal;
 import com.example.Server.estrategias.calificacion.ContextoCalculoCalificacion;
 import com.example.Server.estrategias.calificacion.IEstrategiaCalculoCalificacion;
@@ -7,6 +7,7 @@ import com.example.Server.modelos.ActaEstudiante;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Evaluacion;
 import com.example.Server.modelos.Materia;
+import com.example.Server.modelos.NotificacionEvento;
 import com.example.Server.modelos.ParaleloMateria;
 import com.example.Server.repositorios.RepositorioActaEstudiante;
 import com.example.Server.repositorios.RepositorioEvaluacion;
@@ -21,7 +22,7 @@ import java.util.List;
 public class ServicioActaEstudiante {
     private final RepositorioActaEstudiante repositorio;
     private final RepositorioEvaluacion repositorioEvaluacion;
-    private final PublisherNotificacion publisherNotificacion;
+    private final IPublicadorDeNotificaciones publicadorDeNotificaciones;
     private final ContextoCalculoCalificacion contextoCalculoCalificacion;
     private final IValidarCalificacion validadorCalificacion;
     private final CalcularCalificacionFinal calcularNotaFinal;
@@ -37,7 +38,7 @@ public class ServicioActaEstudiante {
         boolean aprobado = validadorCalificacion.validar(nota);
         acta.setAprobado(aprobado);
 
-        publisherNotificacion.notificar(estudiante, paralelo.getMateria(), nota);
+        notificar(estudiante, paralelo.getMateria(), nota);
 
         if (aprobado)
             estudiante.getMateriasAprobadas().add(paralelo.getMateria());
@@ -65,20 +66,18 @@ public class ServicioActaEstudiante {
 
     private List<ActaEstudiante> getActasPorEstado(boolean aprobado) {
         List<ActaEstudiante> resultado = new ArrayList<>();
-
         for (ActaEstudiante acta : repositorio.getActas())
             if (acta.isAprobado() == aprobado)
                 resultado.add(acta);
-
         return resultado;
     }
-
 
     public void eliminar(ActaEstudiante acta) {
         repositorio.eliminar(acta);
     }
 
     public void notificar(Estudiante estudiante, Materia materia, Double notaFinal) {
-        publisherNotificacion.notificar(estudiante, materia, notaFinal);
+        NotificacionEvento evento = new NotificacionEvento(estudiante, materia, notaFinal);
+        publicadorDeNotificaciones.notificar(evento);
     }
 }

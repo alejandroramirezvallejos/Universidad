@@ -43,10 +43,4 @@ public class ControladorActaEstudiante {
         servicio.eliminar(acta);
         return ResponseEntity.ok().build();
     }
-
-    @PostMapping("/notificar")
-    public ResponseEntity<Void> notificar(@RequestBody ActaEstudiante acta) {
-        servicio.notificar(acta.getEstudiante(), acta.getParaleloMateria().getMateria(), acta.getCalificacionFinal());
-        return ResponseEntity.ok().build();
-    }
 }

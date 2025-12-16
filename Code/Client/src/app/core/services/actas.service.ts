@@ -115,9 +115,22 @@ export class ActasService {
    * Este es el endpoint que usa el patrón Observer
    */
   notificar(acta: ActaEstudiante): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/notificar`, acta).pipe(
+    const dto = {
+      estudiante: {
+        codigo: acta.estudiante?.codigo || '',
+        nombre: acta.estudiante?.nombre || '',
+        email: acta.estudiante?.email || ''
+      },
+      materia: {
+        codigo: acta.paraleloMateria?.materia?.codigo || '',
+        nombre: acta.paraleloMateria?.materia?.nombre || '',
+        creditos: acta.paraleloMateria?.materia?.creditos || 0,
+        semestre: acta.paraleloMateria?.materia?.semestre || 1
+      },
+      notaFinal: acta.calificacionFinal
+    };
+    return this.http.post<void>('http://localhost:8080/api/notificaciones', dto).pipe(
       tap(() => {
-        // Agregar a notificaciones locales
         const notificacion: NotificacionAcademica = {
           id: Date.now(),
           estudiante: acta.estudiante,
