@@ -34,3 +34,5 @@ public class Gestion {
         return codigo + " - " + nombre;
     }
 }
+
+//gestion.builder().codigo()......

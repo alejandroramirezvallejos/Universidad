@@ -18,4 +18,3 @@ public class ValidacionReporte implements IValidarReporte {
                 validador.validar(reporte);
     }
 }
-

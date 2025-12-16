@@ -1,6 +1,4 @@
-package com.example.Server.alertas;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.modelos.Materia;
+package com.example.Server.modelos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

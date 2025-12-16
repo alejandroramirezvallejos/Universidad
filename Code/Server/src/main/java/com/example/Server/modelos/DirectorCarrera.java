@@ -19,3 +19,6 @@ public class DirectorCarrera extends Usuario {
         return getNombre() + " " + getApellido();
     }
 }
+
+
+

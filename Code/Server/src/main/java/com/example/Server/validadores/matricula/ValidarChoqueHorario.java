@@ -13,9 +13,11 @@ import java.util.List;
 public class ValidarChoqueHorario implements IValidarMatricula {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateriaNuevo) {
-        if (estudiante.getMateriasInscritas() == null) return null;
+        if (estudiante.getMateriasInscritas() == null)
+            return null;
 
         List<Horario> horariosInscritos = new ArrayList<>();
+
         for (Materia materia : estudiante.getMateriasInscritas())
             if (materia.getParaleloMaterias() != null)
                 for (ParaleloMateria paraleloMateria : materia.getParaleloMaterias())

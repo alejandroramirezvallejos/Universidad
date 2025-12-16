@@ -1,5 +1,5 @@
 package com.example.Server.servicios;
-import com.example.Server.estrategias.reporte.ContextoReportes;
+import com.example.Server.estrategias.reporte.ContextoReporte;
 import com.example.Server.modelos.Carrera;
 import com.example.Server.modelos.Gestion;
 import com.example.Server.modelos.ParaleloMateria;
@@ -25,7 +25,7 @@ public class ServicioReporte {
     private final RepositorioMatricula repositorioMatricula;
     private final RepositorioGestion repositorioGestion;
     private final RepositorioParaleloMateria repositorioParalelo;
-    private final ContextoReportes contexto;
+    private final ContextoReporte contexto;
 
     public Map<String, Object> getReporteEstudiantesPorCarrera(String codigoCarrera, String solicitante) {
         Carrera carrera = repositorioCarrera.buscarPorCodigo(codigoCarrera);

@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Component
 @AllArgsConstructor
-public class ContextoReportes {
+public class ContextoReporte {
     private final List<IEstrategiaReporte> estrategias;
     private final IValidarReporte validador;
 

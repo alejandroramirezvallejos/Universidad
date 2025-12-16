@@ -1,4 +1,5 @@
 package com.example.Server.alertas;
+import com.example.Server.modelos.NotificacionEvento;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ObservadorDirector implements IObservador {
-    private final ContextoNotificacion sujeto;
+    private final PublisherNotificacion sujeto;
 
     @PostConstruct
     public void suscribir() {

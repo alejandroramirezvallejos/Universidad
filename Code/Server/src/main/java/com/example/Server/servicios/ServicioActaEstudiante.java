@@ -1,5 +1,5 @@
 package com.example.Server.servicios;
-import com.example.Server.alertas.ContextoNotificacion;
+import com.example.Server.alertas.PublisherNotificacion;
 import com.example.Server.estrategias.calificacion.CalcularCalificacionFinal;
 import com.example.Server.estrategias.calificacion.ContextoCalculoCalificacion;
 import com.example.Server.estrategias.calificacion.IEstrategiaCalculoCalificacion;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ServicioActaEstudiante {
     private final RepositorioActaEstudiante repositorio;
     private final RepositorioEvaluacion repositorioEvaluacion;
-    private final ContextoNotificacion contextoNotificacion;
+    private final PublisherNotificacion publisherNotificacion;
     private final ContextoCalculoCalificacion contextoCalculoCalificacion;
     private final IValidarCalificacion validadorCalificacion;
     private final CalcularCalificacionFinal calcularNotaFinal;
@@ -29,13 +29,15 @@ public class ServicioActaEstudiante {
     public ActaEstudiante crear(Estudiante estudiante, ParaleloMateria paralelo) {
         List<Evaluacion> evaluaciones = repositorioEvaluacion.getEvaluaciones();
         double nota = calcular(calcularNotaFinal, estudiante, paralelo, evaluaciones);
+
         ActaEstudiante acta = new ActaEstudiante();
         acta.setEstudiante(estudiante);
         acta.setParaleloMateria(paralelo);
         acta.setCalificacionFinal(nota);
         boolean aprobado = validadorCalificacion.validar(nota);
         acta.setAprobado(aprobado);
-        contextoNotificacion.notificar(estudiante, paralelo.getMateria(), nota);
+
+        publisherNotificacion.notificar(estudiante, paralelo.getMateria(), nota);
 
         if (aprobado)
             estudiante.getMateriasAprobadas().add(paralelo.getMateria());
@@ -77,6 +79,6 @@ public class ServicioActaEstudiante {
     }
 
     public void notificar(Estudiante estudiante, Materia materia, Double notaFinal) {
-        contextoNotificacion.notificar(estudiante, materia, notaFinal);
+        publisherNotificacion.notificar(estudiante, materia, notaFinal);
     }
 }

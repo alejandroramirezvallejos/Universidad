@@ -1,12 +1,13 @@
 package com.example.Server.alertas;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Materia;
+import com.example.Server.modelos.NotificacionEvento;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ContextoNotificacion implements ISujeto {
+public class PublisherNotificacion implements IPublisherNotificacion {
     private final List<IObservador> observadores = new ArrayList<>();
 
     public void suscribir(IObservador observador) {
@@ -17,9 +18,9 @@ public class ContextoNotificacion implements ISujeto {
         observadores.remove(observador);
     }
 
-    public void notificar(NotificacionEvento evento) {
+    public void notificar(NotificacionEvento notificacion) {
         for (IObservador observador : observadores)
-            observador.actualizar(evento);
+            observador.actualizar(notificacion);
     }
 
     public void notificar(Estudiante estudiante, Materia materia, Double notaFinal) {
