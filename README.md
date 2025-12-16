@@ -390,6 +390,7 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario redirigido a su dashboard correspondiente según su rol
 
 ---
+![alt text](image.png)
 
 ## CU-2: REGISTRARSE COMO ESTUDIANTE
 
@@ -864,7 +865,7 @@ El estudiante visualiza todas las materias disponibles para inscripción en la g
 
 ### Inclusiones
 
-#### IN1: Obtener período académico activo
+#### IN1: Obtener período académico
 El sistema debe consultar y validar que existe un período académico con estado MATRICULA antes de mostrar la oferta.
 
 #### IN2: Obtener grupos de la carrera del estudiante 
@@ -985,7 +986,7 @@ El estudiante selecciona un paralelo específico de una materia y solicita su in
 #### IN1: Consultar Oferta Académica (Obligatorio)
 Este caso de uso requiere que el estudiante primero visualice la oferta académica (CU-5) para poder seleccionar un paralelo.
 
-#### IN2: Validar cupos disponibles (Obligatorio)
+#### IN2: Obtener cupos disponibles (Obligatorio)
 El sistema debe verificar en tiempo real la disponibilidad de cupos del paralelo antes de permitir la inscripción.
 
 
@@ -1312,10 +1313,10 @@ Ninguna
 
 ### Inclusiones
 
-#### IN1: Obtener inscripciones aceptadas (Obligatorio)
+#### IN1: Obtener inscripciones (Obligatorio)
 El sistema debe consultar todas las inscripciones con estado ACEPTADA del estudiante en la gestión actual.
 
-#### IN2: Obtener calificaciones registradas (Obligatorio)
+#### IN2: Obtener calificaciones (Obligatorio)
 El sistema debe consultar todas las calificaciones registradas por los docentes para cada inscripción.
 
 ### Flujos Alternativos
@@ -1674,7 +1675,7 @@ Ninguna
 
 ### Inclusiones
 
-#### IN3: Ver calificacion del estudiante (Obligatorio)
+#### IN3: Obtener calificacion del estudiante (Obligatorio)
 El sistema debe ver el promedio de la materia del estudiante al modificar la calificación.
 
 ### Flujos Alternativos
@@ -1908,22 +1909,14 @@ El Director revisa una solicitud de inscripción de un estudiante y la aprueba, 
 **SF4.5:** Si cancela: El flujo retorna a FP3
 
 ### Extensiones
-
-#### EX1: Cancelar Aceptación
-**EX1.1:** En FP9, el Director puede hacer clic en "Cancelar"  
-**EX1.2:** El sistema cierra el modal sin realizar cambios  
-**EX1.3:** La solicitud permanece con estado PENDIENTE  
-
-#### EX2: Rechazar en Lugar de Aceptar
-**EX2.1:** En FP6, el Director puede hacer clic en "Rechazar" en lugar de "Aceptar"  
-**EX2.2:** El sistema ejecuta CU-15: Rechazar Solicitud de Matrícula  
+Ninguno 
 
 ### Inclusiones
 
 #### IN1: Obtener solicitudes pendientes (Obligatorio)
 El sistema debe consultar todas las inscripciones con estado PENDIENTE de la carrera del Director.
 
-#### IN2: Validar cupos disponibles (Obligatorio)
+#### IN2: Obtener cupos disponibles (Obligatorio)
 El sistema debe verificar en tiempo real si el paralelo aún tiene cupos disponibles antes de confirmar.
 
 ### Flujos Alternativos
@@ -2039,10 +2032,6 @@ El Director revisa una solicitud de inscripción de un estudiante y la rechaza, 
 **EX1.1:** En FP9, el Director puede hacer clic en "Cancelar"  
 **EX1.2:** El sistema cierra el modal sin realizar cambios  
 **EX1.3:** La solicitud permanece con estado PENDIENTE  
-
-#### EX2: Aceptar en Lugar de Rechazar
-**EX2.1:** En FP6, el Director puede reconsiderar y hacer clic en "Aceptar" en lugar de "Rechazar"  
-**EX2.2:** El sistema ejecuta CU-14: Aceptar Solicitud de Matrícula  
 
 ### Inclusiones
 
@@ -2496,9 +2485,9 @@ En FP4, el sistema detecta que el período ya está en estado FINALIZADA, muestr
 ### Extensiones
 Ninguna
 
-
 ### Inclusiones
-Ninguna
+#### EX: Obtener periodo academico
+Se obtien el periodo academico del cubo
 
 ### Flujos Alternativos
 
@@ -2821,20 +2810,12 @@ Ninguno
 
 ### Inclusiones
 
-#### IN1: Validar sesión activa del Director
-Antes de FP1, el sistema verifica que el Director tenga sesión activa y permisos de administración de materias.
-
-#### IN2: Obtener datos de la materia a editar
+#### IN2: Obtener datos de la materia
 En FP5, el sistema ejecuta consulta para obtener todos los datos de la materia seleccionada (código, nombre, descripción, créditos, nivel, prerrequisitos actuales, carrera).
 
-#### IN3: Validar dependencias circulares
-En FP11, el sistema ejecuta algoritmo para detectar ciclos en el grafo de prerrequisitos con los cambios propuestos.
-
-#### IN4: Verificar grupos activos con esta materia
+#### IN4: Obtener grupos de la materia
 Al cargar FP5, el sistema verifica si existen grupos/paralelos activos que utilicen esta materia.
 
-#### IN5: Registrar auditoría de modificación
-En FP15, el sistema registra en auditoría quién modificó la materia, cuándo, qué campos se modificaron y los valores anteriores/nuevos.
 
 ### Flujos Alternativos
 
@@ -2935,7 +2916,8 @@ En FP8, si el código no coincide, el botón permanece deshabilitado, el sistema
 Ninguno
 
 ### Inclusiones
-Ninguno
+#### IN: Obtener materias
+Obtener las materias del cubo comercial
 
 ### Flujos Alternativos
 
@@ -3783,7 +3765,7 @@ En cualquier momento, el Director puede hacer clic en "Ver" de un grupo, el sist
 
 ### Inclusiones
 
-#### IN2: Obtener todos los grupos de la carrera
+#### IN2: Obtener grupos de la carrera
 En FP2, el sistema ejecuta consulta para obtener todos los grupos con gestión, materia, paralelo, cupo, docente, horarios, aula y estado.
 
 ### Flujos Alternativos
@@ -3914,7 +3896,8 @@ El sistema genera string aleatorio de 8 caracteres incluyendo mayúsculas, minú
 Ninguno
 
 ### Inclusiones
-Ninguno
+#### IN1: Obtener estudiantes
+Se obtienen los datos de los estudiantes del cubo comercial
 
 ### Flujos Alternativos
 
@@ -5395,7 +5378,7 @@ En FP8, si no hay datos que cumplan los filtros, el sistema muestra mensaje: "No
 Si se selecciona este tipo (FP3), el sistema cuenta estudiantes por carrera, muestra gráfico de pastel con distribución y tabla con: Carrera, Total estudiantes, Activos, Inactivos, Promedio general.
 
 #### EX5: Exportar Reporte
-El Director puede opcionalmente hacer clic en "Exportar PDF/Excel/CSV", el sistema genera el archivo con gráficos (en PDF), datos tabulares, filtros aplicados y fecha de generación, y descarga el archivo.
+El Director puede opcionalmente hacer clic en "Exportar P", el sistema genera el archivo y lo descarga en la maquina
 
 ### Inclusiones
 
@@ -5467,7 +5450,7 @@ Ninguna
 
 ### Inclusiones
 
-#### IN1: Identificar rol del usuario
+#### IN1: Obtener rol del usuario
 En FP2, el sistema verifica el rol del usuario autenticado (Estudiante, Docente o Director).
 
 #### IN3: Obtener datos actualizados para secciones 
