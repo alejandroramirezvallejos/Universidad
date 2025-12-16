@@ -1,6 +1,8 @@
 package com.example.Server.servicios;
 import com.example.Server.alertas.ContextoNotificacion;
-import com.example.Server.componentes.CalculadoraPromedio;
+import com.example.Server.estrategias.calificacion.CalcularCalificacionFinal;
+import com.example.Server.estrategias.calificacion.ContextoCalculoCalificacion;
+import com.example.Server.estrategias.calificacion.IEstrategiaCalculoCalificacion;
 import com.example.Server.modelos.ActaEstudiante;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.Evaluacion;
@@ -19,25 +21,32 @@ import java.util.List;
 public class ServicioActaEstudiante {
     private final RepositorioActaEstudiante repositorio;
     private final RepositorioEvaluacion repositorioEvaluacion;
-    private final ContextoNotificacion contexto;
-    private final CalculadoraPromedio calculadora;
+    private final ContextoNotificacion contextoNotificacion;
+    private final ContextoCalculoCalificacion contextoCalculoCalificacion;
     private final IValidarCalificacion validadorCalificacion;
+    private final CalcularCalificacionFinal calcularNotaFinal;
 
     public ActaEstudiante crear(Estudiante estudiante, ParaleloMateria paralelo) {
         List<Evaluacion> evaluaciones = repositorioEvaluacion.getEvaluaciones();
-        double nota = calculadora.calcular(estudiante, paralelo, evaluaciones);
+        double nota = calcular(calcularNotaFinal, estudiante, paralelo, evaluaciones);
         ActaEstudiante acta = new ActaEstudiante();
         acta.setEstudiante(estudiante);
         acta.setParaleloMateria(paralelo);
         acta.setCalificacionFinal(nota);
         boolean aprobado = validadorCalificacion.validar(nota);
         acta.setAprobado(aprobado);
-        contexto.notificar(estudiante, paralelo.getMateria(), nota);
+        contextoNotificacion.notificar(estudiante, paralelo.getMateria(), nota);
 
         if (aprobado)
             estudiante.getMateriasAprobadas().add(paralelo.getMateria());
 
         return repositorio.guardar(acta);
+    }
+
+    private double calcular(IEstrategiaCalculoCalificacion estrategia, Estudiante estudiante,
+                            ParaleloMateria paralelo, List<Evaluacion> evaluaciones) {
+        contextoCalculoCalificacion.setEstrategia(estrategia);
+        return contextoCalculoCalificacion.calcular(estudiante, paralelo, evaluaciones);
     }
 
     public List<ActaEstudiante> getActas() {
@@ -68,6 +77,6 @@ public class ServicioActaEstudiante {
     }
 
     public void notificar(Estudiante estudiante, Materia materia, Double notaFinal) {
-        contexto.notificar(estudiante, materia, notaFinal);
+        contextoNotificacion.notificar(estudiante, materia, notaFinal);
     }
 }

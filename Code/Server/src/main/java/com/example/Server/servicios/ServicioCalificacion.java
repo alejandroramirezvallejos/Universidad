@@ -1,6 +1,7 @@
 package com.example.Server.servicios;
 import com.example.Server.modelos.Calificacion;
 import com.example.Server.modelos.Estudiante;
+import com.example.Server.modelos.Evaluacion;
 import com.example.Server.repositorios.RepositorioCalificacion;
 import com.example.Server.repositorios.RepositorioEstudiante;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,17 @@ public class ServicioCalificacion {
             return new ArrayList<>();
 
         return repositorio.buscarPorEstudiante(estudianteCodigo);
+    }
+
+    public double getCalificacionesEnEvaluacion(Estudiante estudiante, Evaluacion evaluacion) {
+        if (evaluacion.getCalificaciones() == null)
+            return 0.0;
+
+        for (Calificacion calificacion : evaluacion.getCalificaciones())
+            if (calificacion.getEstudiante().getCodigo().equals(estudiante.getCodigo()))
+                return calificacion.getValor();
+
+        return 0.0;
     }
 
     public void eliminar(Calificacion calificacion) {

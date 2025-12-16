@@ -1,7 +1,8 @@
-package com.example.Server.estrategias.historial;
+package com.example.Server.estrategias.credito;
 import com.example.Server.modelos.ActaEstudiante;
 import java.util.List;
 
-public interface IEstrategiaCalculoHistorial {
+public interface IEstrategiaCalculoCredito {
     double calcular(List<ActaEstudiante> actas);
 }
+

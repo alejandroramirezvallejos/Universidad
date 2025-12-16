@@ -35,7 +35,7 @@ public class ControladorHistorialAcademico {
 
     @GetMapping("/estudiante/{estudianteCodigo}")
     public ResponseEntity<HistorialAcademico> getHistorial(@PathVariable String estudianteCodigo) {
-        HistorialAcademico historial = servicio.obtenerPorEstudiante(estudianteCodigo);
+        HistorialAcademico historial = servicio.getHistorialPorEstudiante(estudianteCodigo);
 
         if (historial == null)
             return ResponseEntity.notFound().build();
