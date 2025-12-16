@@ -389,6 +389,8 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario autenticado en el sistema
 - Usuario redirigido a su dashboard correspondiente según su rol
 
+<img width="495" height="285" alt="Image" src="https://github.com/user-attachments/assets/2a291cf8-bd99-42ac-a0ac-00c8aecfd85f" />
+
 ---
 
 ## CU-2: REGISTRARSE COMO ESTUDIANTE
@@ -520,6 +522,8 @@ En FP2, el sistema detecta que no hay carreras registradas, el flujo no puede co
 - Usuario creado
 - Usuario puede iniciar sesión inmediatamente
 
+<img width="408" height="178" alt="Image" src="https://github.com/user-attachments/assets/e60de8ea-dbfd-4ba2-8785-2b0eb279cb6e" />
+
 ---
 
 ## CU-3: REGISTRARSE COMO DOCENTE
@@ -647,6 +651,8 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario creado
 - Usuario puede iniciar sesión inmediatamente
 
+<img width="422" height="219" alt="Image" src="https://github.com/user-attachments/assets/860709b2-eb47-47b7-866d-a6089e95ecad" />
+
 ---
 
 ## CU-4: EDITAR INFORMACIÓN PERSONAL
@@ -757,7 +763,11 @@ En FP13, si ocurre un error de base de datos, el sistema mantiene los datos ante
 - Cambios reflejados inmediatamente en todas las vistas del sistema
 - El nombre actualizado aparece en el header/menú del sistema
 
+<img width="494" height="281" alt="Image" src="https://github.com/user-attachments/assets/fda35b87-4827-4daa-a08d-de66f782bc13" />
+
 ---
+
+
 
 # 2. OFERTA ACADÉMICA Y MATRÍCULA - ESTUDIANTE
 
@@ -864,7 +874,7 @@ El estudiante visualiza todas las materias disponibles para inscripción en la g
 
 ### Inclusiones
 
-#### IN1: Obtener período académico activo
+#### IN1: Obtener período académico
 El sistema debe consultar y validar que existe un período académico con estado MATRICULA antes de mostrar la oferta.
 
 #### IN2: Obtener grupos de la carrera del estudiante 
@@ -885,6 +895,8 @@ En FP4, el sistema no encuentra grupos para la carrera del estudiante, muestra m
 - Estudiante visualiza oferta académica completa de su carrera
 - Estudiante conoce horarios, docentes, aulas y disponibilidad de cupos
 - Estudiante puede identificar materias con prerrequisitos cumplidos o no cumplidos
+
+<img width="497" height="340" alt="Image" src="https://github.com/user-attachments/assets/40acc22a-b8de-4f0a-9cbb-01510642b97d" />
 
 ---
 
@@ -985,7 +997,7 @@ El estudiante selecciona un paralelo específico de una materia y solicita su in
 #### IN1: Consultar Oferta Académica (Obligatorio)
 Este caso de uso requiere que el estudiante primero visualice la oferta académica (CU-5) para poder seleccionar un paralelo.
 
-#### IN2: Validar cupos disponibles (Obligatorio)
+#### IN2: Obtener cupos disponibles (Obligatorio)
 El sistema debe verificar en tiempo real la disponibilidad de cupos del paralelo antes de permitir la inscripción.
 
 
@@ -1016,6 +1028,8 @@ Durante el proceso, si el período cambia de estado, el sistema muestra mensaje:
 **Fallo:**
 - No se crea la inscripción
 - Cupos sin cambios
+
+<img width="499" height="253" alt="Image" src="https://github.com/user-attachments/assets/b90c2593-3597-4e26-aaf9-3aacbfd7279d" />
 
 ---
 
@@ -1104,18 +1118,13 @@ El sistema detecta que el período cambió a EN_CURSO o FINALIZADO, muestra mens
 ### Postcondiciones
 - Inscripción eliminada completamente de la base de datos
 - Cupo del paralelo liberado (incrementado en 1)
-- La materia ya no aparece en "Mi Matrícula" del estudiante
-- El horario semanal del estudiante actualizado sin esos bloques
-- El contador de inscripciones pendientes del Director actualizado (si era PENDIENTE)
-- El cupo disponible del paralelo visible en la oferta académica para otros estudiantes
-- Materia removida de "Mi Matrícula"
-- Horario actualizado sin los bloques de esa materia
-- Total de créditos inscritos recalculado
 
 **Fallo:**
 - Inscripción sin cambios
 - Cupo sin modificación
 - Sistema mantiene estado anterior
+
+<img width="497" height="169" alt="Image" src="https://github.com/user-attachments/assets/a738b34f-872c-4ade-964d-29563bd212f6" />
 
 ---
 
@@ -1218,10 +1227,8 @@ En FP2, el sistema no encuentra inscripciones, muestra mensaje: "No tienes mater
 ### Postcondiciones
 - Estudiante visualiza el estado completo de su matrícula actual
 - Estudiante conoce qué inscripciones están pendientes, aceptadas o rechazadas
-- Estudiante visualiza total de créditos considerando solo PENDIENTES y ACEPTADAS
-- Estudiante ve una vista previa de su horario semanal con solo las materias ACEPTADAS
-- Estudiante puede tomar decisiones informadas (cancelar inscripciones, inscribir más materias)
-- Las inscripciones RECHAZADAS muestran el motivo indicado por el Director
+
+<img width="498" height="209" alt="Image" src="https://github.com/user-attachments/assets/3a231833-167f-4bc1-81eb-677776488693" />
 
 ---
 
@@ -1312,10 +1319,10 @@ Ninguna
 
 ### Inclusiones
 
-#### IN1: Obtener inscripciones aceptadas (Obligatorio)
+#### IN1: Obtener inscripciones (Obligatorio)
 El sistema debe consultar todas las inscripciones con estado ACEPTADA del estudiante en la gestión actual.
 
-#### IN2: Obtener calificaciones registradas (Obligatorio)
+#### IN2: Obtener calificaciones (Obligatorio)
 El sistema debe consultar todas las calificaciones registradas por los docentes para cada inscripción.
 
 ### Flujos Alternativos
@@ -1332,11 +1339,8 @@ El sistema detecta que el período está en estado MATRICULA, muestra mensaje in
 ### Postcondiciones
 - Estudiante visualiza todas sus calificaciones actuales organizadas por materia
 - Estudiante conoce su promedio general de la gestión actual
-- Estudiante identifica claramente materias Aprobadas (≥51), Reprobadas (<51) y En Curso (sin nota final)
-- Estudiante puede ver el detalle de cada evaluación registrada con tipo, nota y fecha
-- Estudiante tiene acceso a exportar sus calificaciones en formato PDF
-- Las materias sin calificaciones se muestran claramente como "Sin calificaciones"
-- El promedio general solo considera materias con nota final completa
+
+<img width="499" height="190" alt="Image" src="https://github.com/user-attachments/assets/ef003612-5579-43b4-8419-6508206c2816" />
 
 ---
 
@@ -1444,6 +1448,8 @@ En FP2, el sistema no encuentra inscripciones ACEPTADAS, muestra mensaje: "No ti
 
 ### Postcondiciones
 - Estudiante visualiza su horario semanal completo en formato de calendario
+
+<img width="494" height="207" alt="Image" src="https://github.com/user-attachments/assets/66bd2b9d-a483-4c38-8da6-e3c164e84cc8" />
 
 ---
 
@@ -1583,6 +1589,8 @@ En FP2, el docente no tiene grupos asignados en la gestión actual, el sistema m
 - Calificación inmediatamente visible para el estudiante en su vista de calificaciones (CU-9)
 - Promedio de la materia del estudiante recalculado automáticamente
 
+<img width="500" height="221" alt="Image" src="https://github.com/user-attachments/assets/2b64426f-9095-4c2b-bd6f-cbd7cb3a6d69" />
+
 ---
 
 ## CU-12: EDITAR CALIFICACIÓN DE ESTUDIANTE
@@ -1674,7 +1682,7 @@ Ninguna
 
 ### Inclusiones
 
-#### IN3: Ver calificacion del estudiante (Obligatorio)
+#### IN3: Obtener calificacion del estudiante (Obligatorio)
 El sistema debe ver el promedio de la materia del estudiante al modificar la calificación.
 
 ### Flujos Alternativos
@@ -1692,6 +1700,8 @@ El sistema detecta que el período no está en estado EN_CURSO, muestra mensaje:
 - Calificación actualizada en la base de datos con los nuevos valores
 - Cambio visible inmediatamente para el estudiante en CU-9
 - Promedio de la materia del estudiante recalculado automáticamente
+
+<img width="500" height="198" alt="Image" src="https://github.com/user-attachments/assets/13c756ff-7eae-4455-853d-e7db2e9d298c" />
 
 ---
 
@@ -1790,6 +1800,8 @@ En FP2, el sistema no encuentra grupos asignados al docente en la gestión actua
 ### Postcondiciones
 - Docente visualiza su horario semanal completo con todos sus grupos asignados
 - Docente conoce su carga horaria total en horas semanales
+
+<img width="499" height="215" alt="Image" src="https://github.com/user-attachments/assets/e44cb516-8338-4d97-8d4d-800306498f01" />
 
 ---
 
@@ -1908,22 +1920,14 @@ El Director revisa una solicitud de inscripción de un estudiante y la aprueba, 
 **SF4.5:** Si cancela: El flujo retorna a FP3
 
 ### Extensiones
-
-#### EX1: Cancelar Aceptación
-**EX1.1:** En FP9, el Director puede hacer clic en "Cancelar"  
-**EX1.2:** El sistema cierra el modal sin realizar cambios  
-**EX1.3:** La solicitud permanece con estado PENDIENTE  
-
-#### EX2: Rechazar en Lugar de Aceptar
-**EX2.1:** En FP6, el Director puede hacer clic en "Rechazar" en lugar de "Aceptar"  
-**EX2.2:** El sistema ejecuta CU-15: Rechazar Solicitud de Matrícula  
+Ninguno 
 
 ### Inclusiones
 
 #### IN1: Obtener solicitudes pendientes (Obligatorio)
 El sistema debe consultar todas las inscripciones con estado PENDIENTE de la carrera del Director.
 
-#### IN2: Validar cupos disponibles (Obligatorio)
+#### IN2: Obtener cupos disponibles (Obligatorio)
 El sistema debe verificar en tiempo real si el paralelo aún tiene cupos disponibles antes de confirmar.
 
 ### Flujos Alternativos
@@ -1937,6 +1941,8 @@ En FP10, el sistema detecta que ya fue aceptada o rechazada por otro Director si
 ### Postcondiciones
 - Inscripción actualizada a estado ACEPTADA en la base de datos
 - Cupo del paralelo decrementado (o marcado como sobrecupo si aplica)
+
+<img width="502" height="277" alt="Image" src="https://github.com/user-attachments/assets/f0faacc3-7ed7-43f2-84d4-387ec72bc594" />
 
 ---
 
@@ -2040,10 +2046,6 @@ El Director revisa una solicitud de inscripción de un estudiante y la rechaza, 
 **EX1.2:** El sistema cierra el modal sin realizar cambios  
 **EX1.3:** La solicitud permanece con estado PENDIENTE  
 
-#### EX2: Aceptar en Lugar de Rechazar
-**EX2.1:** En FP6, el Director puede reconsiderar y hacer clic en "Aceptar" en lugar de "Rechazar"  
-**EX2.2:** El sistema ejecuta CU-14: Aceptar Solicitud de Matrícula  
-
 ### Inclusiones
 
 #### IN1: Obtener solicitudes pendientes (Obligatorio)
@@ -2062,28 +2064,9 @@ El sistema detecta que el período cambió de estado, muestra mensaje: "El perí
 
 ### Postcondiciones
 - Inscripción actualizada a estado RECHAZADA en la base de datos
-- Cupo del paralelo liberado (incrementado en 1)
-- Estudiante notificado por email con mensaje: "Tu inscripción en Materia ha sido RECHAZADA. Motivo: Motivo especificado"
-- La inscripción rechazada es visible para el estudiante en "Mi Matrícula" (CU-8) con el motivo
-- Director registrado como quien rechazó la inscripción con fecha y hora
-- Motivo del rechazo guardado y visible para el estudiante para que pueda tomar decisiones informadas
-- Contador de solicitudes pendientes actualizado (-1)
-- El estudiante puede inscribirse nuevamente en otro paralelo o corregir el problema señalado
-- El cupo liberado queda disponible inmediatamente para otros estudiantes  
+- Cupo del paralelo liberado (incrementado en 1) 
 
-### Postcondiciones
-
-**Éxito:**
-- Inscripción cambia a estado RECHAZADA
-- Cupo del paralelo liberado (+1)
-- Estudiante notificado con motivo
-- Motivo visible en "Mi Matrícula" del estudiante
-- Director registrado como quien rechazó
-
-**Fallo:**
-- Inscripción permanece PENDIENTE
-- Sin cambios en cupos
-- Sin notificaciones enviadas
+<img width="506" height="254" alt="Image" src="https://github.com/user-attachments/assets/78cc5787-1027-452f-b73a-b1f378afbda4" />
 
 ---
 
@@ -2196,7 +2179,8 @@ En FP16, el código ya existe, el sistema muestra mensaje: "Ya existe un períod
 Ninguno
 
 ### Inclusiones
-Ninguno
+#### FA3: Obtener periodos academicos
+Obtener periodos academicos del cubo comercial
 
 ### Flujos Alternativos
 
@@ -2209,16 +2193,9 @@ En FP19, si ocurre un error al guardar el período en la base de datos, el siste
 
 ### Postcondiciones
 - Nuevo período académico creado en la base de datos con estado MATRICULA o INACTIVO
-- Código único generado automáticamente en formato YYYY-S (ejemplo: "2025-1")
 - Período disponible para crear grupos, paralelos y oferta académica
-- Si es el único período en el sistema, queda como activo automáticamente
-- Si ya existe otro período activo, el nuevo queda como INACTIVO (según EX1)
-- Director registrado como creador del período con fecha y hora
-- El período es visible en la lista de períodos con badge indicando su estado
-- Auditoría registrada con datos de creación (quién, cuándo, qué datos)
-- Año y semestre validados y guardados correctamente
-- Fechas de inicio y fin validadas (fecha_fin > fecha_inicio) y guardadas
-- El período puede ser editado, activado o eliminado posteriormente mediante otros CU
+
+<img width="486" height="109" alt="Image" src="https://github.com/user-attachments/assets/7b5518b8-0bbf-4190-9b64-9fdb2919a62d" />
 
 ---
 
@@ -2309,6 +2286,8 @@ Si entre FP4 y FP11 otro Director eliminó el período, el sistema muestra mensa
 - Fechas del período actualizadas en la base de datos (fecha_inicio y/o fecha_fin)
 - Cambios reflejados inmediatamente en toda la gestión académica
 
+<img width="500" height="120" alt="Image" src="https://github.com/user-attachments/assets/cb233084-3d94-4bf8-b6f4-5211919ffc3f" />
+
 ---
 
 ## CU-18: ACTIVAR PERÍODO ACADÉMICO
@@ -2397,17 +2376,8 @@ Si entre FP4 y FP10 otro Director modificó o eliminó el período, el sistema m
 
 ### Postcondiciones
 - Período cambia a estado MATRICULA (activo) en la base de datos
-- Si había otro período activo, éste se desactiva automáticamente (cambia a EN_CURSO)
-- Estudiantes pueden realizar inscripciones inmediatamente en el período activo
-- Oferta académica del período visible para estudiantes en CU-5
-- Badge verde "ACTIVO" visible en la lista de períodos
-- Director registrado como quien activó el período con fecha y hora
-- Fecha de activación guardada en el período
-- El módulo de inscripciones está habilitado para estudiantes
-- Solo este período acepta nuevas inscripciones (los demás están deshabilitados)
-- Auditoría registrada con datos de activación y desactivación (si aplica)
-- El cambio es inmediato y efectivo en todo el sistema
-- Si se desactivó un período anterior, éste queda en estado EN_CURSO
+
+<img width="506" height="99" alt="Image" src="https://github.com/user-attachments/assets/c6d9fa32-04db-4713-8f50-8cb9b925e7ff" />
 
 ---
 
@@ -2496,9 +2466,9 @@ En FP4, el sistema detecta que el período ya está en estado FINALIZADA, muestr
 ### Extensiones
 Ninguna
 
-
 ### Inclusiones
-Ninguna
+#### EX: Obtener periodo academico
+Se obtien el periodo academico del cubo
 
 ### Flujos Alternativos
 
@@ -2511,6 +2481,8 @@ En FP14, si ocurre un error al actualizar el estado del período en la base de d
 
 ### Postcondiciones
 - Período cambia a estado FINALIZADA en la base de datos
+
+<img width="492" height="152" alt="Image" src="https://github.com/user-attachments/assets/526e40c7-6ea9-44c9-b735-159949982cd6" />
 
 ---
 
@@ -2600,15 +2572,9 @@ En FP10, si ocurre un error al eliminar el período de la base de datos, el sist
 Si entre FP4 y FP10 otro Director modificó o eliminó el período, el sistema muestra mensaje: "El período ha sido modificado o eliminado por otro usuario", recarga la lista y el flujo termina.
 
 ### Postcondiciones
-- Período eliminado permanentemente de la base de datos
-- Código del período liberado (puede reutilizarse en el futuro para otro período con el mismo año-semestre)
-- Período removido de la lista de períodos académicos
-- Auditoría registrada con datos del período eliminado y quién lo eliminó
-- Director registrado como quien eliminó el período con fecha y hora
-- El código ya no aparece en ninguna lista ni selector del sistema
-- La eliminación es permanente e irreversible
-- Caso de uso típico: corregir períodos creados por error antes de usarlos
-- Si el período tenía datos asociados, la eliminación fue bloqueada (ver Extensiones EX1, EX2, EX3)
+- Período eliminado permanentemente 
+
+<img width="498" height="180" alt="Image" src="https://github.com/user-attachments/assets/139c85aa-56fe-4653-8cb0-c4c66501d1cf" />
 
 ---
 
@@ -2734,6 +2700,8 @@ En FP19, si ocurre un error al guardar la materia en la base de datos, el sistem
 - Nueva materia registrada en el catálogo con estado ACTIVA
 - Código único asignado en formato MAT-XXX-YY
 
+<img width="499" height="153" alt="Image" src="https://github.com/user-attachments/assets/78c54f65-4388-4f66-bc23-bdfba72a578b" />
+
 ---
 
 ## CU-22: EDITAR MATERIA
@@ -2821,20 +2789,12 @@ Ninguno
 
 ### Inclusiones
 
-#### IN1: Validar sesión activa del Director
-Antes de FP1, el sistema verifica que el Director tenga sesión activa y permisos de administración de materias.
-
-#### IN2: Obtener datos de la materia a editar
+#### IN2: Obtener datos de la materia
 En FP5, el sistema ejecuta consulta para obtener todos los datos de la materia seleccionada (código, nombre, descripción, créditos, nivel, prerrequisitos actuales, carrera).
 
-#### IN3: Validar dependencias circulares
-En FP11, el sistema ejecuta algoritmo para detectar ciclos en el grafo de prerrequisitos con los cambios propuestos.
-
-#### IN4: Verificar grupos activos con esta materia
+#### IN4: Obtener grupos de la materia
 Al cargar FP5, el sistema verifica si existen grupos/paralelos activos que utilicen esta materia.
 
-#### IN5: Registrar auditoría de modificación
-En FP15, el sistema registra en auditoría quién modificó la materia, cuándo, qué campos se modificaron y los valores anteriores/nuevos.
 
 ### Flujos Alternativos
 
@@ -2856,15 +2816,8 @@ Si entre FP4 y FP15 otro Director eliminó la materia, el sistema muestra mensaj
 ### Postcondiciones
 - Materia actualizada en el sistema con los nuevos datos
 - Cambios reflejados inmediatamente en el catálogo de materias
-- Prerrequisitos actualizados y validados sin dependencias circulares
-- Oferta académica actualizada con los nuevos datos
-- Los cambios afectan a futuros grupos (no modifican grupos existentes)
-- Director registrado como quien modificó la materia con fecha y hora
-- Auditoría registrada con valores anteriores y nuevos de cada campo modificado
-- El código de la materia permanece sin cambios (inmutable)
-- La carrera de la materia permanece sin cambios (inmutable)
-- Si se modificaron prerrequisitos, las validaciones de inscripción se actualizan
-- Los grupos existentes mantienen los datos originales de la materia
+
+<img width="502" height="192" alt="Image" src="https://github.com/user-attachments/assets/3188c73a-e604-4c9d-82fd-2de1f8d483d6" />
 
 ---
 
@@ -2935,7 +2888,8 @@ En FP8, si el código no coincide, el botón permanece deshabilitado, el sistema
 Ninguno
 
 ### Inclusiones
-Ninguno
+#### IN: Obtener materias
+Obtener las materias del cubo comercial
 
 ### Flujos Alternativos
 
@@ -2951,6 +2905,8 @@ Si entre FP4 y FP11 otro Director modificó o eliminó la materia, el sistema mu
 ### Postcondiciones
 - Materia eliminada de los repositorios
 - Materia removida del catálogo de materias
+
+<img width="474" height="163" alt="Image" src="https://github.com/user-attachments/assets/128b51ba-4f56-4136-9ae3-6d56d9334ad9" />
 
 ---
 
@@ -3039,6 +2995,8 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Director visualiza catálogo completo de materias
 - Información organizada y filtrable por nivel, estado y créditos
 - Estadísticas visibles (total materias, créditos totales, materias por nivel)
+
+<img width="499" height="292" alt="Image" src="https://github.com/user-attachments/assets/15640857-a370-425d-96fd-a44c3308bd59" />
 
 ---
 
@@ -3136,6 +3094,8 @@ Si entre FP1 y FP2 otro Director eliminó la materia, el sistema muestra mensaje
 - Director visualiza información completa de la materia seleccionada
 - Datos básicos visibles (código, nombre, descripción, créditos, nivel, carrera, estado)
 - Prerrequisitos listados con código y nombre (o "Sin prerrequisitos")
+
+<img width="358" height="199" alt="Image" src="https://github.com/user-attachments/assets/402710ed-daf6-4d60-b702-23c46507e764" />
 
 ---
 
@@ -3249,6 +3209,8 @@ En FP11, si ocurre un error al guardar el grupo en la base de datos, el sistema 
 - Nuevo grupo registrado en el sistema vinculado al período activo
 - Cupo máximo configurado
 
+<img width="498" height="192" alt="Image" src="https://github.com/user-attachments/assets/98562dda-4757-43ac-9ea1-d09a821ea66a" />
+
 ---
 
 ## CU-27: EDITAR GRUPO DE MATERIA
@@ -3358,6 +3320,8 @@ Si entre FP4 y FP12 otro Director eliminó el grupo, el sistema muestra mensaje:
 - Cupo disponible recalculado correctamente (Cupo máximo - Inscripciones aceptadas)
 - Cambios visibles en oferta académica inmediatamente
 
+<img width="498" height="149" alt="Image" src="https://github.com/user-attachments/assets/a0f33400-98cf-4963-82b3-5ec433539ddb" />
+
 ---
 
 ## CU-28: ASIGNAR DOCENTE A GRUPO
@@ -3466,6 +3430,8 @@ Si entre FP4 y FP15 otro Director eliminó el grupo, el sistema muestra mensaje:
 ### Postcondiciones
 - Docente asignado al grupo en la base de datos
 - Docente puede ver el grupo en su panel de docente
+
+<img width="500" height="240" alt="Image" src="https://github.com/user-attachments/assets/dfc8d18b-dddf-4b64-baa9-66d828c296f6" />
 
 ---
 
@@ -3604,6 +3570,8 @@ Si entre FP4 y FP19 otro Director eliminó el grupo, el sistema muestra mensaje:
 - Disponibilidad del aula actualizada (bloques marcados como ocupados)
 - Horarios visibles en oferta académica (CU-5) para estudiantes
 
+<img width="497" height="273" alt="Image" src="https://github.com/user-attachments/assets/9293340c-545c-4b44-bf03-6cae8e20867c" />
+
 ---
 
 ## CU-30: ELIMINAR GRUPO
@@ -3703,6 +3671,8 @@ Si entre FP4 y FP15 otro Director modificó el grupo (agregó inscripciones acep
 ### Postcondiciones
 - Grupo eliminado permanentemente de la base de datos
 
+<img width="455" height="188" alt="Image" src="https://github.com/user-attachments/assets/601ee364-217a-4a5c-8d58-90ced9681990" />
+
 ---
 
 ## CU-31: CONSULTAR GRUPOS
@@ -3783,7 +3753,7 @@ En cualquier momento, el Director puede hacer clic en "Ver" de un grupo, el sist
 
 ### Inclusiones
 
-#### IN2: Obtener todos los grupos de la carrera
+#### IN2: Obtener grupos de la carrera
 En FP2, el sistema ejecuta consulta para obtener todos los grupos con gestión, materia, paralelo, cupo, docente, horarios, aula y estado.
 
 ### Flujos Alternativos
@@ -3795,6 +3765,8 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Director visualiza todos los grupos organizados por gestión, materia y paralelo
 - Información filtrable por gestión, materia, docente, aula y estado
 - Información ordenable por cualquier columna
+
+<img width="497" height="217" alt="Image" src="https://github.com/user-attachments/assets/e1266ef7-cc9f-411b-b033-a71bf681e88f" />
 
 ---
 
@@ -3914,7 +3886,8 @@ El sistema genera string aleatorio de 8 caracteres incluyendo mayúsculas, minú
 Ninguno
 
 ### Inclusiones
-Ninguno
+#### IN1: Obtener estudiantes
+Se obtienen los datos de los estudiantes del cubo comercial
 
 ### Flujos Alternativos
 
@@ -3927,6 +3900,8 @@ En FP14, si ocurre un error al guardar el estudiante en la base de datos, el sis
 ### Postcondiciones
 - Nuevo estudiante registrado en el sistema
 - Código único asignado en formato EST-YYYY-NNNN
+
+<img width="469" height="191" alt="Image" src="https://github.com/user-attachments/assets/296dde11-1e52-4f7c-9ee7-e1a35e45a33c" />
 
 ---
 
@@ -4034,6 +4009,8 @@ En FP15, si otro Director eliminó al estudiante mientras se editaba, el sistema
 ### Postcondiciones
 - Estudiante actualizado en el sistema con nuevos datos
 - Cambios reflejados inmediatamente en todas las vistas
+
+<img width="467" height="189" alt="Image" src="https://github.com/user-attachments/assets/210f22b8-ca25-456d-a0b8-03888098192a" />
 
 ---
 
@@ -4153,6 +4130,8 @@ En FP13, si otro Director eliminó al estudiante mientras se cambiaba el estado,
 - Estado del estudiante actualizado en el sistema
 - Cambio reflejado inmediatamente en todas las vistas
 
+<img width="506" height="213" alt="Image" src="https://github.com/user-attachments/assets/985525b5-d117-4a90-be46-900fc9ea9f80" />
+
 ---
 
 ## CU-35: ELIMINAR ESTUDIANTE
@@ -4242,6 +4221,8 @@ En FP11, si otro Director ya eliminó al estudiante, el sistema muestra mensaje:
 ### Postcondiciones
 - Estudiante eliminado permanentemente del sistema
 - Registro removido de la base de datos
+
+<img width="498" height="204" alt="Image" src="https://github.com/user-attachments/assets/c636f385-3c3c-48ae-973b-8ad0673083fb" />
 
 ---
 
@@ -4335,6 +4316,8 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Director visualiza todos los estudiantes organizados en tabla
 - Información de cada estudiante visible (código, nombre, email, carrera, promedio, créditos, estado)
 - Filtros aplicables por carrera, estado y búsqueda
+
+<img width="494" height="282" alt="Image" src="https://github.com/user-attachments/assets/f88e8d34-91a9-4eee-a545-f1cbba491fe5" />
 
 ---
 
@@ -4491,6 +4474,8 @@ En FP17, si ocurre un error al guardar el docente en la base de datos, el sistem
 - Nuevo docente registrado en el sistema
 - Código único asignado en formato DOC-YYYY-NNNN
 
+<img width="494" height="212" alt="Image" src="https://github.com/user-attachments/assets/436fcd4f-155f-4708-8665-1b5539953494" />
+
 ---
 
 ## CU-38: EDITAR DOCENTE
@@ -4615,6 +4600,8 @@ En FP16, si otro Director eliminó al docente mientras se editaba, el sistema mu
 - Docente actualizado en el sistema con nuevos datos
 - Cambios reflejados inmediatamente en todas las vistas
 
+<img width="502" height="155" alt="Image" src="https://github.com/user-attachments/assets/c5710979-4bb1-49f0-8b34-0ecef0fa2d3c" />
+
 ---
 
 ## CU-39: ELIMINAR DOCENTE
@@ -4702,6 +4689,8 @@ En FP11, si otro Director ya eliminó al docente, el sistema muestra mensaje: "E
 ### Postcondiciones
 - Docente eliminado permanentemente del sistema
 - Registro removido 
+
+<img width="445" height="167" alt="Image" src="https://github.com/user-attachments/assets/3384aa1b-48d5-42b0-9e2b-0b9bd5300a9a" />
 
 ---
 
@@ -4798,6 +4787,8 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Director visualiza todos los docentes organizados en tabla
 - Información de cada docente visible (código, nombre, email, especialidades, departamento, grado académico, carga horaria, grupos asignados, estado)
 - Filtros aplicables por especialidad, departamento, grado académico y estado
+
+<img width="501" height="286" alt="Image" src="https://github.com/user-attachments/assets/6960f0a9-638f-4a10-85b2-83607dea1445" />
 
 ---
 
@@ -4917,6 +4908,8 @@ En FP16, si ocurre un error al guardar el aula en la base de datos, el sistema m
 - Nueva aula registrada en el sistema
 - Código único asignado con formato AULA-XXX
 
+<img width="501" height="153" alt="Image" src="https://github.com/user-attachments/assets/aef40b5a-941b-45c6-9d46-727f19a5cf86" />
+
 ---
 
 ## CU-42: EDITAR AULA
@@ -5032,6 +5025,8 @@ En FP15, si otro Director eliminó el aula mientras se editaba, el sistema muest
 - Aula actualizada en el sistema con nuevos datos
 - Cambios reflejados inmediatamente en todas las vistas
 
+<img width="498" height="185" alt="Image" src="https://github.com/user-attachments/assets/5b33bb05-d3c9-4727-984e-b1b6ad9ed3ec" />
+
 ---
 
 ## CU-43: ELIMINAR AULA
@@ -5118,6 +5113,8 @@ En FP11, si otro Director ya eliminó el aula, el sistema muestra mensaje: "El a
 ### Postcondiciones
 - Aula eliminada permanentemente del sistema
 - Registro removido 
+
+<img width="502" height="165" alt="Image" src="https://github.com/user-attachments/assets/7721f4b3-2667-46fe-b531-f3577af6f7ed" />
 
 ---
 
@@ -5214,6 +5211,8 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Director visualiza todas las aulas organizadas en tabla
 - Información de cada aula visible (código, edificio, piso, tipo, capacidad, % ocupación, grupos asignados, disponibilidad)
 
+<img width="501" height="254" alt="Image" src="https://github.com/user-attachments/assets/4c0dcfb0-078a-46cb-8b4d-ccb7b55a9a12" />
+
 ---
 
 # 11. CONSULTAS Y REPORTES
@@ -5308,6 +5307,8 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 - Estudiante visualiza historial académico completo ordenado cronológicamente
 - Estadísticas generales actualizadas y visibles
 
+<img width="506" height="332" alt="Image" src="https://github.com/user-attachments/assets/b55351e9-8500-4c4a-ad29-741fe1cf55d9" />
+
 ---
 
 ## CU-46: GENERAR REPORTE ESTADÍSTICO
@@ -5395,7 +5396,7 @@ En FP8, si no hay datos que cumplan los filtros, el sistema muestra mensaje: "No
 Si se selecciona este tipo (FP3), el sistema cuenta estudiantes por carrera, muestra gráfico de pastel con distribución y tabla con: Carrera, Total estudiantes, Activos, Inactivos, Promedio general.
 
 #### EX5: Exportar Reporte
-El Director puede opcionalmente hacer clic en "Exportar PDF/Excel/CSV", el sistema genera el archivo con gráficos (en PDF), datos tabulares, filtros aplicados y fecha de generación, y descarga el archivo.
+El Director puede opcionalmente hacer clic en "Exportar P", el sistema genera el archivo y lo descarga en la maquina
 
 ### Inclusiones
 
@@ -5413,6 +5414,8 @@ Si el sistema backend no está disponible, se muestra mensaje: "El sistema no es
 ### Postcondiciones
 - Reporte generado exitosamente con datos actuales
 - Gráficos visuales generados automáticamente según tipo de reporte
+
+<img width="499" height="308" alt="Image" src="https://github.com/user-attachments/assets/aad2c596-4d83-40a0-8375-f7add0765494" />
 
 ---
 
@@ -5467,7 +5470,7 @@ Ninguna
 
 ### Inclusiones
 
-#### IN1: Identificar rol del usuario
+#### IN1: Obtener rol del usuario
 En FP2, el sistema verifica el rol del usuario autenticado (Estudiante, Docente o Director).
 
 #### IN3: Obtener datos actualizados para secciones 
@@ -5481,6 +5484,8 @@ Si el sistema backend no está disponible, el sistema muestra mensaje de error e
 ### Postcondiciones
 - Usuario visualiza dashboard personalizado según su rol
 - Información resumida y actualizada visible en widgets
+
+<img width="507" height="293" alt="Image" src="https://github.com/user-attachments/assets/4102f515-d5f3-44cb-81ef-d222e1e9b939" />
 
 ---
 
