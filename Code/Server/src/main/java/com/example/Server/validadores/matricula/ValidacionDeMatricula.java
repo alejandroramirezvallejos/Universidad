@@ -1,5 +1,4 @@
 package com.example.Server.validadores.matricula;
-
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.modelos.ParaleloMateria;
 import lombok.RequiredArgsConstructor;

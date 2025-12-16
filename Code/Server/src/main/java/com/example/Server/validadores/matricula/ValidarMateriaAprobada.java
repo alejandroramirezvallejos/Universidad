@@ -6,13 +6,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(4)
+@Order(5)
 public class ValidarMateriaAprobada implements IValidarMatricula {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
         Materia materia = paraleloMateria.getMateria();
 
-        if (estudiante.haAprobado(materia))
+        if (estudiante.getMateriasAprobadas() != null && estudiante.getMateriasAprobadas().contains(materia))
             return "El estudiante ya aprobó la materia: " + materia.getNombre();
 
         return null;

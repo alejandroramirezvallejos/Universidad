@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Order(5)
+@Order(8)
 public class ValidarMateriasCorrelativas implements IValidarMatricula {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
@@ -16,7 +16,7 @@ public class ValidarMateriasCorrelativas implements IValidarMatricula {
 
         if (materiasCorrelativas != null)
             for (Materia materiaCorrelativa : materiasCorrelativas)
-                if (!estudiante.haAprobado(materiaCorrelativa))
+                if (estudiante.getMateriasAprobadas() == null || !estudiante.getMateriasAprobadas().contains(materiaCorrelativa))
                     return "El estudiante no ha aprobado el prerequisito: " + materiaCorrelativa.getNombre();
 
         return null;

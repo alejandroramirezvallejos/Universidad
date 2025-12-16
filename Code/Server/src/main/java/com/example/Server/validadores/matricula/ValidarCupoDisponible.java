@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class ValidarCupoDisponible implements IValidarMatricula {
     @Override
     public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
-        if (!paraleloMateria.tieneCupo())
+        if (paraleloMateria.getEstudiantes().size() >= paraleloMateria.getCupoMaximo())
             return "El paralelo no tiene cupos disponibles";
 
         return null;
