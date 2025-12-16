@@ -292,3 +292,135 @@ export interface DtoNotificacion {
   materia: DtoMateria;
   notaFinal: number;
 }
+
+// ============================================================================
+// USUARIO (para ControladorUsuario)
+// ============================================================================
+
+export interface DtoUsuario {
+  codigo: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  contrasenna?: string;
+  rol: 'ESTUDIANTE' | 'DOCENTE' | 'DIRECTOR';
+}
+
+export interface DtoActualizarUsuario {
+  nombre?: string;
+  apellido?: string;
+  email?: string;
+  contrasenna?: string;
+  especialidad?: string;
+  departamento?: string;
+}
+
+// ============================================================================
+// DASHBOARD (para ControladorDashboard)
+// ============================================================================
+
+export interface DtoDashboardEstudiante {
+  nombreCompleto: string;
+  carrera: string;
+  semestre: number;
+  materiasInscritas: number;
+  creditosActuales: number;
+  promedioGeneral: number;
+  proximasClases: DtoProximaClase[];
+  notificacionesPendientes: number;
+  materiasEnCurso: DtoMateriaEnCurso[];
+}
+
+export interface DtoDashboardDocente {
+  nombreCompleto: string;
+  especialidad: string;
+  paralelosAsignados: number;
+  totalEstudiantes: number;
+  proximasClases: DtoProximaClase[];
+  paralelosActivos: DtoParaleloActivo[];
+  evaluacionesPendientes: number;
+}
+
+export interface DtoProximaClase {
+  materia: string;
+  aula: string;
+  horaInicio: string;
+  horaFin: string;
+  dia: string;
+}
+
+export interface DtoMateriaEnCurso {
+  codigo: string;
+  nombre: string;
+  docente: string;
+  progreso: number;
+  notaActual: number;
+}
+
+export interface DtoParaleloActivo {
+  codigo: string;
+  materia: string;
+  estudiantes: number;
+  horario: string;
+}
+
+// ============================================================================
+// REPORTES (para ControladorReporte)
+// ============================================================================
+
+export interface DtoReporteEstudiantesPorCarrera {
+  carrera: DtoCarrera;
+  estudiantes: DtoEstudiante[];
+  totalEstudiantes: number;
+  fechaGeneracion: string;
+  solicitante: string;
+}
+
+export interface DtoReporteInscripciones {
+  gestion: string;
+  inscripciones: DtoInscripcion[];
+  totalInscripciones: number;
+  fechaGeneracion: string;
+}
+
+export interface DtoReporteRendimiento {
+  paralelo: DtoParaleloMateria;
+  estudiantes: DtoEstudiante[];
+  promedioGeneral: number;
+  aprobados: number;
+  reprobados: number;
+  fechaGeneracion: string;
+  solicitante: string;
+}
+
+// ============================================================================
+// EVALUACIÓN Y CALIFICACIÓN (para ControladorEvaluacion y ControladorCalificacion)
+// ============================================================================
+
+export interface DtoEvaluacionCompleta {
+  codigo: string;
+  nombre: string;
+  porcentaje: number;
+  paraleloMateria: DtoParaleloMateria;
+  calificaciones?: DtoCalificacionSimple[];
+}
+
+export interface DtoCalificacionSimple {
+  valor: number;
+  observaciones: string;
+  estudiante: DtoEstudiante;
+  evaluacion?: DtoEvaluacion;
+}
+
+// ============================================================================
+// ACTA ESTUDIANTE COMPLETA (para ControladorActaEstudiante)
+// ============================================================================
+
+export interface DtoActaEstudianteCompleta {
+  estudiante: DtoEstudiante;
+  paraleloMateria: DtoParaleloMateria;
+  calificaciones: DtoCalificacionSimple[];
+  calificacionFinal: number;
+  aprobado: boolean;
+}
+

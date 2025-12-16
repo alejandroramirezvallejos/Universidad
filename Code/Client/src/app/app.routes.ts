@@ -60,6 +60,14 @@ export const routes: Routes = [
         title: 'Mi Perfil - Universidad'
       },
 
+      // Notificaciones (todos los roles)
+      {
+        path: 'notificaciones',
+        loadComponent: () => import('./features/notificaciones/notificaciones.component')
+          .then(m => m.NotificacionesComponent),
+        title: 'Notificaciones - Universidad'
+      },
+
       // Oferta Académica (Estudiantes)
       {
         path: 'oferta-academica',

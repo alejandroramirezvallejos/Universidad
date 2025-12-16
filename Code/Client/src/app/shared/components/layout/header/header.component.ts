@@ -1,17 +1,18 @@
 /**
  * Componente Header - Barra de navegación superior
- * 
+ *
  * Heurística Nielsen #1: Visibilidad del estado del sistema
  * - Muestra el usuario actual, rol y notificaciones
- * 
+ *
  * Heurística Nielsen #3: Control y libertad del usuario
  * - Permite cerrar sesión fácilmente
  */
 
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ActasService } from '../../../../core/services/actas.service';
 
 @Component({
   selector: 'app-header',
@@ -27,7 +28,7 @@ import { AuthService } from '../../../../core/services/auth.service';
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
-        
+
         <a routerLink="/" class="logo">
           <svg class="logo-icono" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
@@ -43,9 +44,9 @@ import { AuthService } from '../../../../core/services/auth.service';
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input 
-            type="search" 
-            class="busqueda-input" 
+          <input
+            type="search"
+            class="busqueda-input"
             placeholder="Buscar materias, docentes..."
             aria-label="Buscar"
           >
@@ -54,13 +55,13 @@ import { AuthService } from '../../../../core/services/auth.service';
 
       <div class="header-derecha">
         <!-- Notificaciones -->
-        <button class="btn-icono" aria-label="Notificaciones">
+        <a routerLink="/notificaciones" class="btn-icono" aria-label="Notificaciones">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
           </svg>
-          <span class="notificacion-badge" *ngIf="tieneNotificaciones">3</span>
-        </button>
+          <span class="notificacion-badge" *ngIf="tieneNotificaciones">{{ cantidadNotificaciones }}</span>
+        </a>
 
         <!-- Perfil de usuario -->
         <div class="usuario-menu" *ngIf="authService.estaAutenticado()">
@@ -214,6 +215,7 @@ import { AuthService } from '../../../../core/services/auth.service';
       cursor: pointer;
       color: var(--color-texto-secundario);
       transition: all var(--transicion-rapida);
+      text-decoration: none;
     }
 
     .btn-icono:hover {
@@ -367,16 +369,25 @@ import { AuthService } from '../../../../core/services/auth.service';
 })
 export class HeaderComponent {
   @Output() toggleSidebar = new EventEmitter<void>();
-  
+
   menuAbierto = false;
-  tieneNotificaciones = true;
+
+  private actasService = inject(ActasService);
 
   constructor(public authService: AuthService) {}
+
+  get cantidadNotificaciones(): number {
+    return this.actasService.getCantidadNoLeidas();
+  }
+
+  get tieneNotificaciones(): boolean {
+    return this.cantidadNotificaciones > 0;
+  }
 
   obtenerIniciales(): string {
     const nombre = this.authService.nombreCompleto();
     if (!nombre) return '?';
-    
+
     const partes = nombre.split(' ');
     return partes.map((p: string) => p[0]).join('').substring(0, 2).toUpperCase();
   }

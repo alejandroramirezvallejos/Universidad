@@ -6,3 +6,4 @@
 export * from './usuario.model';
 export * from './academico.model';
 export * from './matricula.model';
+export * from './backend-dtos';

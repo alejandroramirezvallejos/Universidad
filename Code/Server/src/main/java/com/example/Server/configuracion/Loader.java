@@ -22,30 +22,25 @@ public class Loader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args){
-        imprimirEncabezado();
+        System.out.println("\n════════════════════════════════════════════════════════════");
+        System.out.println("🔧 INICIALIZANDO DATOS DE PRUEBA (Backend)");
+        System.out.println("════════════════════════════════════════════════════════════\n");
+
         crearGestiones();
         crearCarreras();
         crearEstudiantes();
         crearDocentes();
         crearDirectores();
-        crearUsuariosAdicionales();
         crearAulas();
         crearMaterias();
         crearParalelos();
         imprimirResumen();
     }
 
-    private void imprimirEncabezado() {
-        System.out.println("\n════════════════════════════════════════════════════════════");
-        System.out.println("🔧 INICIALIZANDO DATOS DE PRUEBA");
-        System.out.println("════════════════════════════════════════════════════════════\n");
-    }
-
     private void crearGestiones() {
-        System.out.println("📅 Creando Gestiones Académicas...");
+        System.out.println("📅 Creando Gestiones...");
         crearGestion("II-2025", "Segundo Semestre 2025", 2025, 2, "2025-08-01", "2025-12-15", "2025-07-15", "2025-07-30", "EN_CURSO");
         crearGestion("I-2025", "Primer Semestre 2025", 2025, 1, "2025-02-01", "2025-06-30", "2025-01-15", "2025-01-30", "CERRADA");
-        crearGestion("II-2024", "Segundo Semestre 2024", 2024, 2, "2024-08-01", "2024-12-15", "2024-07-15", "2024-07-30", "CERRADA");
     }
 
     private void crearGestion(String codigo, String nombre, int anio, int periodo, String inicio, String fin, String inicioMatricula, String finMatricula, String estado) {
@@ -60,11 +55,10 @@ public class Loader implements ApplicationRunner {
         gestion.setFechaFinMatricula(Date.valueOf(finMatricula));
         gestion.setEstado(estado);
         gestionServicio.crear(gestion);
-        System.out.println("   ✓ " + codigo + " (" + estado + ")");
     }
 
     private void crearCarreras() {
-        System.out.println("\n📚 Creando Carreras...");
+        System.out.println("📚 Creando Carreras...");
         crearCarrera("ING-SIS", "Ingeniería de Sistemas");
         crearCarrera("ING-IND", "Ingeniería Industrial");
         crearCarrera("ADM-EMP", "Administración de Empresas");
@@ -75,99 +69,81 @@ public class Loader implements ApplicationRunner {
         carrera.setCodigo(codigo);
         carrera.setNombre(nombre);
         carreraServicio.crear(carrera);
-        System.out.println("   ✓ " + nombre + " (" + codigo + ")");
     }
 
     private void crearEstudiantes() {
-        System.out.println("\n👨‍🎓 Creando Estudiante de Prueba...");
-        Carrera carrera = carreraServicio.getCarreras().get(0);
-        crearEstudiante("EST001", "Juan", "Pérez", "juan.perez@ucb.edu.bo", carrera);
+        System.out.println("👨‍🎓 Creando Estudiantes...");
+        Carrera carrera = carreraServicio.getCarreras().getFirst();
+        crearEstudiante("EST001", "Juan", "Pérez", "juan.perez@ucb.edu.bo", "password123", carrera);
 
-        System.out.println("   ✓ Juan Pérez");
-        System.out.println("     Email: juan.perez@ucb.edu.bo");
-        System.out.println("     Código: EST001");
-        System.out.println("     Carrera: Ingeniería de Sistemas");
+        Carrera ingInd = carreraServicio.getCarreras().get(1);
+        crearEstudiante("EST002", "Ana", "Martínez", "ana.martinez@ucb.edu.bo", "password123", ingInd);
     }
 
-    private void crearEstudiante(String codigo, String nombre, String apellido, String email, Carrera carrera) {
+    private void crearEstudiante(String codigo, String nombre, String apellido, String email, String contrasenna, Carrera carrera) {
         Estudiante estudiante = new Estudiante();
         estudiante.setCodigo(codigo);
         estudiante.setNombre(nombre);
         estudiante.setApellido(apellido);
         estudiante.setEmail(email);
+        estudiante.setContrasenna(contrasenna);
         estudiante.setCarrera(carrera);
         estudianteServicio.crear(estudiante);
     }
 
     private void crearDocentes() {
-        System.out.println("\n👩‍🏫 Creando Docente de Prueba...");
-        crearDocente("DOC001", "María", "González", "maria.gonzalez@ucb.edu.bo", "Ingeniería de Software");
-
-        System.out.println("   ✓ María González");
-        System.out.println("     Email: maria.gonzalez@ucb.edu.bo");
-        System.out.println("     Código: DOC001");
-        System.out.println("     Especialidad: Ingeniería de Software");
+        System.out.println("👩‍🏫 Creando Docentes...");
+        crearDocente("DOC001", "María", "González", "maria.gonzalez@ucb.edu.bo", "password123", "Ingeniería de Software");
+        crearDocente("DOC002", "Pedro", "López", "pedro.lopez@ucb.edu.bo", "password123", "Base de Datos");
     }
 
-    private void crearDocente(String codigo, String nombre, String apellido, String email, String especialidad) {
+    private void crearDocente(String codigo, String nombre, String apellido, String email, String contrasenna, String especialidad) {
         Docente docente = new Docente();
         docente.setCodigo(codigo);
         docente.setNombre(nombre);
         docente.setApellido(apellido);
         docente.setEmail(email);
+        docente.setContrasenna(contrasenna);
         docente.setEspecialidad(especialidad);
         docenteServicio.crear(docente);
     }
 
     private void crearDirectores() {
-        System.out.println("\n👔 Creando Director de Carrera de Prueba...");
-        Carrera carrera = carreraServicio.getCarreras().get(0);
-        crearDirector("DIR001", "Carlos", "Rodríguez", "carlos.rodriguez@ucb.edu.bo", carrera);
+        System.out.println("👔 Creando Directores...");
+        Carrera carrera = carreraServicio.getCarreras().getFirst();
+        crearDirector("DIR001", "Carlos", "Rodríguez", "carlos.rodriguez@ucb.edu.bo", "password123", carrera);
 
-        System.out.println("   ✓ Carlos Rodríguez");
-        System.out.println("     Email: carlos.rodriguez@ucb.edu.bo");
-        System.out.println("     Código: DIR001");
-        System.out.println("     Carrera: Ingeniería de Sistemas");
+        Carrera ingInd = carreraServicio.getCarreras().get(1);
+        crearDirector("DIR002", "Laura", "Fernández", "laura.fernandez@ucb.edu.bo", "password123", ingInd);
     }
 
-    private void crearDirector(String codigo, String nombre, String apellido, String email, Carrera carrera) {
+    private void crearDirector(String codigo, String nombre, String apellido, String email, String contrasenna, Carrera carrera) {
         DirectorCarrera director = new DirectorCarrera();
         director.setCodigo(codigo);
         director.setNombre(nombre);
         director.setApellido(apellido);
         director.setEmail(email);
+        director.setContrasenna(contrasenna);
         director.setCarrera(carrera);
         directorCarreraServicio.crear(director);
     }
 
-    private void crearUsuariosAdicionales() {
-        System.out.println("\n🧪 Creando Usuarios Adicionales...");
-        Carrera ingInd = carreraServicio.getCarreras().get(1);
-        crearEstudiante("EST002", "Ana", "Martínez", "ana.martinez@ucb.edu.bo", ingInd);
-        System.out.println("   ✓ Ana Martínez (Estudiante - Ing. Industrial)");
-        crearDocente("DOC002", "Pedro", "López", "pedro.lopez@ucb.edu.bo", "Base de Datos");
-        System.out.println("   ✓ Pedro López (Docente - Base de Datos)");
-        crearDirector("DIR002", "Laura", "Fernández", "laura.fernandez@ucb.edu.bo", ingInd);
-        System.out.println("   ✓ Laura Fernández (Directora - Ing. Industrial)");
-    }
-
     private void crearAulas() {
-        System.out.println("\n🏛️  Creando Aulas...");
-        crearAula(true, 30, "Edificio A", "A-201");
-        crearAula(true, 35, "Edificio A", "A-202");
-        crearAula(true, 40, "Edificio B", "B-101");
-        crearAula(true, 25, "Edificio B", "B-102");
-        crearAula(true, 45, "Edificio C", "C-301");
+        System.out.println("🏛️ Creando Aulas...");
+        crearAula(30, "Edificio A", "A-201");
+        crearAula(35, "Edificio A", "A-202");
+        crearAula(40, "Edificio B", "B-101");
+        crearAula(25, "Edificio B", "B-102");
+        crearAula(45, "Edificio C", "C-301");
     }
 
-    private void crearAula(boolean disponible, int capacidad, String edificio, String codigo) {
-        Aula aula = new Aula(disponible, capacidad, edificio, codigo);
+    private void crearAula(int capacidad, String edificio, String codigo) {
+        Aula aula = new Aula(true, capacidad, edificio, codigo);
         aulaServicio.crear(aula);
-        System.out.println("   ✓ Aula " + codigo + " (Capacidad: " + capacidad + ")");
     }
 
     private void crearMaterias() {
-        System.out.println("\n📖 Creando Materias...");
+        System.out.println("📖 Creando Materias...");
         Materia prog1 = crearMateria("SIS-101", "Programación I", 1, 4);
         crearMateria("MAT-101", "Matemáticas I", 1, 4);
         crearMateria("FIS-101", "Física I", 1, 3);
@@ -182,21 +158,9 @@ public class Loader implements ApplicationRunner {
 
         Materia bd1 = crearMateria("SIS-203", "Base de Datos I", 2, 3);
 
-        Materia alg = crearMateria("SIS-301", "Algoritmos Avanzados", 3, 4);
-        alg.getMateriasCorrelativas().add(estDatos);
-        materiaServicio.crear(alg);
-
-        Materia bd2 = crearMateria("SIS-302", "Base de Datos II", 3, 4);
-        bd2.getMateriasCorrelativas().add(bd1);
-        materiaServicio.crear(bd2);
-
         Materia ingSw = crearMateria("SIS-303", "Ingeniería de Software", 3, 4);
         ingSw.getMateriasCorrelativas().add(prog2);
         materiaServicio.crear(ingSw);
-
-        Materia arqSw = crearMateria("SIS-401", "Arquitectura de Software", 4, 4);
-        arqSw.getMateriasCorrelativas().add(ingSw);
-        materiaServicio.crear(arqSw);
 
         Materia devWeb = crearMateria("SIS-402", "Desarrollo Web", 4, 4);
         devWeb.getMateriasCorrelativas().add(bd1);
@@ -210,24 +174,20 @@ public class Loader implements ApplicationRunner {
         materia.setSemestre(semestre);
         materia.setCreditos(creditos);
         materiaServicio.crear(materia);
-        System.out.println("   ✓ " + nombre + " (" + codigo + ") - Semestre " + semestre);
         return materia;
     }
 
     private void crearParalelos() {
-        System.out.println("\n📅 Creando Paralelos con Horarios...");
-        
+        System.out.println("📅 Creando Paralelos...");
+
         Materia prog1 = materiaServicio.getMateriaPorCodigo("SIS-101");
         Materia bd1 = materiaServicio.getMateriaPorCodigo("SIS-203");
         Materia ingSw = materiaServicio.getMateriaPorCodigo("SIS-303");
-        Materia devWeb = materiaServicio.getMateriaPorCodigo("SIS-402");
         Docente doc1 = docenteServicio.buscarPorCodigo("DOC001");
         Docente doc2 = docenteServicio.buscarPorCodigo("DOC002");
         Aula aula201 = aulaServicio.getAulas().get(0);
         Aula aula202 = aulaServicio.getAulas().get(1);
         Aula aulaB101 = aulaServicio.getAulas().get(2);
-        Aula aulaB102 = aulaServicio.getAulas().get(3);
-        Aula aulaC301 = aulaServicio.getAulas().get(4);
 
         crearParalelo("SIS-101-A", prog1, doc1, aula201, 30,
             new Horario("LUNES", LocalTime.of(8, 0), LocalTime.of(10, 0)),
@@ -241,12 +201,9 @@ public class Loader implements ApplicationRunner {
             new Horario("LUNES", LocalTime.of(14, 0), LocalTime.of(16, 0)),
             new Horario("MIERCOLES", LocalTime.of(14, 0), LocalTime.of(16, 0)));
 
-        crearParalelo("SIS-303-A", ingSw, doc1, aulaC301, 45,
+        crearParalelo("SIS-303-A", ingSw, doc1, aula201, 45,
             new Horario("MARTES", LocalTime.of(8, 0), LocalTime.of(10, 0)),
             new Horario("JUEVES", LocalTime.of(8, 0), LocalTime.of(10, 0)));
-
-        crearParalelo("SIS-402-A", devWeb, doc1, aulaB102, 25,
-            new Horario("VIERNES", LocalTime.of(10, 0), LocalTime.of(13, 0)));
     }
 
     private void crearParalelo(String codigo, Materia materia, Docente docente, Aula aula, int cupo, Horario... horarios) {
@@ -261,45 +218,17 @@ public class Loader implements ApplicationRunner {
             paralelo.getHorarios().add(horario);
 
         paraleloMateriaServicio.crear(paralelo);
-        System.out.println("   ✓ " + codigo + ": " + materia.getNombre());
     }
 
     private void imprimirResumen() {
         System.out.println("\n════════════════════════════════════════════════════════════");
-        System.out.println("✅ DATOS INICIALIZADOS CORRECTAMENTE");
+        System.out.println("✅ BACKEND INICIALIZADO");
         System.out.println("════════════════════════════════════════════════════════════");
-        System.out.println("\n📋 RESUMEN:");
-        System.out.println("   • 3 Gestiones académicas");
-        System.out.println("   • 3 Carreras");
-        System.out.println("   • 2 Estudiantes");
-        System.out.println("   • 2 Docentes");
-        System.out.println("   • 2 Directores");
-        System.out.println("   • 5 Aulas");
-        System.out.println("   • 11 Materias");
-        System.out.println("   • 5 Paralelos con Horarios");
-        System.out.println("\n📋 USUARIOS DE PRUEBA DISPONIBLES PARA LOGIN:");
-        System.out.println("\n┌─────────────────────────────────────────────────────────┐");
-        System.out.println("│ ESTUDIANTE                                              │");
-        System.out.println("├─────────────────────────────────────────────────────────┤");
-        System.out.println("│ Email    : juan.perez@ucb.edu.bo                        │");
-        System.out.println("│ Password : password123 (no se valida en desarrollo)     │");
-        System.out.println("│ Rol      : ESTUDIANTE                                   │");
+        System.out.println("\n📋 USUARIOS DE PRUEBA:");
+        System.out.println("┌─────────────────────────────────────────────────────────┐");
+        System.out.println("│ Estudiante: juan.perez@ucb.edu.bo / password123         │");
+        System.out.println("│ Docente:    maria.gonzalez@ucb.edu.bo / password123     │");
+        System.out.println("│ Director:   carlos.rodriguez@ucb.edu.bo / password123   │");
         System.out.println("└─────────────────────────────────────────────────────────┘");
-        System.out.println("\n┌─────────────────────────────────────────────────────────┐");
-        System.out.println("│ DOCENTE                                                 │");
-        System.out.println("├─────────────────────────────────────────────────────────┤");
-        System.out.println("│ Email    : maria.gonzalez@ucb.edu.bo                    │");
-        System.out.println("│ Password : password123 (no se valida en desarrollo)     │");
-        System.out.println("│ Rol      : DOCENTE                                      │");
-        System.out.println("└─────────────────────────────────────────────────────────┘");
-        System.out.println("\n┌─────────────────────────────────────────────────────────┐");
-        System.out.println("│ DIRECTOR                                                │");
-        System.out.println("├─────────────────────────────────────────────────────────┤");
-        System.out.println("│ Email    : carlos.rodriguez@ucb.edu.bo                  │");
-        System.out.println("│ Password : password123 (no se valida en desarrollo)     │");
-        System.out.println("│ Rol      : DIRECTOR                                     │");
-        System.out.println("└─────────────────────────────────────────────────────────┘");
-        System.out.println("\n💡 Tip: Usa el 'Acceso rápido' en la página de Login");
-        System.out.println("════════════════════════════════════════════════════════════\n");
     }
 }

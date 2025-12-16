@@ -1,15 +1,15 @@
 /**
  * Componente de Reportes y Estadísticas
  * Vista administrativa para Director de Carrera
- * 
+ *
  * Heurística Nielsen #1: Visibilidad del estado del sistema
  * - Muestra claramente estadísticas y métricas clave
- * 
+ *
  * Heurística Nielsen #8: Diseño estético y minimalista
  * - Visualización limpia de datos relevantes
  */
 
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CalificacionesService } from '../../core/services/calificaciones.service';
@@ -19,6 +19,9 @@ import { DocentesService } from '../../core/services/docentes.service';
 import { OfertaAcademicaService } from '../../core/services/oferta-academica.service';
 import { MateriasService } from '../../core/services/materias.service';
 import { ParalelosService } from '../../core/services/paralelos.service';
+import { ReportesService } from '../../core/services/reportes.service';
+import { CarrerasService } from '../../core/services/carreras.service';
+import { GestionesService } from '../../core/services/gestiones.service';
 
 interface EstadisticaGeneral {
   titulo: string;
@@ -70,8 +73,8 @@ interface EstadisticaMateria {
 
       <!-- Estadísticas Generales -->
       <section class="estadisticas-grid">
-        <div 
-          *ngFor="let stat of estadisticasGenerales()" 
+        <div
+          *ngFor="let stat of estadisticasGenerales()"
           class="estadistica-card card"
           [class.card-exito]="stat.tipo === 'exito'"
           [class.card-advertencia]="stat.tipo === 'advertencia'"
@@ -141,7 +144,7 @@ interface EstadisticaMateria {
                 <td class="texto-centro">{{ materia.totalGrupos }}</td>
                 <td class="texto-centro">{{ materia.totalInscritos }}</td>
                 <td class="texto-centro">
-                  <span 
+                  <span
                     class="promedio-badge"
                     [class.badge-exito]="materia.promedioGeneral >= 70"
                     [class.badge-advertencia]="materia.promedioGeneral >= 51 && materia.promedioGeneral < 70"
@@ -154,7 +157,7 @@ interface EstadisticaMateria {
                   <div class="aprobacion-contenedor">
                     <span class="aprobacion-texto">{{ materia.porcentajeAprobacion.toFixed(0) }}%</span>
                     <div class="aprobacion-barra">
-                      <div 
+                      <div
                         class="aprobacion-progreso"
                         [style.width.%]="materia.porcentajeAprobacion"
                         [class.progreso-exito]="materia.porcentajeAprobacion >= 70"
@@ -165,7 +168,7 @@ interface EstadisticaMateria {
                   </div>
                 </td>
                 <td class="texto-centro">
-                  <span 
+                  <span
                     class="badge"
                     [class.badge-exito]="materia.porcentajeAprobacion >= 70"
                     [class.badge-advertencia]="materia.porcentajeAprobacion >= 50 && materia.porcentajeAprobacion < 70"
@@ -189,12 +192,12 @@ interface EstadisticaMateria {
           </div>
           <div class="grafico-contenido">
             <div class="distribucion-barras">
-              <div 
-                *ngFor="let rango of distribucionNotas()" 
+              <div
+                *ngFor="let rango of distribucionNotas()"
                 class="barra-contenedor"
               >
                 <div class="barra-wrapper">
-                  <div 
+                  <div
                     class="barra"
                     [style.height.%]="rango.porcentaje"
                     [class.barra-excelente]="rango.rango === '81-100'"
@@ -217,8 +220,8 @@ interface EstadisticaMateria {
             <h3 class="card-titulo">Top 5 Materias con Mayor Demanda</h3>
           </div>
           <div class="top-materias-lista">
-            <div 
-              *ngFor="let materia of topMateriasDemanda(); let i = index" 
+            <div
+              *ngFor="let materia of topMateriasDemanda(); let i = index"
               class="top-item"
             >
               <div class="top-numero">{{ i + 1 }}</div>
@@ -227,7 +230,7 @@ interface EstadisticaMateria {
                 <span class="top-detalle">{{ materia.totalInscritos }} estudiantes</span>
               </div>
               <div class="top-barra">
-                <div 
+                <div
                   class="top-progreso"
                   [style.width.%]="(materia.totalInscritos / maxInscritos()) * 100"
                 ></div>
@@ -243,20 +246,20 @@ interface EstadisticaMateria {
           <h3 class="card-titulo">Alertas y Recomendaciones</h3>
         </div>
         <div class="alertas-lista">
-          <div 
-            *ngFor="let alerta of alertas()" 
+          <div
+            *ngFor="let alerta of alertas()"
             class="alerta-item"
             [class.alerta-advertencia]="alerta.tipo === 'advertencia'"
             [class.alerta-error]="alerta.tipo === 'error'"
             [class.alerta-info]="alerta.tipo === 'info'"
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
               stroke-width="2"
             >
               <circle cx="12" cy="12" r="10"></circle>
@@ -657,6 +660,11 @@ export class ReportesComponent implements OnInit {
   estadisticasGenerales = signal<EstadisticaGeneral[]>([]);
   estadisticasMaterias = signal<EstadisticaMateria[]>([]);
 
+  // Nuevos servicios para integración con backend
+  private reportesService = inject(ReportesService);
+  private carrerasService = inject(CarrerasService);
+  private gestionesService = inject(GestionesService);
+
   constructor(
     private calificacionesService: CalificacionesService,
     private matriculaService: MatriculaService,
@@ -678,7 +686,7 @@ export class ReportesComponent implements OnInit {
       this.docentesService.obtenerDocentes(),
       this.ofertaAcademicaService.obtenerMateriasBackend()
     ]);
-    
+
     // Luego cargar estadísticas
     await this.cargarEstadisticas();
     await this.cargarDistribucionNotas();
@@ -690,13 +698,13 @@ export class ReportesComponent implements OnInit {
     const grupos = this.ofertaAcademicaService.grupos$();
     const estudiantes = this.estudiantesService.estudiantes();
     const docentes = this.docentesService.docentes();
-    
+
     // Total de estudiantes activos
     const totalEstudiantes = estudiantes.length;
-    
+
     // Total de materias activas
     const materiasActivas = materias.filter(m => m.activa).length;
-    
+
     // Calcular promedio general del período
     let sumaPromedios = 0;
     let cantidadCalificaciones = 0;
@@ -710,7 +718,7 @@ export class ReportesComponent implements OnInit {
       });
     }
     const promedioGeneral = cantidadCalificaciones > 0 ? sumaPromedios / cantidadCalificaciones : 0;
-    
+
     // Calcular tasa de aprobación general
     let totalAprobados = 0;
     let totalEvaluados = 0;
@@ -757,20 +765,20 @@ export class ReportesComponent implements OnInit {
 
     // Calcular estadísticas por materia
     const estadisticasPorMateria: EstadisticaMateria[] = [];
-    
+
     for (const materia of materias.filter(m => m.activa)) {
       const gruposMateria = grupos.filter(g => g.materia.id === materia.id);
       const totalGrupos = gruposMateria.length;
-      
+
       let totalInscritos = 0;
       let sumaNotas = 0;
       let cantidadNotas = 0;
       let aprobados = 0;
-      
+
       for (const grupo of gruposMateria) {
         const estudiantesGrupo = await this.calificacionesService.obtenerEstudiantesGrupo(grupo.id);
         totalInscritos += estudiantesGrupo.length;
-        
+
         estudiantesGrupo.forEach((est: any) => {
           if (est.porcentajeEvaluado > 70) {
             sumaNotas += est.notaFinal;
@@ -781,10 +789,10 @@ export class ReportesComponent implements OnInit {
           }
         });
       }
-      
+
       const promedioGeneral = cantidadNotas > 0 ? sumaNotas / cantidadNotas : 0;
       const porcentajeAprobacion = cantidadNotas > 0 ? (aprobados / cantidadNotas) * 100 : 0;
-      
+
       estadisticasPorMateria.push({
         materiaCodigo: materia.codigo,
         materiaNombre: materia.nombre,
@@ -867,7 +875,7 @@ export class ReportesComponent implements OnInit {
       ...r,
       porcentaje: total > 0 ? (r.cantidad / total) * 100 : 0
     }));
-    
+
     this.distribucionNotas.set(distribucion);
   }
 

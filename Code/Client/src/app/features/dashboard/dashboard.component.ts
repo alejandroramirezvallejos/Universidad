@@ -1,14 +1,14 @@
 /**
  * Dashboard Principal
- * 
+ *
  * Heurística Nielsen #1: Visibilidad del estado del sistema
  * - Muestra resumen de información relevante para el usuario
- * 
+ *
  * Heurística Nielsen #7: Flexibilidad y eficiencia de uso
  * - Accesos rápidos a las funciones más usadas
  */
 
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -17,6 +17,7 @@ import { CalificacionesService } from '../../core/services/calificaciones.servic
 import { OfertaAcademicaService } from '../../core/services/oferta-academica.service';
 import { EstudiantesService } from '../../core/services/estudiantes.service';
 import { DocentesService } from '../../core/services/docentes.service';
+import { DashboardService } from '../../core/services/dashboard.service';
 import { RolUsuario } from '../../models';
 
 interface TarjetaResumen {
@@ -55,8 +56,8 @@ interface AccesoRapido {
 
       <!-- Tarjetas de resumen -->
       <section class="resumen-grid">
-        <article 
-          *ngFor="let tarjeta of tarjetasResumen()" 
+        <article
+          *ngFor="let tarjeta of tarjetasResumen()"
           class="tarjeta-resumen"
           [class]="'tarjeta-' + tarjeta.color"
         >
@@ -73,8 +74,8 @@ interface AccesoRapido {
       <section class="accesos-rapidos">
         <h2>Accesos Rápidos</h2>
         <div class="accesos-grid">
-          <a 
-            *ngFor="let acceso of accesosRapidos()" 
+          <a
+            *ngFor="let acceso of accesosRapidos()"
             [routerLink]="acceso.ruta"
             class="acceso-card"
           >
@@ -515,6 +516,9 @@ export class DashboardComponent implements OnInit {
     historial: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>'
   };
 
+  // Servicio de Dashboard para integración con backend
+  private dashboardService = inject(DashboardService);
+
   constructor(
     public authService: AuthService,
     private matriculaService: MatriculaService,
@@ -561,17 +565,17 @@ export class DashboardComponent implements OnInit {
 
     if (rol === 'ESTUDIANTE') {
       return [
-        { 
+        {
           id: 1,
-          tipo: 'advertencia', 
-          titulo: 'Período de matrícula abierto', 
+          tipo: 'advertencia',
+          titulo: 'Período de matrícula abierto',
           mensaje: 'Tienes hasta el 30 de julio para completar tu inscripción.',
           icono: iconoAdvertencia
         },
-        { 
+        {
           id: 2,
-          tipo: 'info', 
-          titulo: 'Nueva calificación disponible', 
+          tipo: 'info',
+          titulo: 'Nueva calificación disponible',
           mensaje: 'Se publicó la nota final de Programación I.',
           icono: iconoInfo
         }
@@ -580,17 +584,17 @@ export class DashboardComponent implements OnInit {
 
     if (rol === 'DOCENTE') {
       return [
-        { 
+        {
           id: 1,
-          tipo: 'advertencia', 
-          titulo: 'Fecha límite para registro de notas', 
+          tipo: 'advertencia',
+          titulo: 'Fecha límite para registro de notas',
           mensaje: 'Tienes hasta el 8 de diciembre para registrar todas las calificaciones.',
           icono: iconoAdvertencia
         },
-        { 
+        {
           id: 2,
-          tipo: 'info', 
-          titulo: 'Reunión de evaluación', 
+          tipo: 'info',
+          titulo: 'Reunión de evaluación',
           mensaje: 'Reunión departamental el 5 de diciembre a las 10:00 AM.',
           icono: iconoInfo
         }
@@ -599,17 +603,17 @@ export class DashboardComponent implements OnInit {
 
     if (rol === 'DIRECTOR') {
       return [
-        { 
+        {
           id: 1,
-          tipo: 'advertencia', 
-          titulo: 'Gestión II-2025 en período de exámenes', 
+          tipo: 'advertencia',
+          titulo: 'Gestión II-2025 en período de exámenes',
           mensaje: 'El período de exámenes finalizará el 31 de diciembre automáticamente.',
           icono: iconoAdvertencia
         },
-        { 
+        {
           id: 2,
-          tipo: 'info', 
-          titulo: 'Reporte de inscripciones', 
+          tipo: 'info',
+          titulo: 'Reporte de inscripciones',
           mensaje: '156 nuevas inscripciones completadas en las últimas 24 horas.',
           icono: iconoInfo
         }
@@ -621,23 +625,23 @@ export class DashboardComponent implements OnInit {
 
   actividadesRecientes = computed<any[]>(() => {
     const rol = this.authService.rol();
-    
+
     if (rol === 'ESTUDIANTE') {
       return [
-        { 
-          texto: 'Te inscribiste en Cálculo II - Grupo A', 
+        {
+          texto: 'Te inscribiste en Cálculo II - Grupo A',
           tiempo: 'Hace 2 horas',
           tipo: 'exito',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
         },
-        { 
-          texto: 'Se publicó la nota de Programación I', 
+        {
+          texto: 'Se publicó la nota de Programación I',
           tiempo: 'Hace 1 día',
           tipo: 'info',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>'
         },
-        { 
-          texto: 'Recordatorio: Entrega de proyecto mañana', 
+        {
+          texto: 'Recordatorio: Entrega de proyecto mañana',
           tiempo: 'Hace 2 días',
           tipo: 'advertencia',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
@@ -647,20 +651,20 @@ export class DashboardComponent implements OnInit {
 
     if (rol === 'DOCENTE') {
       return [
-        { 
-          texto: 'Ingresaste notas del Parcial 2 - Programación I', 
+        {
+          texto: 'Ingresaste notas del Parcial 2 - Programación I',
           tiempo: 'Hace 3 horas',
           tipo: 'exito',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
         },
-        { 
-          texto: '5 estudiantes con calificación menor a 51 en Cálculo I', 
+        {
+          texto: '5 estudiantes con calificación menor a 51 en Cálculo I',
           tiempo: 'Hace 1 día',
           tipo: 'advertencia',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
         },
-        { 
-          texto: 'Recordatorio: Registrar asistencia de hoy', 
+        {
+          texto: 'Recordatorio: Registrar asistencia de hoy',
           tiempo: 'Hace 2 horas',
           tipo: 'info',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>'
@@ -670,20 +674,20 @@ export class DashboardComponent implements OnInit {
 
     if (rol === 'DIRECTOR') {
       return [
-        { 
-          texto: 'Gestión II-2025 entró en período de exámenes', 
+        {
+          texto: 'Gestión II-2025 entró en período de exámenes',
           tiempo: 'Hace 1 hora',
           tipo: 'info',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>'
         },
-        { 
-          texto: '3 materias tienen tasa de aprobación menor al 60%', 
+        {
+          texto: '3 materias tienen tasa de aprobación menor al 60%',
           tiempo: 'Hace 1 día',
           tipo: 'advertencia',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
         },
-        { 
-          texto: 'Se completaron 156 inscripciones nuevas', 
+        {
+          texto: 'Se completaron 156 inscripciones nuevas',
           tiempo: 'Hace 2 días',
           tipo: 'exito',
           icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
@@ -696,7 +700,7 @@ export class DashboardComponent implements OnInit {
 
   proximosEventos = computed<any[]>(() => {
     const rol = this.authService.rol();
-    
+
     if (rol === 'ESTUDIANTE') {
       return [
         { fecha: new Date('2025-12-02'), titulo: 'Examen Parcial', descripcion: 'Cálculo I - Aula A-101' },
@@ -726,12 +730,12 @@ export class DashboardComponent implements OnInit {
 
   tarjetasResumen = computed<TarjetaResumen[]>(() => {
     const rol = this.authService.rol();
-    
+
     if (rol === 'ESTUDIANTE') {
       // Datos básicos para estudiante
       const materiasEnProceso = this.matriculaService.cantidadEnProceso();
       const creditos = this.matriculaService.creditosTotales();
-      
+
       return [
         { titulo: 'Materias en Proceso', valor: materiasEnProceso, icono: this.iconos.materias, color: 'primario' },
         { titulo: 'Créditos Seleccionados', valor: creditos, icono: this.iconos.creditos, color: 'info' },
@@ -754,7 +758,7 @@ export class DashboardComponent implements OnInit {
     const estudiantes = this.estudiantesService.estudiantes();
     const docentes = this.docentesService.docentes();
     const materias = this.ofertaService.materias$();
-    
+
     return [
       { titulo: 'Estudiantes Activos', valor: estudiantes.length, icono: this.iconos.materias, color: 'primario' },
       { titulo: 'Docentes', valor: docentes.length, icono: this.iconos.creditos, color: 'info' },
