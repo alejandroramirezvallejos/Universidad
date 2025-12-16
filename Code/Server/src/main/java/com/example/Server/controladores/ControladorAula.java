@@ -1,4 +1,6 @@
 package com.example.Server.controladores;
+
+import com.example.Server.casts.CastAula;
 import com.example.Server.dtos.DtoAula;
 import com.example.Server.modelos.Aula;
 import com.example.Server.servicios.ServicioAula;
@@ -6,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +18,13 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorAula {
     private final ServicioAula servicio;
+    private final CastAula convertidor;
 
     @PostMapping
     public ResponseEntity<DtoAula> crear(@RequestBody DtoAula dto) {
-        Aula aula = castModelo(dto);
+        Aula aula = convertidor.getModelo(dto);
         Aula creada = servicio.crear(aula);
-        DtoAula respuesta = castDto(creada);
+        DtoAula respuesta = convertidor.getDto(creada);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
@@ -30,33 +34,15 @@ public class ControladorAula {
         List<DtoAula> dtos = new ArrayList<>();
 
         for (Aula aula : aulas)
-            dtos.add(castDto(aula));
+            dtos.add(convertidor.getDto(aula));
 
         return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> eliminar(@RequestBody DtoAula dto) {
-        Aula aula = castModelo(dto);
+        Aula aula = convertidor.getModelo(dto);
         servicio.eliminar(aula);
         return ResponseEntity.ok().build();
-    }
-
-    private Aula castModelo(DtoAula dto) {
-        Aula aula = new Aula();
-        aula.setCodigo(dto.getCodigo());
-        aula.setEdificio(dto.getEdificio());
-        aula.setCapacidad(dto.getCapacidad());
-        aula.setDisponible(dto.isDisponible());
-        return aula;
-    }
-
-    private DtoAula castDto(Aula aula) {
-        DtoAula dto = new DtoAula();
-        dto.setCodigo(aula.getCodigo());
-        dto.setEdificio(aula.getEdificio());
-        dto.setCapacidad(aula.getCapacidad());
-        dto.setDisponible(aula.isDisponible());
-        return dto;
     }
 }

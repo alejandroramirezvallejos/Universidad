@@ -1,4 +1,5 @@
 package com.example.Server.controladores;
+import com.example.Server.casts.CastDocente;
 import com.example.Server.dtos.DtoDocente;
 import com.example.Server.modelos.Docente;
 import com.example.Server.servicios.ServicioDocente;
@@ -15,12 +16,13 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorDocente {
     private final ServicioDocente servicio;
+    private final CastDocente convertidor;
 
     @PostMapping
     public ResponseEntity<DtoDocente> crear(@RequestBody DtoDocente dto) {
-        Docente docente = castModelo(dto);
+        Docente docente = convertidor.getModelo(dto);
         Docente creado = servicio.crear(docente);
-        DtoDocente respuesta = castDto(creado);
+        DtoDocente respuesta = convertidor.getDto(creado);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
@@ -30,14 +32,14 @@ public class ControladorDocente {
         List<DtoDocente> dtos = new ArrayList<>();
 
         for (Docente docente : docentes)
-            dtos.add(castDto(docente));
+            dtos.add(convertidor.getDto(docente));
 
         return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> eliminar(@RequestBody DtoDocente dto) {
-        Docente docente = castModelo(dto);
+        Docente docente = convertidor.getModelo(dto);
         servicio.eliminar(docente);
         return ResponseEntity.ok().build();
     }
@@ -48,7 +50,7 @@ public class ControladorDocente {
         List<DtoDocente> dtos = new ArrayList<>();
 
         for (Docente docente : docentes)
-            dtos.add(castDto(docente));
+            dtos.add(convertidor.getDto(docente));
 
         return ResponseEntity.ok(dtos);
     }
@@ -60,22 +62,6 @@ public class ControladorDocente {
         if (docente == null)
             return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(castDto(docente));
-    }
-
-    private Docente castModelo(DtoDocente dto) {
-        Docente docente = new Docente();
-        docente.setCodigo(dto.getCodigo());
-        docente.setNombre(dto.getNombre());
-        docente.setEspecialidad(dto.getEspecialidad());
-        return docente;
-    }
-
-    private DtoDocente castDto(Docente docente) {
-        DtoDocente dto = new DtoDocente();
-        dto.setCodigo(docente.getCodigo());
-        dto.setNombre(docente.getNombre());
-        dto.setEspecialidad(docente.getEspecialidad());
-        return dto;
+        return ResponseEntity.ok(convertidor.getDto(docente));
     }
 }

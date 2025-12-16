@@ -1,4 +1,5 @@
 package com.example.Server.controladores;
+import com.example.Server.casts.CastCarrera;
 import com.example.Server.dtos.DtoCarrera;
 import com.example.Server.modelos.Carrera;
 import com.example.Server.servicios.ServicioCarrera;
@@ -15,12 +16,13 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorCarrera {
     private final ServicioCarrera servicio;
+    private final CastCarrera convertidor;
 
     @PostMapping
     public ResponseEntity<DtoCarrera> crear(@RequestBody DtoCarrera dto) {
-        Carrera carrera = castModelo(dto);
+        Carrera carrera = convertidor.getModelo(dto);
         Carrera creada = servicio.crear(carrera);
-        DtoCarrera respuesta = castDto(creada);
+        DtoCarrera respuesta = convertidor.getDto(creada);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
@@ -30,29 +32,15 @@ public class ControladorCarrera {
         List<DtoCarrera> dtos = new ArrayList<>();
 
         for (Carrera carrera : carreras)
-            dtos.add(castDto(carrera));
+            dtos.add(convertidor.getDto(carrera));
 
         return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> eliminar(@RequestBody DtoCarrera dto) {
-        Carrera carrera = castModelo(dto);
+        Carrera carrera = convertidor.getModelo(dto);
         servicio.eliminar(carrera);
         return ResponseEntity.ok().build();
-    }
-
-    private Carrera castModelo(DtoCarrera dto) {
-        Carrera carrera = new Carrera();
-        carrera.setCodigo(dto.getCodigo());
-        carrera.setNombre(dto.getNombre());
-        return carrera;
-    }
-
-    private DtoCarrera castDto(Carrera carrera) {
-        DtoCarrera dto = new DtoCarrera();
-        dto.setCodigo(carrera.getCodigo());
-        dto.setNombre(carrera.getNombre());
-        return dto;
     }
 }

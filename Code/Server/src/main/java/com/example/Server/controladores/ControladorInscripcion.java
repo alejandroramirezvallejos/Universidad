@@ -1,4 +1,5 @@
 package com.example.Server.controladores;
+import com.example.Server.casts.CastMatricula;
 import com.example.Server.dtos.DtoInscripcion;
 import com.example.Server.dtos.DtoInscripcionBatch;
 import com.example.Server.dtos.DtoMatricula;
@@ -17,6 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorInscripcion {
     private final ServicioInscripcion servicio;
+    private final CastMatricula convertidor;
 
     @PostMapping
     public ResponseEntity<DtoMatricula> inscribir(@RequestBody DtoInscripcion dto) {
@@ -25,13 +27,13 @@ public class ControladorInscripcion {
         if (matricula == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        DtoMatricula dtoMatricula = castDto(matricula);
+        DtoMatricula dtoMatricula = convertidor.getDto(matricula);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoMatricula);
     }
 
     @PutMapping("/aceptar")
     public ResponseEntity<Void> aceptar(@RequestBody DtoMatricula dto) {
-        Matricula matricula = castModelo(dto);
+        Matricula matricula = convertidor.getModelo(dto);
         servicio.aceptar(matricula);
         return ResponseEntity.ok().build();
     }
@@ -42,7 +44,7 @@ public class ControladorInscripcion {
         List<DtoMatricula> dtos = new ArrayList<>();
 
         for (Matricula matricula : matriculas)
-            dtos.add(castDto(matricula));
+            dtos.add(convertidor.getDto(matricula));
 
         return ResponseEntity.ok(dtos);
     }
@@ -58,7 +60,7 @@ public class ControladorInscripcion {
             );
 
             if (matricula != null)
-                matriculasCreadas.add(castDto(matricula));
+                matriculasCreadas.add(convertidor.getDto(matricula));
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(matriculasCreadas);
@@ -70,7 +72,7 @@ public class ControladorInscripcion {
         List<DtoMatricula> dtos = new ArrayList<>();
 
         for (Matricula materia : matriculas)
-            dtos.add(castDto(materia));
+            dtos.add(convertidor.getDto(materia));
 
         return ResponseEntity.ok(dtos);
     }
@@ -81,7 +83,7 @@ public class ControladorInscripcion {
         List<DtoMatricula> dtos = new ArrayList<>();
 
         for (Matricula matricula : matriculas)
-            dtos.add(castDto(matricula));
+            dtos.add(convertidor.getDto(matricula));
 
         return ResponseEntity.ok(dtos);
     }
@@ -92,21 +94,5 @@ public class ControladorInscripcion {
             @PathVariable String paraleloCodigo) {
         servicio.cancelar(estudianteCodigo, paraleloCodigo);
         return ResponseEntity.ok().build();
-    }
-
-    private DtoMatricula castDto(Matricula matricula) {
-        DtoMatricula dto = new DtoMatricula();
-        dto.setEstado(matricula.getEstado());
-        dto.setParaleloMateria(matricula.getParaleloMateria());
-        dto.setEstudiante(matricula.getEstudiante());
-        return dto;
-    }
-
-    private Matricula castModelo(DtoMatricula dto) {
-        Matricula matricula = new Matricula();
-        matricula.setEstado(dto.getEstado());
-        matricula.setParaleloMateria(dto.getParaleloMateria());
-        matricula.setEstudiante(dto.getEstudiante());
-        return matricula;
     }
 }

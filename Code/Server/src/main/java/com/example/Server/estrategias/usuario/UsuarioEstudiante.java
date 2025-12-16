@@ -1,6 +1,7 @@
 package com.example.Server.estrategias.usuario;
+
+import com.example.Server.casts.CastUsuarioEstudiante;
 import com.example.Server.dtos.DtoActualizarUsuario;
-import com.example.Server.dtos.DtoCarrera;
 import com.example.Server.dtos.DtoUsuarioCompleto;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.repositorios.RepositorioEstudiante;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class UsuarioEstudiante implements IEstrategiaUsuario {
     @Autowired
     private RepositorioEstudiante repositorioEstudiante;
+    @Autowired
+    private CastUsuarioEstudiante convertidor;
 
     @Override
     public DtoUsuarioCompleto buscar(String codigo) {
@@ -20,7 +23,7 @@ public class UsuarioEstudiante implements IEstrategiaUsuario {
         if (estudiante == null)
             return null;
 
-        return castEstudiante(estudiante);
+        return convertidor.getDto(estudiante);
     }
 
     @Override
@@ -37,22 +40,6 @@ public class UsuarioEstudiante implements IEstrategiaUsuario {
 
         repositorioEstudiante.guardar(estudiante);
 
-        return castEstudiante(estudiante);
-    }
-
-    private DtoUsuarioCompleto castEstudiante(Estudiante estudiante) {
-        DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
-        BeanUtils.copyProperties(estudiante, dto);
-        dto.setRol("ESTUDIANTE");
-        dto.setCodigoEstudiante(estudiante.getCodigo());
-
-        if (estudiante.getCarrera() != null) {
-            DtoCarrera dtoCarrera = new DtoCarrera();
-            dtoCarrera.setCodigo(estudiante.getCarrera().getCodigo());
-            dtoCarrera.setNombre(estudiante.getCarrera().getNombre());
-            dto.setCarrera(dtoCarrera);
-        }
-
-        return dto;
+        return convertidor.getDto(estudiante);
     }
 }

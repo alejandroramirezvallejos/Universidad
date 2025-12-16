@@ -1,6 +1,7 @@
 package com.example.Server.estrategias.autentificacion;
+
+import com.example.Server.casts.CastUsuarioDocente;
 import com.example.Server.dtos.DtoRespuestaLogin;
-import com.example.Server.dtos.DtoUsuarioCompleto;
 import com.example.Server.modelos.Docente;
 import com.example.Server.repositorios.RepositorioDocente;
 import com.example.Server.validadores.autentificacion.IValidarLogin;
@@ -13,6 +14,8 @@ public class LoginDocente implements IEstrategiaLogin {
     private RepositorioDocente repositorioDocente;
     @Autowired
     private IValidarLogin validadorLogin;
+    @Autowired
+    private CastUsuarioDocente convertidor;
 
     @Override
     public DtoRespuestaLogin login(String email, String contrasenna) {
@@ -26,21 +29,6 @@ public class LoginDocente implements IEstrategiaLogin {
         if (error != null)
             return new DtoRespuestaLogin(false, error, null);
 
-        return new DtoRespuestaLogin(true, "Login exitoso", castDocente(docente));
-    }
-
-    private DtoUsuarioCompleto castDocente(Docente docente) {
-        DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
-
-        dto.setCodigo(docente.getCodigo());
-        dto.setNombre(docente.getNombre());
-        dto.setApellido(docente.getApellido());
-        dto.setEmail(docente.getEmail());
-        dto.setRol("DOCENTE");
-        dto.setCodigoDocente(docente.getCodigo());
-        dto.setDepartamento(docente.getDepartamento());
-        dto.setEspecialidad(docente.getEspecialidad());
-
-        return dto;
+        return new DtoRespuestaLogin(true, "Login exitoso", convertidor.getDto(docente));
     }
 }

@@ -1,4 +1,5 @@
 package com.example.Server.controladores;
+import com.example.Server.casts.CastMateria;
 import com.example.Server.dtos.DtoMateria;
 import com.example.Server.dtos.DtoMateriaCarrera;
 import com.example.Server.modelos.Materia;
@@ -16,19 +17,20 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ControladorMateria {
     private final ServicioMateria servicio;
+    private final CastMateria convertidor;
 
     @PostMapping
     public ResponseEntity<DtoMateria> crear(@RequestBody DtoMateria dto) {
-        Materia materia = castModelo(dto);
+        Materia materia = convertidor.getModelo(dto);
         Materia creada = servicio.crear(materia);
-        DtoMateria respuesta = castDto(creada);
+        DtoMateria respuesta = convertidor.getDto(creada);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
     @PostMapping("/agregar-carrera")
     public ResponseEntity<DtoMateria> agregarCarrera(@RequestBody DtoMateriaCarrera dto) {
         Materia materia = servicio.agregarCarrera(dto.getMateria(), dto.getCarrera());
-        DtoMateria respuesta = castDto(materia);
+        DtoMateria respuesta = convertidor.getDto(materia);
         return ResponseEntity.ok(respuesta);
     }
 
@@ -38,14 +40,14 @@ public class ControladorMateria {
         List<DtoMateria> dtos = new ArrayList<>();
 
         for (Materia materia : materias)
-            dtos.add(castDto(materia));
+            dtos.add(convertidor.getDto(materia));
 
         return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> eliminar(@RequestBody DtoMateria dto) {
-        Materia materia = castModelo(dto);
+        Materia materia = convertidor.getModelo(dto);
         servicio.eliminar(materia);
         return ResponseEntity.ok().build();
     }
@@ -62,7 +64,7 @@ public class ControladorMateria {
         materia.setCreditos(dto.getCreditos());
         
         Materia actualizada = servicio.actualizar(materia);
-        return ResponseEntity.ok(castDto(actualizada));
+        return ResponseEntity.ok(convertidor.getDto(actualizada));
     }
 
     @PatchMapping("/{codigo}/estado")
@@ -75,7 +77,7 @@ public class ControladorMateria {
         materia.setActiva(!materia.isActiva());
         Materia actualizada = servicio.actualizar(materia);
         
-        return ResponseEntity.ok(castDto(actualizada));
+        return ResponseEntity.ok(convertidor.getDto(actualizada));
     }
 
     @GetMapping("/{codigo}")
@@ -85,24 +87,6 @@ public class ControladorMateria {
         if (materia == null)
             return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(castDto(materia));
-    }
-
-    private Materia castModelo(DtoMateria dto) {
-        Materia materia = new Materia();
-        materia.setCodigo(dto.getCodigo());
-        materia.setNombre(dto.getNombre());
-        materia.setSemestre(dto.getSemestre());
-        materia.setCreditos(dto.getCreditos());
-        return materia;
-    }
-
-    private DtoMateria castDto(Materia materia) {
-        DtoMateria dto = new DtoMateria();
-        dto.setCodigo(materia.getCodigo());
-        dto.setNombre(materia.getNombre());
-        dto.setSemestre(materia.getSemestre());
-        dto.setCreditos(materia.getCreditos());
-        return dto;
+        return ResponseEntity.ok(convertidor.getDto(materia));
     }
 }

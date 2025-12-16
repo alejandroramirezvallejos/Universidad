@@ -1,4 +1,6 @@
 package com.example.Server.estrategias.usuario;
+
+import com.example.Server.casts.CastUsuarioDirector;
 import com.example.Server.dtos.DtoActualizarUsuario;
 import com.example.Server.dtos.DtoUsuarioCompleto;
 import com.example.Server.modelos.DirectorCarrera;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class UsuarioDirector implements IEstrategiaUsuario {
     @Autowired
     private RepositorioDirectorCarrera repositorioDirector;
+    @Autowired
+    private CastUsuarioDirector convertidor;
 
     @Override
     public DtoUsuarioCompleto buscar(String codigo) {
@@ -19,7 +23,7 @@ public class UsuarioDirector implements IEstrategiaUsuario {
         if (director == null)
             return null;
 
-        return castDirector(director);
+        return convertidor.getDto(director);
     }
 
     @Override
@@ -36,15 +40,6 @@ public class UsuarioDirector implements IEstrategiaUsuario {
 
         repositorioDirector.guardar(director);
 
-        return castDirector(director);
-    }
-
-    private DtoUsuarioCompleto castDirector(DirectorCarrera director) {
-        DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
-        BeanUtils.copyProperties(director, dto);
-        dto.setRol("DIRECTOR");
-        dto.setCodigoDirector(director.getCodigo());
-
-        return dto;
+        return convertidor.getDto(director);
     }
 }

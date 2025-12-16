@@ -1,4 +1,6 @@
 package com.example.Server.servicios;
+import com.example.Server.casts.CastDocente;
+import com.example.Server.casts.CastEstudiante;
 import com.example.Server.dtos.*;
 import com.example.Server.modelos.*;
 import com.example.Server.repositorios.*;
@@ -18,6 +20,10 @@ public class ServicioAutenticacion {
     private RepositorioCarrera repositorioCarrera;
     @Autowired
     private ContextoLogin contextoLogin;
+    @Autowired
+    private CastEstudiante castEstudiante;
+    @Autowired
+    private CastDocente castDocente;
 
     public DtoRespuestaLogin login(DtoCredenciales credenciales) {
         String email = credenciales.getEmail();
@@ -67,20 +73,7 @@ public class ServicioAutenticacion {
         estudiante.setSemestre(dto.getSemestre() != null ? dto.getSemestre() : 1);
         Estudiante guardado = repositorioEstudiante.guardar(estudiante);
 
-        DtoUsuarioCompleto usuario = new DtoUsuarioCompleto();
-        usuario.setCodigo(guardado.getCodigo());
-        usuario.setNombre(guardado.getNombre());
-        usuario.setApellido(guardado.getApellido());
-        usuario.setEmail(guardado.getEmail());
-        usuario.setRol("ESTUDIANTE");
-        usuario.setCodigoEstudiante(guardado.getCodigo());
-        usuario.setSemestre(guardado.getSemestre());
-        if (guardado.getCarrera() != null) {
-            DtoCarrera dtoCarrera = new DtoCarrera();
-            dtoCarrera.setCodigo(guardado.getCarrera().getCodigo());
-            dtoCarrera.setNombre(guardado.getCarrera().getNombre());
-            usuario.setCarrera(dtoCarrera);
-        }
+        DtoUsuarioCompleto usuario = castEstudiante.getDto(guardado);
 
         return new DtoRespuestaRegistro(true, "Estudiante registrado exitosamente", usuario);
     }
@@ -111,15 +104,7 @@ public class ServicioAutenticacion {
         docente.setEspecialidad(dto.getEspecialidad());
         Docente guardado = repositorioDocente.guardar(docente);
 
-        DtoUsuarioCompleto usuario = new DtoUsuarioCompleto();
-        usuario.setCodigo(guardado.getCodigo());
-        usuario.setNombre(guardado.getNombre());
-        usuario.setApellido(guardado.getApellido());
-        usuario.setEmail(guardado.getEmail());
-        usuario.setRol("DOCENTE");
-        usuario.setCodigoDocente(guardado.getCodigo());
-        usuario.setDepartamento(guardado.getDepartamento());
-        usuario.setEspecialidad(guardado.getEspecialidad());
+        DtoUsuarioCompleto usuario = castDocente.getDto(guardado);
 
         return new DtoRespuestaRegistro(true, "Docente registrado exitosamente", usuario);
     }

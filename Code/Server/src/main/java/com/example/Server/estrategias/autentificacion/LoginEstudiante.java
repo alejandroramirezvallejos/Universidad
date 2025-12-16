@@ -1,7 +1,6 @@
 package com.example.Server.estrategias.autentificacion;
-import com.example.Server.dtos.DtoCarrera;
+import com.example.Server.casts.CastUsuarioEstudiante;
 import com.example.Server.dtos.DtoRespuestaLogin;
-import com.example.Server.dtos.DtoUsuarioCompleto;
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.repositorios.RepositorioEstudiante;
 import com.example.Server.validadores.autentificacion.IValidarLogin;
@@ -14,6 +13,8 @@ public class LoginEstudiante implements IEstrategiaLogin {
     private RepositorioEstudiante repositorioEstudiante;
     @Autowired
     private IValidarLogin validadorLogin;
+    @Autowired
+    private CastUsuarioEstudiante convertidor;
 
     @Override
     public DtoRespuestaLogin login(String email, String contrasenna) {
@@ -27,30 +28,6 @@ public class LoginEstudiante implements IEstrategiaLogin {
         if (error != null)
             return new DtoRespuestaLogin(false, error, null);
 
-        return new DtoRespuestaLogin(true, "Login exitoso", castEstudiante(estudiante));
-    }
-
-    private DtoUsuarioCompleto castEstudiante(Estudiante estudiante) {
-        DtoUsuarioCompleto dto = new DtoUsuarioCompleto();
-
-        dto.setCodigo(estudiante.getCodigo());
-        dto.setNombre(estudiante.getNombre());
-        dto.setApellido(estudiante.getApellido());
-        dto.setEmail(estudiante.getEmail());
-        dto.setRol("ESTUDIANTE");
-        dto.setCodigoEstudiante(estudiante.getCodigo());
-        dto.setSemestre(estudiante.getSemestre());
-
-        castCarrera(estudiante, dto);
-        return dto;
-    }
-
-    private void castCarrera(Estudiante estudiante, DtoUsuarioCompleto dto) {
-        if (estudiante.getCarrera() != null) {
-            DtoCarrera dtoCarrera = new DtoCarrera();
-            dtoCarrera.setCodigo(estudiante.getCarrera().getCodigo());
-            dtoCarrera.setNombre(estudiante.getCarrera().getNombre());
-            dto.setCarrera(dtoCarrera);
-        }
+        return new DtoRespuestaLogin(true, "Login exitoso", convertidor.getDto(estudiante));
     }
 }
