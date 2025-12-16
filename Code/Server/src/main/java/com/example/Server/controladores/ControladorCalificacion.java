@@ -27,8 +27,8 @@ public class ControladorCalificacion {
     }
 
     @GetMapping("/estudiante/{estudianteCodigo}")
-    public ResponseEntity<List<Calificacion>> getCalificaciones(@PathVariable String estudianteCodigo) {
-        List<Calificacion> calificaciones = servicio.obtenerPorEstudiante(estudianteCodigo);
+    public ResponseEntity<List<Calificacion>> getCalificacionesPorEstudiante(@PathVariable String estudianteCodigo) {
+        List<Calificacion> calificaciones = servicio.getCalificacionesPorEstudiante(estudianteCodigo);
         return ResponseEntity.ok(calificaciones);
     }
 

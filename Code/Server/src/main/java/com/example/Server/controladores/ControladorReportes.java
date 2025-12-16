@@ -15,7 +15,7 @@ public class ControladorReportes {
 
     @GetMapping
     public ResponseEntity<List<String>> listarReportes() {
-        List<String> reportes = servicio.listarReportesDisponibles();
+        List<String> reportes = servicio.getReportesDisponibles();
         return ResponseEntity.ok(reportes);
     }
 
@@ -24,7 +24,7 @@ public class ControladorReportes {
             @PathVariable String codigoCarrera) {
         
         Map<String, Object> reporte =
-                servicio.reporteEstudiantesPorCarrera(codigoCarrera);
+                servicio.getReporteEstudiantesPorCarrera(codigoCarrera);
 
         if (reporte == null)
             return ResponseEntity.notFound().build();
@@ -37,7 +37,7 @@ public class ControladorReportes {
             @PathVariable String codigoGestion) {
         
         Map<String, Object> reporte =
-                servicio.reporteInscripcionesPorGestion(codigoGestion);
+                servicio.getReporteInscripcionesPorGestion(codigoGestion);
 
         if (reporte == null)
             return ResponseEntity.notFound().build();
@@ -50,7 +50,7 @@ public class ControladorReportes {
             @PathVariable String codigoParalelo) {
         
         Map<String, Object> reporte =
-                servicio.reporteRendimientoPorParalelo(codigoParalelo);
+                servicio.getReporteRendimientoPorParalelo(codigoParalelo);
 
         if (reporte == null)
             return ResponseEntity.notFound().build();

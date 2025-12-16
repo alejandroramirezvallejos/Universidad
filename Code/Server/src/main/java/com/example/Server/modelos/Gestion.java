@@ -26,6 +26,7 @@ public class Gestion {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date fechaFinMatricula;
     private String estado;
+    @Builder.Default
     private List<Materia> materias = new ArrayList<>();
 
     @Override

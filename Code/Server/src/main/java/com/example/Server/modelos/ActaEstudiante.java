@@ -13,6 +13,7 @@ import java.util.List;
 public class ActaEstudiante {
     private Estudiante estudiante;
     private ParaleloMateria paraleloMateria;
+    @Builder.Default
     private List<Calificacion> calificaciones = new ArrayList<>();
     private Double calificacionFinal;
     private boolean aprobado;

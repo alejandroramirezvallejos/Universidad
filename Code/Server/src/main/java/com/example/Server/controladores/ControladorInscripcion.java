@@ -17,7 +17,7 @@ public class ControladorInscripcion {
 
     @PostMapping
     public ResponseEntity<Matricula> inscribir(@RequestBody Matricula matricula) {
-        Matricula creada = servicio.inscribir(matricula.getEstudiante(), matricula.getParaleloMateria());
+        Matricula creada = servicio.crear(matricula.getEstudiante(), matricula.getParaleloMateria());
 
         if (creada == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -42,7 +42,7 @@ public class ControladorInscripcion {
         List<Matricula> matriculasCreadas = new ArrayList<>();
 
         for (Matricula inscripcion : inscripciones) {
-            Matricula matricula = servicio.inscribir(
+            Matricula matricula = servicio.crear(
                     inscripcion.getEstudiante(),
                     inscripcion.getParaleloMateria()
             );
@@ -56,13 +56,13 @@ public class ControladorInscripcion {
 
     @GetMapping("/estudiante/{estudianteCodigo}")
     public ResponseEntity<List<Matricula>> getInscripcionesPorEstudiante(@PathVariable String estudianteCodigo) {
-        List<Matricula> matriculas = servicio.obtenerPorEstudiante(estudianteCodigo);
+        List<Matricula> matriculas = servicio.getMatriculasPorEstudiante(estudianteCodigo);
         return ResponseEntity.ok(matriculas);
     }
 
     @GetMapping("/paralelo/{paraleloCodigo}")
     public ResponseEntity<List<Matricula>> getInscripcionesPorParalelo(@PathVariable String paraleloCodigo) {
-        List<Matricula> matriculas = servicio.obtenerPorParalelo(paraleloCodigo);
+        List<Matricula> matriculas = servicio.getMatriculasPorParalelo(paraleloCodigo);
         return ResponseEntity.ok(matriculas);
     }
 

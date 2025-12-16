@@ -33,7 +33,7 @@ public class ControladorGestion {
     }
 
     @GetMapping("/actual")
-    public ResponseEntity<Gestion> getGestion() {
+    public ResponseEntity<Gestion> getGestionActual() {
         Optional<Gestion> gestionActual = servicio.getGestionActual();
 
         if (gestionActual.isPresent())
@@ -43,8 +43,8 @@ public class ControladorGestion {
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Gestion> getGestion(@PathVariable String codigo) {
-        Optional<Gestion> gestionActual = servicio.buscarPorCodigo(codigo);
+    public ResponseEntity<Gestion> getGestionPorCodigo(@PathVariable String codigo) {
+        Optional<Gestion> gestionActual = servicio.getGestionPorCodigo(codigo);
 
         if (gestionActual.isPresent())
             return ResponseEntity.ok(gestionActual.get());

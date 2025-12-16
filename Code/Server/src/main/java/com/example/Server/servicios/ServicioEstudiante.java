@@ -10,7 +10,7 @@ import java.util.List;
 public class ServicioEstudiante {
     private final RepositorioEstudiante repositorio;
 
-    public Estudiante setEstudiante(Estudiante estudiante) {
+    public Estudiante crear(Estudiante estudiante) {
         return repositorio.guardar(estudiante);
     }
 
@@ -22,4 +22,3 @@ public class ServicioEstudiante {
         repositorio.eliminar(estudiante);
     }
 }
-

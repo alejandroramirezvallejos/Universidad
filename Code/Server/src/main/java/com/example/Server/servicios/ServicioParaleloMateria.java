@@ -15,7 +15,7 @@ public class ServicioParaleloMateria {
     private final RepositorioParaleloMateria repositorio;
     private final RepositorioDocente repositorioDocente;
 
-    public ParaleloMateria setParalelo(ParaleloMateria paralelo) {
+    public ParaleloMateria crear(ParaleloMateria paralelo) {
         asociarDocente(paralelo);
         asociarMateria(paralelo);
         return repositorio.guardar(paralelo);
@@ -23,6 +23,7 @@ public class ServicioParaleloMateria {
 
     private void asociarDocente(ParaleloMateria paralelo) {
         Docente docenteExistente = repositorioDocente.buscarPorCodigo(paralelo.getDocente().getCodigo());
+
         if (docenteExistente != null) {
             docenteExistente.getParaleloMaterias().add(paralelo);
             repositorioDocente.guardar(docenteExistente);
@@ -42,24 +43,23 @@ public class ServicioParaleloMateria {
         repositorio.eliminar(paralelo);
     }
 
-    public ParaleloMateria setParalelo(ParaleloMateria paralelo, boolean actualizar) {
-        return repositorio.guardar(paralelo);
-    }
-
     public ParaleloMateria getParaleloPorCodigo(String codigo) {
         return repositorio.buscarPorCodigo(codigo);
     }
 
     public List<ParaleloMateria> getParalelosPorDocente(String docenteCodigo) {
         List<ParaleloMateria> resultado = new ArrayList<>();
+
         for (ParaleloMateria paralelo : repositorio.getParalelos())
             if (paralelo.getDocente() != null && paralelo.getDocente().getCodigo().equals(docenteCodigo))
                 resultado.add(paralelo);
+
         return resultado;
     }
 
     public List<ParaleloMateria> getParalelosPorMateria(String materiaCodigo) {
         List<ParaleloMateria> resultado = new ArrayList<>();
+
         for (ParaleloMateria paralelo : repositorio.getParalelos())
             if (paralelo.getMateria() != null && paralelo.getMateria().getCodigo().equals(materiaCodigo))
                 resultado.add(paralelo);
@@ -67,6 +67,3 @@ public class ServicioParaleloMateria {
         return resultado;
     }
 }
-
-
-

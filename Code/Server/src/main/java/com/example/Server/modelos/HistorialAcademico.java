@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HistorialAcademico {
     private Estudiante estudiante;
+    @Builder.Default
     private List<ActaEstudiante> actas = new ArrayList<>();
     private Double promedioGeneral;
     private Integer creditosAprobados;

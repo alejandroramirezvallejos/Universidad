@@ -13,7 +13,10 @@ public class ServicioOfertaAcademica {
 
     public Gestion getOfertaPorGestion(String codigoGestion) {
         Gestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion).orElse(null);
-        if (gestion == null) return null;
+
+        if (gestion == null)
+            return null;
+
         return generador.generar(gestion);
     }
 }

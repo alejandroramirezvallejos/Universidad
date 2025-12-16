@@ -15,13 +15,12 @@ public class ServicioInscripcion {
     private final RepositorioMatricula repositorio;
     private final IValidarMatricula validador;
 
-    public Matricula setMatricula(Estudiante estudiante, ParaleloMateria paralelo) {
+    public Matricula crear(Estudiante estudiante, ParaleloMateria paralelo) {
         String error = validador.validar(estudiante, paralelo);
 
         if (error != null) {
             System.out.println("ERROR DE VALIDACION: " + error);
             return null;
-
         }
 
         Matricula matricula = construir(estudiante, paralelo);
@@ -37,8 +36,10 @@ public class ServicioInscripcion {
         return matricula;
     }
 
-    public void aceptarMatricula(Matricula matricula) {
-        if (matricula == null) return;
+    public void aceptar(Matricula matricula) {
+        if (matricula == null)
+            return;
+
         agregarEstudiante(matricula);
         actualizar(matricula);
     }
@@ -73,7 +74,7 @@ public class ServicioInscripcion {
         return resultado;
     }
 
-    public void cancelarMatricula(String estudianteCodigo, String paraleloCodigo) {
+    public void cancelar(String estudianteCodigo, String paraleloCodigo) {
         List<Matricula> matriculasEstudiante = repositorio.buscarPorEstudiante(estudianteCodigo);
         Matricula matriculaAEliminar = null;
 
@@ -87,8 +88,3 @@ public class ServicioInscripcion {
             repositorio.eliminar(matriculaAEliminar);
     }
 }
-
-
-
-
-

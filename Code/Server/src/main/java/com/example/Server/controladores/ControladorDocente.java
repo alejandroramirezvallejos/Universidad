@@ -39,7 +39,7 @@ public class ControladorDocente {
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Docente> getDocentes(@PathVariable String codigo) {
+    public ResponseEntity<Docente> getDocentePorCodigo(@PathVariable String codigo) {
         Docente docente = servicio.buscarPorCodigo(codigo);
 
         if (docente == null)

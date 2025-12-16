@@ -26,19 +26,28 @@ public class ServicioReportes {
 
     public Map<String, Object> getReporteEstudiantesPorCarrera(String codigoCarrera) {
         Carrera carrera = repositorioCarrera.buscarPorCodigo(codigoCarrera);
-        if (carrera == null) return null;
+
+        if (carrera == null)
+            return null;
+
         return generador.generarReporteCarrera(carrera, repositorioEstudiante.getEstudiantes());
     }
 
     public Map<String, Object> getReporteInscripcionesPorGestion(String codigoGestion) {
         Gestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion).orElse(null);
-        if (gestion == null) return null;
+
+        if (gestion == null)
+            return null;
+
         return generador.generarReporteInscripciones(gestion, repositorioMatricula.getMatriculas());
     }
 
     public Map<String, Object> getReporteRendimientoPorParalelo(String codigoParalelo) {
         ParaleloMateria paralelo = repositorioParalelo.buscarPorCodigo(codigoParalelo);
-        if (paralelo == null) return null;
+
+        if (paralelo == null)
+            return null;
+
         return generador.generarReporteRendimiento(paralelo);
     }
 

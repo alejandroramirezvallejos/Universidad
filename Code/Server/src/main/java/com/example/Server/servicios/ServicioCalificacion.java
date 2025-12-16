@@ -23,6 +23,7 @@ public class ServicioCalificacion {
     }
 
     public List<Calificacion> getCalificacionesPorEstudiante(String estudianteCodigo) {
+
         Estudiante estudiante = repositorioEstudiante.buscarPorCodigo(estudianteCodigo);
         if (estudiante == null)
             return new ArrayList<>();
@@ -32,9 +33,5 @@ public class ServicioCalificacion {
 
     public void eliminar(Calificacion calificacion) {
         repositorio.eliminar(calificacion);
-    }
-
-    public Calificacion actualizar(Calificacion calificacion) {
-        return repositorio.guardar(calificacion);
     }
 }

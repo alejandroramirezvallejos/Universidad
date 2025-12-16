@@ -11,6 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Evaluacion {
+    @Builder.Default
     private String codigo = UUID.randomUUID().toString();
     private String nombre;
     private Double porcentaje;

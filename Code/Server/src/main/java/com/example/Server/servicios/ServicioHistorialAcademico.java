@@ -7,7 +7,6 @@ import com.example.Server.repositorios.RepositorioActaEstudiante;
 import com.example.Server.repositorios.RepositorioHistorialAcademico;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +16,7 @@ public class ServicioHistorialAcademico {
     private final RepositorioHistorialAcademico repositorio;
     private final CalculadoraHistorial calculadora;
 
-    public HistorialAcademico setHistorial(Estudiante estudiante) {
+    public HistorialAcademico crear(Estudiante estudiante) {
         List<ActaEstudiante> actas = getActasEstudiante(estudiante);
         double promedio = calculadora.calcularPromedio(actas);
         int aprobados = calculadora.calcularCreditosAprobados(actas);
@@ -49,24 +48,16 @@ public class ServicioHistorialAcademico {
         repositorio.eliminar(historial);
     }
 
-    public HistorialAcademico getHistorialPorEstudiante(String estudianteCodigo) {
-        for (HistorialAcademico historial : repositorio.getHistoriales())
-            if (historial.getEstudiante() != null && historial.getEstudiante().getCodigo().equals(estudianteCodigo))
+    public HistorialAcademico obtenerPorEstudiante(String estudianteCodigo) {
+        for (HistorialAcademico historial : getHistoriales())
+            if (historial.getEstudiante().getCodigo().equals(estudianteCodigo))
                 return historial;
 
         return null;
     }
 
-    public Double getPromedioGeneral(String estudianteCodigo) {
-        List<ActaEstudiante> actas = new ArrayList<>();
-
-        for (ActaEstudiante acta : repositorioActa.getActas())
-            if (acta.getEstudiante() != null && acta.getEstudiante().getCodigo().equals(estudianteCodigo))
-                actas.add(acta);
-
-        if (actas.isEmpty())
-            return 0.0;
-
-        return calculadora.calcularPromedio(actas);
+    public Double calcularPromedioGeneral(String estudianteCodigo) {
+        HistorialAcademico historial = obtenerPorEstudiante(estudianteCodigo);
+        return historial != null ? historial.getPromedioGeneral() : 0.0;
     }
 }

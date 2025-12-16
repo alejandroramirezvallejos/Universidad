@@ -32,7 +32,7 @@ public class ServicioMateria {
         return repositorio.getMaterias();
     }
 
-    public Materia setMateria(Materia materia) {
+    public Materia crear(Materia materia) {
         return repositorio.guardar(materia);
     }
 
@@ -44,6 +44,3 @@ public class ServicioMateria {
         return repositorio.buscarPorCodigo(codigo);
     }
 }
-
-
-

@@ -14,7 +14,7 @@ public class ServicioUsuario {
         return contextoUsuario.buscarPorCodigo(codigo);
     }
 
-    public Usuario setUsuario(String codigo, Map<String, Object> datos) {
+    public Usuario actualizar(String codigo, Map<String, Object> datos) {
         return contextoUsuario.actualizar(codigo, datos);
     }
 }

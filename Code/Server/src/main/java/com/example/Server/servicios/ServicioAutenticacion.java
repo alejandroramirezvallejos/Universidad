@@ -61,7 +61,6 @@ public class ServicioAutenticacion {
         else
              throw new RuntimeException("La carrera es requerida");
 
-
         if (estudiante.getSemestre() == 0)
             estudiante.setSemestre(1);
 

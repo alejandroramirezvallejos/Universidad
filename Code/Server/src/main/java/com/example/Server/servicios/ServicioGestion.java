@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ServicioGestion {
     private final RepositorioGestion repositorio;
 
-    public Gestion setGestion(Gestion gestion) {
+    public Gestion crear(Gestion gestion) {
         return repositorio.guardar(gestion);
     }
 

@@ -14,7 +14,7 @@ public class ControladorOfertaAcademica {
 
     @GetMapping("/gestion/{codigo}")
     public ResponseEntity<Gestion> getOfertaAcademica(@PathVariable String codigo) {
-        Gestion oferta = servicio.obtenerOfertaPorGestion(codigo);
+        Gestion oferta = servicio.getOfertaPorGestion(codigo);
 
         if (oferta == null)
             return ResponseEntity.notFound().build();

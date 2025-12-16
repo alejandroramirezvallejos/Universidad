@@ -1,12 +1,10 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.Estudiante;
 import com.example.Server.servicios.ServicioEstudiante;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

@@ -15,7 +15,7 @@ public class ControladorUsuario {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Usuario> getUsuario(@PathVariable String codigo) {
-        Usuario usuario = servicio.obtenerPorCodigo(codigo);
+        Usuario usuario = servicio.getUsuarioPorCodigo(codigo);
 
         if (usuario == null)
             return ResponseEntity.notFound().build();

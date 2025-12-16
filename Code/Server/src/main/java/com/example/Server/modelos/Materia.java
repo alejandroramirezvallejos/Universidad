@@ -15,8 +15,11 @@ public class Materia {
     private String nombre;
     private Integer semestre;
     private Integer creditos;
+    @Builder.Default
     private boolean activa = true;
+    @Builder.Default
     private List<Materia> materiasCorrelativas = new ArrayList<>();
+    @Builder.Default
     private List<ParaleloMateria> paraleloMaterias = new ArrayList<>();
     private Carrera carrera;
 }

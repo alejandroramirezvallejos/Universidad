@@ -17,6 +17,8 @@ public class ParaleloMateria {
     private Aula aula;
     private Gestion gestion;
     private Integer cupoMaximo;
+    @Builder.Default
     private List<Estudiante> estudiantes = new ArrayList<>();
+    @Builder.Default
     private List<Horario> horarios = new ArrayList<>();
 }

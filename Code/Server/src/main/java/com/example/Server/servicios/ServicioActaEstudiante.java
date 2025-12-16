@@ -11,8 +11,8 @@ import com.example.Server.repositorios.RepositorioEvaluacion;
 import com.example.Server.validadores.calificacion.IValidarCalificacion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class ServicioActaEstudiante {
     private final CalculadoraPromedio calculadora;
     private final IValidarCalificacion validadorCalificacion;
 
-    public ActaEstudiante setActa(Estudiante estudiante, ParaleloMateria paralelo) {
+    public ActaEstudiante crear(Estudiante estudiante, ParaleloMateria paralelo) {
         List<Evaluacion> evaluaciones = repositorioEvaluacion.getEvaluaciones();
         double nota = calculadora.calcular(estudiante, paralelo, evaluaciones);
         ActaEstudiante acta = new ActaEstudiante();
@@ -33,7 +33,10 @@ public class ServicioActaEstudiante {
         boolean aprobado = validadorCalificacion.validar(nota);
         acta.setAprobado(aprobado);
         contexto.notificar(estudiante, paralelo.getMateria(), nota);
-        if (aprobado) estudiante.getMateriasAprobadas().add(paralelo.getMateria());
+
+        if (aprobado)
+            estudiante.getMateriasAprobadas().add(paralelo.getMateria());
+
         return repositorio.guardar(acta);
     }
 
@@ -50,12 +53,17 @@ public class ServicioActaEstudiante {
     }
 
     private List<ActaEstudiante> getActasPorEstado(boolean aprobado) {
-        return repositorio.getActas().stream()
-                .filter(acta -> acta.isAprobado() == aprobado)
-                .collect(Collectors.toList());
+        List<ActaEstudiante> resultado = new ArrayList<>();
+
+        for (ActaEstudiante acta : repositorio.getActas())
+            if (acta.isAprobado() == aprobado)
+                resultado.add(acta);
+
+        return resultado;
     }
 
-    public void eliminarActa(ActaEstudiante acta) {
+
+    public void eliminar(ActaEstudiante acta) {
         repositorio.eliminar(acta);
     }
 

@@ -9,6 +9,7 @@ import lombok.Builder;
 @Data
 @Builder
 public class Aula {
+    @Builder.Default
     private boolean disponible = true;
     private Integer capacidad;
     private String edificio;

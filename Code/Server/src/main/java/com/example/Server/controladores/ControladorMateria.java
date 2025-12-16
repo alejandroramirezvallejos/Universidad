@@ -22,7 +22,7 @@ public class ControladorMateria {
 
     @PostMapping("/agregar-carrera")
     public ResponseEntity<Materia> agregar(@RequestBody Materia materia) {
-        Materia resultado = servicio.agregarCarrera(materia, materia.getCarrera());
+        Materia resultado = servicio.agregar(materia, materia.getCarrera());
         return ResponseEntity.ok(resultado);
     }
 
@@ -40,7 +40,7 @@ public class ControladorMateria {
 
     @PutMapping("/{codigo}")
     public ResponseEntity<Materia> actualizar(@PathVariable String codigo, @RequestBody Materia materiaDto) {
-        Materia materia = servicio.buscarPorCodigo(codigo);
+        Materia materia = servicio.getMateriaPorCodigo(codigo);
 
         if (materia == null)
             return ResponseEntity.notFound().build();
@@ -49,26 +49,26 @@ public class ControladorMateria {
         materia.setSemestre(materiaDto.getSemestre());
         materia.setCreditos(materiaDto.getCreditos());
 
-        Materia actualizada = servicio.actualizar(materia);
+        Materia actualizada = servicio.crear(materia);
         return ResponseEntity.ok(actualizada);
     }
 
     @PatchMapping("/{codigo}/estado")
     public ResponseEntity<Materia> setEstado(@PathVariable String codigo) {
-        Materia materia = servicio.buscarPorCodigo(codigo);
+        Materia materia = servicio.getMateriaPorCodigo(codigo);
 
         if (materia == null)
             return ResponseEntity.notFound().build();
 
         materia.setActiva(!materia.isActiva());
-        Materia actualizada = servicio.actualizar(materia);
-        
+        Materia actualizada = servicio.crear(materia);
+
         return ResponseEntity.ok(actualizada);
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Materia> getMateria(@PathVariable String codigo) {
-        Materia materia = servicio.buscarPorCodigo(codigo);
+        Materia materia = servicio.getMateriaPorCodigo(codigo);
 
         if (materia == null)
             return ResponseEntity.notFound().build();
