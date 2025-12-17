@@ -708,7 +708,7 @@ El usuario accede al sistema ingresando su email y contraseña para autenticarse
 - Campo "Email" (obligatorio)
 - Campo "Contraseña" (obligatorio, oculto)
 - Botón "Iniciar Sesión"
-- Enlaces "Registrarse como Estudiante" y "Registrarse como Docente"
+- Enlaces "Login como Estudiante" y "Login como Docente"
 
 **FP3:** El usuario ingresa su email en el campo correspondiente
 
@@ -768,13 +768,13 @@ El usuario accede al sistema ingresando su email y contraseña para autenticarse
 
 ### Extensiones
 
-#### EX1: Ir a Registro de Estudiante
-**EX1.1:** En FP2, el usuario puede hacer clic en "Registrarse como Estudiante"  
-**EX1.2:** El sistema redirige a CU-2: Registrarse como Estudiante  
+#### EX1: Ir a Login de Estudiante
+**EX1.1:** En FP2, el usuario puede hacer clic en "Login como Estudiante"  
+**EX1.2:** El sistema redirige a CU-2: Login como Estudiante  
 
-#### EX2: Ir a Registro de Docente
-**EX2.1:** En FP2, el usuario puede hacer clic en "Registrarse como Docente"  
-**EX2.2:** El sistema redirige a CU-3: Registrarse como Docente
+#### EX2: Ir a Login de Docente
+**EX2.1:** En FP2, el usuario puede hacer clic en "Login como Docente"  
+**EX2.2:** El sistema redirige a CU-3: Login como Docente
 
 ### Inclusiones
 Ninguna
@@ -789,139 +789,6 @@ El sistema muestra mensaje: "El servidor no está disponible. Intenta más tarde
 - Usuario redirigido a su dashboard correspondiente según su rol
 
 <img width="495" height="285" alt="Image" src="https://github.com/user-attachments/assets/2a291cf8-bd99-42ac-a0ac-00c8aecfd85f" />
-
----
-
-## CU-2: REGISTRARSE COMO ESTUDIANTE
-
-**Versión:** 2.0  
-**Fecha:** 15/12/2025  
-**Autor:** Fernando Terrazas Llanos  
-**ID:** CU-2
-
-### Descripción
-Un nuevo estudiante crea su cuenta en el sistema proporcionando su información personal y eligiendo una contraseña.
-
-### Actores
-- Estudiante (nuevo usuario)
-
-### Precondiciones
-- El estudiante no debe tener cuenta registrada
-- El sistema debe estar disponible
-
-### Flujo Principal
-
-**FP1:** El estudiante accede a la página de registro desde el login
-
-**FP2:** El sistema muestra el formulario de registro con campos:
-- Email (obligatorio, único)
-- Contraseña (obligatorio, mínimo 6 caracteres)
-- Confirmar Contraseña (obligatorio)
-- Nombres (obligatorio)
-- Apellidos (obligatorio)
-- Carrera (selector obligatorio)
-- Teléfono (opcional)
-- Dirección (opcional)
-- Botón "Registrarse"
-- Enlace "Ya tengo cuenta"
-
-**FP3:** El estudiante ingresa su email
-
-**FP4:** El sistema valida que el email no esté registrado
-
-**FP5:** El estudiante ingresa una contraseña
-
-**FP6:** El sistema valida que la contraseña tenga mínimo 6 caracteres
-
-**FP7:** El estudiante confirma la contraseña
-
-**FP8:** El sistema valida que ambas contraseñas coincidan
-
-**FP9:** El estudiante ingresa sus nombres
-
-**FP10:** El estudiante ingresa sus apellidos
-
-**FP11:** El estudiante selecciona su carrera del selector
-
-**FP12:** El estudiante puede ingresar teléfono y dirección (opcional)
-
-**FP13:** El estudiante hace clic en "Registrarse"
-
-**FP14:** El sistema valida todos los campos obligatorios
-
-**FP15:** El sistema valida el formato del email
-
-**FP16:** El sistema genera el código de estudiante 
-
-**FP18:** El sistema crea el usuario con rol ESTUDIANTE
-
-**FP19:** El sistema guarda el registro en la base de datos
-
-**FP20:** El sistema envía email de bienvenida con el código generado
-
-**FP21:** El sistema muestra mensaje: "Registro exitoso. Tu código es: código. Puedes iniciar sesión"
-
-**FP22:** El sistema redirige automáticamente al login después de 3 segundos
-
-### Subflujos
-
-#### SF1: Email ya registrado (Paso 4 → Paso 3)
-**SF1.1:** En FP4, el sistema detecta que el email ya existe  
-**SF1.2:** El sistema muestra mensaje: "Este email ya está registrado"  
-**SF1.3:** El sistema marca el campo en rojo  
-**SF1.4:** El flujo retorna a FP3  
-
-#### SF2: Contraseña muy corta (Paso 6 → Paso 5)
-**SF2.1:** En FP6, el sistema detecta contraseña menor a 6 caracteres  
-**SF2.2:** El sistema muestra mensaje: "La contraseña debe tener al menos 6 caracteres"  
-**SF2.3:** El sistema marca el campo en rojo  
-**SF2.4:** El flujo retorna a FP5  
-
-#### SF3: Contraseñas no coinciden (Paso 8 → Paso 7)
-**SF3.1:** En FP8, las contraseñas no coinciden  
-**SF3.2:** El sistema muestra mensaje: "Las contraseñas no coinciden"  
-**SF3.3:** El sistema marca ambos campos en rojo  
-**SF3.4:** El flujo retorna a FP7  
-
-#### SF4: Campos obligatorios vacíos (Paso 14 → Paso 3)
-**SF4.1:** En FP14, el sistema detecta campos vacíos  
-**SF4.2:** El sistema marca todos los campos faltantes en rojo  
-**SF4.3:** El sistema muestra mensaje: "Complete todos los campos obligatorios"  
-**SF4.4:** El flujo retorna a FP3  
-
-#### SF5: Formato de email inválido (Paso 15 → Paso 3)
-**SF5.1:** En FP15, el sistema detecta formato incorrecto  
-**SF5.2:** El sistema muestra mensaje: "Ingrese un email válido"  
-**SF5.3:** El sistema marca el campo en rojo  
-**SF5.4:** El flujo retorna a FP3  
-
-#### SF6: Error al enviar email (Paso 20 → Paso 21)
-**SF6.1:** En FP20, el servicio de email falla  
-**SF6.2:** El sistema registra al usuario de todos modos  
-**SF6.3:** El sistema muestra el código en pantalla  
-**SF6.4:** El sistema muestra advertencia: "Registro exitoso pero no se pudo enviar el email"  
-**SF6.5:** El flujo continúa a FP21  
-
-### Extensiones
-Ninguna
-
-### Inclusiones
-Ninguna
-
-### Flujos Alternativos
-
-#### FA1: El sistema no está disponible
-Sistema no inicializado o detenido, el flujo termina.
-
-#### FA2: No hay carreras disponibles
-En FP2, el sistema detecta que no hay carreras registradas, el flujo no puede continuar.
-
-### Postcondiciones
-- Nuevo estudiante registrado en el sistema con rol ESTUDIANTE
-- Usuario creado
-- Usuario puede iniciar sesión inmediatamente
-
-<img width="408" height="178" alt="Image" src="https://github.com/user-attachments/assets/e60de8ea-dbfd-4ba2-8785-2b0eb279cb6e" />
 
 ---
 
