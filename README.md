@@ -694,7 +694,6 @@ El usuario accede al sistema ingresando su email y contraseña para autenticarse
 
 ### Actores
 - Estudiante
-- Docente
 - Director de Carrera
 
 ### Precondiciones
@@ -733,7 +732,6 @@ El usuario accede al sistema ingresando su email y contraseña para autenticarse
 
 **FP13:** El sistema redirige según el rol:
 - **Estudiante:** Dashboard con resumen de materias y calificaciones
-- **Docente:** Dashboard con grupos asignados y horarios
 - **Director:** Dashboard con estadísticas y gestión administrativa
 
 
