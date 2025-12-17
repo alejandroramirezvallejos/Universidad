@@ -180,11 +180,11 @@ public class Loader implements ApplicationRunner {
     private void crearParalelos() {
         System.out.println("📅 Creando Paralelos...");
 
-        Materia prog1 = (Materia) materiaServicio.getMateriaPorCodigo("SIS-101");
-        Materia bd1 = (Materia) materiaServicio.getMateriaPorCodigo("SIS-203");
-        Materia ingSw = (Materia) materiaServicio.getMateriaPorCodigo("SIS-303");
-        Docente doc1 = (Docente) docenteServicio.buscarPorCodigo("DOC001");
-        Docente doc2 = (Docente) docenteServicio.buscarPorCodigo("DOC002");
+        Materia prog1 = (Materia) materiaServicio.getMateria("SIS-101");
+        Materia bd1 = (Materia) materiaServicio.getMateria("SIS-203");
+        Materia ingSw = (Materia) materiaServicio.getMateria("SIS-303");
+        Docente doc1 = (Docente) docenteServicio.buscar("DOC001");
+        Docente doc2 = (Docente) docenteServicio.buscar("DOC002");
         Aula aula201 = (Aula) aulaServicio.getAulas().get(0);
         Aula aula202 = (Aula) aulaServicio.getAulas().get(1);
         Aula aulaB101 = (Aula) aulaServicio.getAulas().get(2);
