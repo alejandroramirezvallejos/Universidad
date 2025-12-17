@@ -11,25 +11,42 @@ import com.example.Server.repositorios.abstracciones.IRepositorioActaEstudiante;
 import com.example.Server.repositorios.abstracciones.IRepositorioEvaluacion;
 import com.example.Server.servicios.abstracciones.IServicioActaEstudiante;
 import com.example.Server.validadores.calificacion.IValidarCalificacion;
-import com.example.Server.estrategias.calificacion.CalcularCalificacionFinal;
-import lombok.RequiredArgsConstructor;
+import com.example.Server.estrategias.calificacion.ContextoCalculoCalificacion;
+import com.example.Server.estrategias.calificacion.IEstrategiaCalculoCalificacion;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ServicioActaEstudiante implements IServicioActaEstudiante {
     private final IRepositorioActaEstudiante repositorio;
     private final IRepositorioEvaluacion repositorioEvaluacion;
     private final IPublicadorDeNotificaciones publicador;
     private final IValidarCalificacion validador;
-    private final CalcularCalificacionFinal calculador;
+    private final ContextoCalculoCalificacion contextoCalificacion;
+    private final IEstrategiaCalculoCalificacion estrategiaCalificacionFinal;
+
+    public ServicioActaEstudiante(
+            IRepositorioActaEstudiante repositorio,
+            IRepositorioEvaluacion repositorioEvaluacion,
+            IPublicadorDeNotificaciones publicador,
+            IValidarCalificacion validador,
+            ContextoCalculoCalificacion contextoCalificacion,
+            @Qualifier("calcularCalificacionFinal") IEstrategiaCalculoCalificacion estrategiaCalificacionFinal) {
+        this.repositorio = repositorio;
+        this.repositorioEvaluacion = repositorioEvaluacion;
+        this.publicador = publicador;
+        this.validador = validador;
+        this.contextoCalificacion = contextoCalificacion;
+        this.estrategiaCalificacionFinal = estrategiaCalificacionFinal;
+    }
 
     @Override
     public IActaEstudiante crear(IEstudiante estudiante, IParaleloMateria paralelo) {
         List<IEvaluacion> evaluaciones = repositorioEvaluacion.buscarPorParalelo(paralelo.getCodigo());
-        double nota = calculador.calcular(estudiante, paralelo, evaluaciones);
+        contextoCalificacion.setEstrategia(estrategiaCalificacionFinal);
+        double nota = contextoCalificacion.calcular(estudiante, paralelo, evaluaciones);
         boolean aprobado = validador.validar(nota);
 
         ActaEstudiante acta = new ActaEstudiante();

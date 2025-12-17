@@ -2,14 +2,14 @@ package com.example.Server.estrategias.usuario;
 import com.example.Server.modelos.abstracciones.AUsuario;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.repositorios.abstracciones.IRepositorioEstudiante;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class UsuarioEstudiante implements IEstrategiaUsuario {
-    @Autowired
-    private IRepositorioEstudiante repositorioEstudiante;
+    private final IRepositorioEstudiante repositorioEstudiante;
 
     @Override
     public AUsuario buscar(String codigo) {
@@ -23,11 +23,16 @@ public class UsuarioEstudiante implements IEstrategiaUsuario {
         if (estudiante == null)
             return null;
 
-        if (datos.containsKey("nombre")) estudiante.setNombre((String) datos.get("nombre"));
-        if (datos.containsKey("apellido")) estudiante.setApellido((String) datos.get("apellido"));
-        if (datos.containsKey("email")) estudiante.setEmail((String) datos.get("email"));
-        if (datos.containsKey("contrasenna")) estudiante.setContrasenna((String) datos.get("contrasenna"));
-        if (datos.containsKey("semestre")) estudiante.setSemestre((Integer) datos.get("semestre"));
+        if (datos.containsKey("nombre"))
+            estudiante.setNombre((String) datos.get("nombre"));
+        if (datos.containsKey("apellido"))
+            estudiante.setApellido((String) datos.get("apellido"));
+        if (datos.containsKey("email"))
+            estudiante.setEmail((String) datos.get("email"));
+        if (datos.containsKey("contrasenna"))
+            estudiante.setContrasenna((String) datos.get("contrasenna"));
+        if (datos.containsKey("semestre"))
+            estudiante.setSemestre((Integer) datos.get("semestre"));
 
         return (AUsuario) repositorioEstudiante.guardar(estudiante);
     }

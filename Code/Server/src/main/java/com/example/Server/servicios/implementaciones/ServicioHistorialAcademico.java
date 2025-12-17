@@ -7,29 +7,54 @@ import com.example.Server.modelos.implementaciones.Calificacion;
 import com.example.Server.modelos.implementaciones.HistorialAcademico;
 import com.example.Server.repositorios.abstracciones.IRepositorioActaEstudiante;
 import com.example.Server.repositorios.abstracciones.IRepositorioHistorialAcademico;
-import com.example.Server.estrategias.calificacion.CalcularCalificacionPromedio;
-import com.example.Server.estrategias.credito.CalcularCreditosAprobados;
-import com.example.Server.estrategias.credito.CalcularCreditosTotales;
+import com.example.Server.estrategias.actas.ContextoCalculoPromedioActas;
+import com.example.Server.estrategias.actas.IEstrategiaCalculoPromedioActas;
+import com.example.Server.estrategias.credito.ContextoCalculoCredito;
+import com.example.Server.estrategias.credito.IEstrategiaCalculoCredito;
 import com.example.Server.servicios.abstracciones.IServicioHistorialAcademico;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ServicioHistorialAcademico implements IServicioHistorialAcademico {
     private final IRepositorioActaEstudiante repositorioActa;
     private final IRepositorioHistorialAcademico repositorio;
-    private final CalcularCalificacionPromedio calculadorPromedio;
-    private final CalcularCreditosAprobados calculadorCreditosAprobados;
-    private final CalcularCreditosTotales calculadorCreditosTotales;
+    private final ContextoCalculoPromedioActas contextoPromedio;
+    private final ContextoCalculoCredito contextoCredito;
+    private final IEstrategiaCalculoPromedioActas estrategiaPromedio;
+    private final IEstrategiaCalculoCredito estrategiaCreditosAprobados;
+    private final IEstrategiaCalculoCredito estrategiaCreditosTotales;
+
+    public ServicioHistorialAcademico(
+            IRepositorioActaEstudiante repositorioActa,
+            IRepositorioHistorialAcademico repositorio,
+            ContextoCalculoPromedioActas contextoPromedio,
+            ContextoCalculoCredito contextoCredito,
+            IEstrategiaCalculoPromedioActas estrategiaPromedio,
+            @Qualifier("calcularCreditosAprobados") IEstrategiaCalculoCredito estrategiaCreditosAprobados,
+            @Qualifier("calcularCreditosTotales") IEstrategiaCalculoCredito estrategiaCreditosTotales) {
+        this.repositorioActa = repositorioActa;
+        this.repositorio = repositorio;
+        this.contextoPromedio = contextoPromedio;
+        this.contextoCredito = contextoCredito;
+        this.estrategiaPromedio = estrategiaPromedio;
+        this.estrategiaCreditosAprobados = estrategiaCreditosAprobados;
+        this.estrategiaCreditosTotales = estrategiaCreditosTotales;
+    }
 
     @Override
     public IHistorialAcademico crear(IEstudiante estudiante) {
         List<IActaEstudiante> actas = repositorioActa.buscar(estudiante.getCodigo());
-        double promedio = calculadorPromedio.calcular(actas);
-        int aprobados = (int) calculadorCreditosAprobados.calcular(actas);
-        int totales = (int) calculadorCreditosTotales.calcular(actas);
+
+        contextoPromedio.setEstrategia(estrategiaPromedio);
+        double promedio = contextoPromedio.calcular(actas);
+
+        contextoCredito.setEstrategia(estrategiaCreditosAprobados);
+        int aprobados = (int) contextoCredito.calcular(actas);
+
+        contextoCredito.setEstrategia(estrategiaCreditosTotales);
+        int totales = (int) contextoCredito.calcular(actas);
 
         HistorialAcademico historial = new HistorialAcademico();
         historial.setEstudiante(estudiante);

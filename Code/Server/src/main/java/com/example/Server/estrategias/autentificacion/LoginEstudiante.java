@@ -1,9 +1,8 @@
 package com.example.Server.estrategias.autentificacion;
-
 import com.example.Server.modelos.abstracciones.AUsuario;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.repositorios.abstracciones.IRepositorioEstudiante;
-import com.example.Server.validadores.autentificacion.ValidarContrasenna;
+import com.example.Server.validadores.autentificacion.ValidacionCredenciales;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class LoginEstudiante implements IEstrategiaLogin {
     private final IRepositorioEstudiante repositorioEstudiante;
-    private final ValidarContrasenna validarContrasenna;
+    private final ValidacionCredenciales validacionCredenciales;
 
     @Override
     public AUsuario login(String email, String contrasenna) {
@@ -20,12 +19,12 @@ public class LoginEstudiante implements IEstrategiaLogin {
             return null;
 
         try {
-            validarContrasenna.validar(contrasenna, estudiante.getContrasenna());
+            validacionCredenciales.validarContrasenna(contrasenna, estudiante.getContrasenna());
             estudiante.setRol("ESTUDIANTE");
 
             return (AUsuario) estudiante;
         }
-        catch (RuntimeException excepccion) {
+        catch (RuntimeException excepcion) {
             return null;
         }
     }

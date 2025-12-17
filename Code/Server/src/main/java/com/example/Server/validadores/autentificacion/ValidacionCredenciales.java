@@ -8,11 +8,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ValidacionCredenciales {
     private final List<IValidadorCredenciales> validadores;
-    private final ValidarContrasenna validarContrasenna;
+    private final IValidadorContrasenna validadorContrasenna;
 
     public void validar(AUsuario credenciales) {
         for (IValidadorCredenciales validador : validadores)
             validador.validar(credenciales);
+    }
 
+    public void validarContrasenna(String contrasennaIngresada, String contrasennaAlmacenada) {
+        validadorContrasenna.validar(contrasennaIngresada, contrasennaAlmacenada);
     }
 }
+

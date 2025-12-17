@@ -2,14 +2,14 @@ package com.example.Server.estrategias.usuario;
 import com.example.Server.modelos.abstracciones.AUsuario;
 import com.example.Server.modelos.abstracciones.IDirectorCarrera;
 import com.example.Server.repositorios.abstracciones.IRepositorioDirectorCarrera;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class UsuarioDirector implements IEstrategiaUsuario {
-    @Autowired
-    private IRepositorioDirectorCarrera repositorioDirector;
+    private final IRepositorioDirectorCarrera repositorioDirector;
 
     @Override
     public AUsuario buscar(String codigo) {
@@ -23,10 +23,14 @@ public class UsuarioDirector implements IEstrategiaUsuario {
         if (director == null)
             return null;
 
-        if (datos.containsKey("nombre")) director.setNombre((String) datos.get("nombre"));
-        if (datos.containsKey("apellido")) director.setApellido((String) datos.get("apellido"));
-        if (datos.containsKey("email")) director.setEmail((String) datos.get("email"));
-        if (datos.containsKey("contrasenna")) director.setContrasenna((String) datos.get("contrasenna"));
+        if (datos.containsKey("nombre"))
+            director.setNombre((String) datos.get("nombre"));
+        if (datos.containsKey("apellido"))
+            director.setApellido((String) datos.get("apellido"));
+        if (datos.containsKey("email"))
+            director.setEmail((String) datos.get("email"));
+        if (datos.containsKey("contrasenna"))
+            director.setContrasenna((String) datos.get("contrasenna"));
 
         return (AUsuario) repositorioDirector.guardar(director);
     }
