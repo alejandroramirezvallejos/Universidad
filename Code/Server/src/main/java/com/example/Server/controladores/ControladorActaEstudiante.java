@@ -1,6 +1,8 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.ActaEstudiante;
-import com.example.Server.servicios.ServicioActaEstudiante;
+
+import com.example.Server.modelos.abstracciones.IActaEstudiante;
+import com.example.Server.modelos.implementaciones.ActaEstudiante;
+import com.example.Server.servicios.abstracciones.IServicioActaEstudiante;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,25 +14,25 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorActaEstudiante {
-    private final ServicioActaEstudiante servicio;
+    private final IServicioActaEstudiante servicio;
 
     @PostMapping
-    public ResponseEntity<ActaEstudiante> crear(@RequestBody ActaEstudiante acta) {
+    public ResponseEntity<IActaEstudiante> crear(@RequestBody ActaEstudiante acta) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(acta.getEstudiante(), acta.getParaleloMateria()));
     }
 
     @GetMapping
-    public ResponseEntity<List<ActaEstudiante>> getActas() {
+    public ResponseEntity<List<IActaEstudiante>> getActas() {
         return ResponseEntity.ok(servicio.getActas());
     }
 
     @GetMapping("/aprobadas")
-    public ResponseEntity<List<ActaEstudiante>> getActasAprobadas() {
+    public ResponseEntity<List<IActaEstudiante>> getActasAprobadas() {
         return ResponseEntity.ok(servicio.getActasAprobadas());
     }
 
     @GetMapping("/reprobadas")
-    public ResponseEntity<List<ActaEstudiante>> getActasReprobadas() {
+    public ResponseEntity<List<IActaEstudiante>> getActasReprobadas() {
         return ResponseEntity.ok(servicio.getActasReprobadas());
     }
 

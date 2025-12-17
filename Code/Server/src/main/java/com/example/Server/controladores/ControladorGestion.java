@@ -1,6 +1,8 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.Gestion;
-import com.example.Server.servicios.ServicioGestion;
+
+import com.example.Server.modelos.abstracciones.IGestion;
+import com.example.Server.modelos.implementaciones.Gestion;
+import com.example.Server.servicios.abstracciones.IServicioGestion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,25 +14,25 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorGestion {
-    private final ServicioGestion servicio;
+    private final IServicioGestion servicio;
 
     @PostMapping
-    public ResponseEntity<Gestion> crear(@RequestBody Gestion gestion) {
+    public ResponseEntity<IGestion> crear(@RequestBody Gestion gestion) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(gestion));
     }
 
     @GetMapping
-    public ResponseEntity<List<Gestion>> getGestiones() {
+    public ResponseEntity<List<IGestion>> getGestiones() {
         return ResponseEntity.ok(servicio.getGestiones());
     }
 
     @GetMapping("/actual")
-    public ResponseEntity<Gestion> getGestionActual() {
+    public ResponseEntity<IGestion> getGestionActual() {
         return ResponseEntity.ok(servicio.getGestionActual());
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Gestion> getGestionPorCodigo(@PathVariable String codigo) {
+    public ResponseEntity<IGestion> getGestionPorCodigo(@PathVariable String codigo) {
         return ResponseEntity.ok(servicio.getGestionPorCodigo(codigo));
     }
 

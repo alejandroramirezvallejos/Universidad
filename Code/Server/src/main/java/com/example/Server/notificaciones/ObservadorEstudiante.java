@@ -1,5 +1,6 @@
 package com.example.Server.notificaciones;
-import com.example.Server.modelos.NotificacionEvento;
+
+import com.example.Server.modelos.abstracciones.INotificacion;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,12 @@ public class ObservadorEstudiante implements IObservador {
     }
 
     @Override
-    public boolean debeNotificar(NotificacionEvento evento) {
+    public boolean debeNotificar(INotificacion evento) {
         return evento.getEstudiante() != null;
     }
 
     @Override
-    public void actualizar(NotificacionEvento evento) {
+    public void actualizar(INotificacion evento) {
         String estado = evento.getNotaFinal() >= 51.0 ? "APROBADO" : "REPROBADO";
         System.out.println("NOTIFICACIÓN A ESTUDIANTE:");
         System.out.println("Hola " + evento.getEstudiante().getNombre() + ", " + estado);

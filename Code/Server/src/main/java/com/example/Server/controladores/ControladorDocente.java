@@ -1,6 +1,8 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.Docente;
-import com.example.Server.servicios.ServicioDocente;
+
+import com.example.Server.modelos.abstracciones.IDocente;
+import com.example.Server.modelos.implementaciones.Docente;
+import com.example.Server.servicios.abstracciones.IServicioDocente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorDocente {
-    private final ServicioDocente servicio;
+    private final IServicioDocente servicio;
 
     @PostMapping
-    public ResponseEntity<Docente> crear(@RequestBody Docente docente) {
+    public ResponseEntity<IDocente> crear(@RequestBody Docente docente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(docente));
     }
 
     @GetMapping
-    public ResponseEntity<List<Docente>> getDocentes() {
+    public ResponseEntity<List<IDocente>> getDocentes() {
         return ResponseEntity.ok(servicio.getDocentes());
     }
 
@@ -31,13 +33,13 @@ public class ControladorDocente {
     }
 
     @GetMapping("/activos")
-    public ResponseEntity<List<Docente>> getDocentesActivos() {
+    public ResponseEntity<List<IDocente>> getDocentesActivos() {
         return ResponseEntity.ok(servicio.getDocentesActivos());
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Docente> getDocentePorCodigo(@PathVariable String codigo) {
-        Docente docente = servicio.buscarPorCodigo(codigo);
+    public ResponseEntity<IDocente> getDocentePorCodigo(@PathVariable String codigo) {
+        IDocente docente = servicio.buscarPorCodigo(codigo);
         return docente == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(docente);
     }
 }

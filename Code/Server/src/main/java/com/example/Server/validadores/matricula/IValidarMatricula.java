@@ -1,7 +1,8 @@
 package com.example.Server.validadores.matricula;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.modelos.ParaleloMateria;
+
+import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.abstracciones.IParaleloMateria;
 
 public interface IValidarMatricula {
-    String validar(Estudiante estudiante, ParaleloMateria paraleloMateria);
+    String validar(IEstudiante estudiante, IParaleloMateria paraleloMateria);
 }

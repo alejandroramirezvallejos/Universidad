@@ -1,6 +1,8 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.servicios.ServicioEstudiante;
+
+import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.implementaciones.Estudiante;
+import com.example.Server.servicios.abstracciones.IServicioEstudiante;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorEstudiante {
-    private final ServicioEstudiante servicio;
+    private final IServicioEstudiante servicio;
 
     @PostMapping
-    public ResponseEntity<Estudiante> crear(@RequestBody Estudiante estudiante) {
+    public ResponseEntity<IEstudiante> crear(@RequestBody Estudiante estudiante) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(estudiante));
     }
 
     @GetMapping
-    public ResponseEntity<List<Estudiante>> getEstudiantes() {
+    public ResponseEntity<List<IEstudiante>> getEstudiantes() {
         return ResponseEntity.ok(servicio.getEstudiantes());
     }
 

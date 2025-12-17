@@ -1,6 +1,7 @@
 package com.example.Server.controladores;
-import com.example.Server.servicios.ServicioReporte;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.Server.servicios.abstracciones.IServicioReporte;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -8,13 +9,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reportes")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class ControladorReporte {
-    @Autowired
-    private ServicioReporte servicio;
+    private final IServicioReporte servicio;
 
     @GetMapping
-    public ResponseEntity<List<String>> listarReportes() {
+    public ResponseEntity<List<String>> listar() {
         List<String> reportes = servicio.getReportesDisponibles();
         return ResponseEntity.ok(reportes);
     }

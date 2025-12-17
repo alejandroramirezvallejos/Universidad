@@ -1,6 +1,8 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.Calificacion;
-import com.example.Server.servicios.ServicioCalificacion;
+
+import com.example.Server.modelos.abstracciones.ICalificacion;
+import com.example.Server.modelos.implementaciones.Calificacion;
+import com.example.Server.servicios.abstracciones.IServicioCalificacion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,20 +14,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorCalificacion {
-    private final ServicioCalificacion servicio;
+    private final IServicioCalificacion servicio;
 
     @PostMapping
-    public ResponseEntity<Calificacion> crear(@RequestBody Calificacion calificacion) {
+    public ResponseEntity<ICalificacion> crear(@RequestBody Calificacion calificacion) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(calificacion));
     }
 
     @GetMapping
-    public ResponseEntity<List<Calificacion>> getCalificaciones() {
+    public ResponseEntity<List<ICalificacion>> getCalificaciones() {
         return ResponseEntity.ok(servicio.getCalificaciones());
     }
 
     @GetMapping("/estudiante/{estudianteCodigo}")
-    public ResponseEntity<List<Calificacion>> getCalificacionesPorEstudiante(@PathVariable String estudianteCodigo) {
+    public ResponseEntity<List<ICalificacion>> getCalificacionesPorEstudiante(@PathVariable String estudianteCodigo) {
         return ResponseEntity.ok(servicio.getCalificacionesPorEstudiante(estudianteCodigo));
     }
 

@@ -1,10 +1,13 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.Matricula;
-import com.example.Server.servicios.ServicioInscripcion;
+
+import com.example.Server.modelos.abstracciones.IMatricula;
+import com.example.Server.modelos.implementaciones.Matricula;
+import com.example.Server.servicios.abstracciones.IServicioInscripcion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -12,10 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorInscripcion {
-    private final ServicioInscripcion servicio;
+    private final IServicioInscripcion servicio;
 
     @PostMapping
-    public ResponseEntity<Matricula> inscribir(@RequestBody Matricula matricula) {
+    public ResponseEntity<IMatricula> inscribir(@RequestBody Matricula matricula) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(matricula.getEstudiante(), matricula.getParaleloMateria()));
     }
 
@@ -26,22 +29,25 @@ public class ControladorInscripcion {
     }
 
     @GetMapping
-    public ResponseEntity<List<Matricula>> getMatriculas() {
+    public ResponseEntity<List<IMatricula>> getMatriculas() {
         return ResponseEntity.ok(servicio.getMatriculas());
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<Matricula>> inscribirBatch(@RequestBody List<Matricula> inscripciones) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.inscribirBatch(inscripciones));
+    public ResponseEntity<List<IMatricula>> inscribirBatch(@RequestBody List<Matricula> inscripciones) {
+        List<IMatricula> lista = new ArrayList<>();
+        for (Matricula m : inscripciones)
+            lista.add(m);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.inscribirBatch(lista));
     }
 
     @GetMapping("/estudiante/{estudianteCodigo}")
-    public ResponseEntity<List<Matricula>> getInscripcionesPorEstudiante(@PathVariable String estudianteCodigo) {
+    public ResponseEntity<List<IMatricula>> getInscripcionesPorEstudiante(@PathVariable String estudianteCodigo) {
         return ResponseEntity.ok(servicio.getMatriculasPorEstudiante(estudianteCodigo));
     }
 
     @GetMapping("/paralelo/{paraleloCodigo}")
-    public ResponseEntity<List<Matricula>> getInscripcionesPorParalelo(@PathVariable String paraleloCodigo) {
+    public ResponseEntity<List<IMatricula>> getInscripcionesPorParalelo(@PathVariable String paraleloCodigo) {
         return ResponseEntity.ok(servicio.getMatriculasPorParalelo(paraleloCodigo));
     }
 

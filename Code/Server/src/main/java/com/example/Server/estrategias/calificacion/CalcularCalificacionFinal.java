@@ -1,8 +1,9 @@
 package com.example.Server.estrategias.calificacion;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.modelos.Evaluacion;
-import com.example.Server.modelos.ParaleloMateria;
-import com.example.Server.servicios.ServicioCalificacion;
+
+import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.abstracciones.IEvaluacion;
+import com.example.Server.modelos.abstracciones.IParaleloMateria;
+import com.example.Server.servicios.abstracciones.IServicioCalificacion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class CalcularCalificacionFinal implements IEstrategiaCalculoCalificacion {
-    private final ServicioCalificacion servicioCalificacion;
+    private final IServicioCalificacion servicioCalificacion;
 
     @Override
-    public double calcular(Estudiante estudiante, ParaleloMateria paralelo, List<Evaluacion> evaluaciones) {
+    public double calcular(IEstudiante estudiante, IParaleloMateria paralelo, List<IEvaluacion> evaluaciones) {
         double notaFinal = 0.0;
 
-        for (Evaluacion evaluacion : evaluaciones) {
+        for (IEvaluacion evaluacion : evaluaciones) {
             if (!evaluacion.getParaleloMateria().getCodigo().equals(paralelo.getCodigo()))
                 continue;
 

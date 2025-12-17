@@ -1,5 +1,5 @@
 package com.example.Server.validadores.autentificacion;
-import com.example.Server.modelos.Usuario;
+import com.example.Server.modelos.abstracciones.AUsuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class ValidacionDeLogin implements IValidarLogin {
     private final List<IValidarLogin> validadores;
 
     @Override
-    public String validar(Usuario usuario, String contrasenna) {
+    public String validar(AUsuario usuario, String contrasenna) {
         for (IValidarLogin validador : validadores) {
             String error = validador.validar(usuario, contrasenna);
 

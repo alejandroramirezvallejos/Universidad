@@ -1,5 +1,5 @@
 package com.example.Server.validadores.reporte;
-import com.example.Server.modelos.Reporte;
+import com.example.Server.modelos.abstracciones.AReporte;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class ValidacionReporte implements IValidarReporte {
     private final List<IValidarReporte> validadores;
 
     @Override
-    public void validar(Reporte reporte) {
+    public void validar(AReporte reporte) {
         for (IValidarReporte validador : validadores)
             if (validador != this)
                 validador.validar(reporte);

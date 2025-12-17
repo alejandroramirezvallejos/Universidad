@@ -1,6 +1,6 @@
 package com.example.Server.estrategias.reporte;
-import com.example.Server.modelos.Reporte;
-import com.example.Server.modelos.ReporteDeRendimiento;
+import com.example.Server.modelos.abstracciones.AReporte;
+import com.example.Server.modelos.implementaciones.ReporteDeRendimiento;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
 @Component
 public class ReporteRendimiento implements IEstrategiaReporte {
     @Override
-    public Map<String, Object> generar(Reporte reporte) {
+    public Map<String, Object> generar(AReporte reporte) {
         if (!(reporte instanceof ReporteDeRendimiento reporteDeRendimiento))
             return null;
 

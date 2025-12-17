@@ -1,6 +1,7 @@
 package com.example.Server.configuracion;
-import com.example.Server.modelos.*;
-import com.example.Server.servicios.*;
+
+import com.example.Server.modelos.implementaciones.*;
+import com.example.Server.servicios.abstracciones.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -11,14 +12,14 @@ import java.time.LocalTime;
 @Component
 @RequiredArgsConstructor
 public class Loader implements ApplicationRunner {
-    private final ServicioCarrera carreraServicio;
-    private final ServicioEstudiante estudianteServicio;
-    private final ServicioDocente docenteServicio;
-    private final ServicioDirectorCarrera directorCarreraServicio;
-    private final ServicioGestion gestionServicio;
-    private final ServicioMateria materiaServicio;
-    private final ServicioAula aulaServicio;
-    private final ServicioParaleloMateria paraleloMateriaServicio;
+    private final IServicioCarrera carreraServicio;
+    private final IServicioEstudiante estudianteServicio;
+    private final IServicioDocente docenteServicio;
+    private final IServicioDirectorCarrera directorCarreraServicio;
+    private final IServicioGestion gestionServicio;
+    private final IServicioMateria materiaServicio;
+    private final IServicioAula aulaServicio;
+    private final IServicioParaleloMateria paraleloMateriaServicio;
 
     @Override
     public void run(ApplicationArguments args){
@@ -73,10 +74,10 @@ public class Loader implements ApplicationRunner {
 
     private void crearEstudiantes() {
         System.out.println("👨‍🎓 Creando Estudiantes...");
-        Carrera carrera = carreraServicio.getCarreras().getFirst();
+        Carrera carrera = (Carrera) carreraServicio.getCarreras().get(0);
         crearEstudiante("EST001", "Juan", "Pérez", "juan.perez@ucb.edu.bo", "password123", carrera);
 
-        Carrera ingInd = carreraServicio.getCarreras().get(1);
+        Carrera ingInd = (Carrera) carreraServicio.getCarreras().get(1);
         crearEstudiante("EST002", "Ana", "Martínez", "ana.martinez@ucb.edu.bo", "password123", ingInd);
     }
 
@@ -110,10 +111,10 @@ public class Loader implements ApplicationRunner {
 
     private void crearDirectores() {
         System.out.println("👔 Creando Directores...");
-        Carrera carrera = carreraServicio.getCarreras().getFirst();
+        Carrera carrera = (Carrera) carreraServicio.getCarreras().get(0);
         crearDirector("DIR001", "Carlos", "Rodríguez", "carlos.rodriguez@ucb.edu.bo", "password123", carrera);
 
-        Carrera ingInd = carreraServicio.getCarreras().get(1);
+        Carrera ingInd = (Carrera) carreraServicio.getCarreras().get(1);
         crearDirector("DIR002", "Laura", "Fernández", "laura.fernandez@ucb.edu.bo", "password123", ingInd);
     }
 
@@ -180,14 +181,14 @@ public class Loader implements ApplicationRunner {
     private void crearParalelos() {
         System.out.println("📅 Creando Paralelos...");
 
-        Materia prog1 = materiaServicio.getMateriaPorCodigo("SIS-101");
-        Materia bd1 = materiaServicio.getMateriaPorCodigo("SIS-203");
-        Materia ingSw = materiaServicio.getMateriaPorCodigo("SIS-303");
-        Docente doc1 = docenteServicio.buscarPorCodigo("DOC001");
-        Docente doc2 = docenteServicio.buscarPorCodigo("DOC002");
-        Aula aula201 = aulaServicio.getAulas().get(0);
-        Aula aula202 = aulaServicio.getAulas().get(1);
-        Aula aulaB101 = aulaServicio.getAulas().get(2);
+        Materia prog1 = (Materia) materiaServicio.getMateriaPorCodigo("SIS-101");
+        Materia bd1 = (Materia) materiaServicio.getMateriaPorCodigo("SIS-203");
+        Materia ingSw = (Materia) materiaServicio.getMateriaPorCodigo("SIS-303");
+        Docente doc1 = (Docente) docenteServicio.buscarPorCodigo("DOC001");
+        Docente doc2 = (Docente) docenteServicio.buscarPorCodigo("DOC002");
+        Aula aula201 = (Aula) aulaServicio.getAulas().get(0);
+        Aula aula202 = (Aula) aulaServicio.getAulas().get(1);
+        Aula aulaB101 = (Aula) aulaServicio.getAulas().get(2);
 
         crearParalelo("SIS-101-A", prog1, doc1, aula201, 30,
             new Horario("LUNES", LocalTime.of(8, 0), LocalTime.of(10, 0)),

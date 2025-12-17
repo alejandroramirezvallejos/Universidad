@@ -1,7 +1,8 @@
 package com.example.Server.validadores.matricula;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.modelos.Materia;
-import com.example.Server.modelos.ParaleloMateria;
+
+import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.abstracciones.IMateria;
+import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +12,11 @@ public class ValidarLimiteDeCreditos implements IValidarMatricula {
     private static final int CREDITOS_MAXIMOS = 24;
 
     @Override
-    public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
+    public String validar(IEstudiante estudiante, IParaleloMateria paraleloMateria) {
         int creditosActuales = 0;
 
         if (estudiante.getMateriasInscritas() != null)
-            for (Materia materia : estudiante.getMateriasInscritas())
+            for (IMateria materia : estudiante.getMateriasInscritas())
                 creditosActuales += materia.getCreditos();
 
         int creditosNuevos = paraleloMateria.getMateria().getCreditos();

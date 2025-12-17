@@ -1,9 +1,10 @@
 package com.example.Server.estrategias.calificacion;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.modelos.Evaluacion;
-import com.example.Server.modelos.ParaleloMateria;
+
+import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.abstracciones.IEvaluacion;
+import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import java.util.List;
 
 public interface IEstrategiaCalculoCalificacion {
-    double calcular(Estudiante estudiante, ParaleloMateria paralelo, List<Evaluacion> evaluaciones);
+    double calcular(IEstudiante estudiante, IParaleloMateria paralelo, List<IEvaluacion> evaluaciones);
 }

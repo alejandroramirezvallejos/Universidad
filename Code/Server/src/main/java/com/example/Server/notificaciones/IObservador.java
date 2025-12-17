@@ -1,7 +1,8 @@
 package com.example.Server.notificaciones;
-import com.example.Server.modelos.NotificacionEvento;
+
+import com.example.Server.modelos.abstracciones.INotificacion;
 
 public interface IObservador {
-    void actualizar(NotificacionEvento evento);
-    boolean debeNotificar(NotificacionEvento evento);
+    void actualizar(INotificacion evento);
+    boolean debeNotificar(INotificacion evento);
 }

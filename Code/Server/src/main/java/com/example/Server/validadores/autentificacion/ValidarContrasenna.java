@@ -1,5 +1,5 @@
 package com.example.Server.validadores.autentificacion;
-import com.example.Server.modelos.Usuario;
+import com.example.Server.modelos.abstracciones.AUsuario;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Order(2)
 public class ValidarContrasenna implements IValidarLogin {
     @Override
-    public String validar(Usuario usuario, String contrasenna) {
+    public String validar(AUsuario usuario, String contrasenna) {
         if (!contrasenna.equals(usuario.getContrasenna()))
             return "Contraseña incorrecta";
 

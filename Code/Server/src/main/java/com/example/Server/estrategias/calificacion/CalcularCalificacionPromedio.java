@@ -1,26 +1,28 @@
 package com.example.Server.estrategias.calificacion;
-import com.example.Server.modelos.ActaEstudiante;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.modelos.Evaluacion;
-import com.example.Server.modelos.ParaleloMateria;
+
+import com.example.Server.modelos.abstracciones.IActaEstudiante;
+import com.example.Server.modelos.abstracciones.ICalificacion;
+import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.abstracciones.IEvaluacion;
+import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
 public class CalcularCalificacionPromedio implements IEstrategiaCalculoCalificacion {
     @Override
-    public double calcular(Estudiante estudiante, ParaleloMateria paralelo, List<Evaluacion> evaluaciones) {
+    public double calcular(IEstudiante estudiante, IParaleloMateria paralelo, List<IEvaluacion> evaluaciones) {
         double suma = 0.0;
         int contador = 0;
 
-        for (Evaluacion evaluacion : evaluaciones) {
+        for (IEvaluacion evaluacion : evaluaciones) {
             if (!evaluacion.getParaleloMateria().getCodigo().equals(paralelo.getCodigo()))
                 continue;
 
             if (evaluacion.getCalificaciones() == null)
                 continue;
 
-            for (var calificacion : evaluacion.getCalificaciones()) {
+            for (ICalificacion calificacion : evaluacion.getCalificaciones()) {
                 if (calificacion.getEstudiante().getCodigo().equals(estudiante.getCodigo())) {
                     suma += calificacion.getValor();
                     ++contador;
@@ -31,13 +33,13 @@ public class CalcularCalificacionPromedio implements IEstrategiaCalculoCalificac
         return contador > 0 ? suma / contador : 0.0;
     }
 
-    public double calcular(List<ActaEstudiante> actas) {
+    public double calcular(List<IActaEstudiante> actas) {
         if (actas.isEmpty())
             return 0.0;
 
         double suma = 0.0;
 
-        for (ActaEstudiante acta : actas)
+        for (IActaEstudiante acta : actas)
             suma += acta.getCalificacionFinal();
 
         return suma / actas.size();

@@ -1,19 +1,20 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.Gestion;
-import com.example.Server.servicios.ServicioOfertaAcademica;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.Server.modelos.abstracciones.IGestion;
+import com.example.Server.servicios.abstracciones.IServicioOfertaAcademica;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/oferta-academica")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class ControladorOfertaAcademica {
-    @Autowired
-    private ServicioOfertaAcademica servicio;
+    private final IServicioOfertaAcademica servicio;
 
     @GetMapping("/gestion/{codigo}")
-    public ResponseEntity<Gestion> getOfertaAcademica(@PathVariable String codigo) {
+    public ResponseEntity<IGestion> getOfertaAcademica(@PathVariable String codigo) {
         return ResponseEntity.ok(servicio.getOfertaPorGestion(codigo));
     }
 }

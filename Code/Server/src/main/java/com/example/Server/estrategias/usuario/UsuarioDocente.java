@@ -1,8 +1,8 @@
 package com.example.Server.estrategias.usuario;
 
-import com.example.Server.modelos.Docente;
-import com.example.Server.modelos.Usuario;
-import com.example.Server.repositorios.RepositorioDocente;
+import com.example.Server.modelos.abstracciones.AUsuario;
+import com.example.Server.modelos.abstracciones.IDocente;
+import com.example.Server.repositorios.abstracciones.IRepositorioDocente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Map;
@@ -10,16 +10,16 @@ import java.util.Map;
 @Component
 public class UsuarioDocente implements IEstrategiaUsuario {
     @Autowired
-    private RepositorioDocente repositorioDocente;
+    private IRepositorioDocente repositorioDocente;
 
     @Override
-    public Usuario buscar(String codigo) {
-        return repositorioDocente.buscarPorCodigo(codigo);
+    public AUsuario buscar(String codigo) {
+        return (AUsuario) repositorioDocente.buscarPorCodigo(codigo);
     }
 
     @Override
-    public Usuario actualizar(String codigo, Map<String, Object> datos) {
-        Docente docente = repositorioDocente.buscarPorCodigo(codigo);
+    public AUsuario actualizar(String codigo, Map<String, Object> datos) {
+        IDocente docente = repositorioDocente.buscarPorCodigo(codigo);
 
         if (docente == null)
             return null;
@@ -31,6 +31,6 @@ public class UsuarioDocente implements IEstrategiaUsuario {
         if (datos.containsKey("departamento")) docente.setDepartamento((String) datos.get("departamento"));
         if (datos.containsKey("especialidad")) docente.setEspecialidad((String) datos.get("especialidad"));
 
-        return repositorioDocente.guardar(docente);
+        return (AUsuario) repositorioDocente.guardar(docente);
     }
 }

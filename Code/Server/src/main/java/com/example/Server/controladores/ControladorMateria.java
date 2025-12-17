@@ -1,6 +1,8 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.Materia;
-import com.example.Server.servicios.ServicioMateria;
+
+import com.example.Server.modelos.abstracciones.IMateria;
+import com.example.Server.modelos.implementaciones.Materia;
+import com.example.Server.servicios.abstracciones.IServicioMateria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,20 +14,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorMateria {
-    private final ServicioMateria servicio;
+    private final IServicioMateria servicio;
 
     @PostMapping
-    public ResponseEntity<Materia> crear(@RequestBody Materia materia) {
+    public ResponseEntity<IMateria> crear(@RequestBody Materia materia) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(materia));
     }
 
     @PostMapping("/agregar-carrera")
-    public ResponseEntity<Materia> agregar(@RequestBody Materia materia) {
+    public ResponseEntity<IMateria> agregar(@RequestBody Materia materia) {
         return ResponseEntity.ok(servicio.agregar(materia, materia.getCarrera()));
     }
 
     @GetMapping
-    public ResponseEntity<List<Materia>> getMaterias() {
+    public ResponseEntity<List<IMateria>> getMaterias() {
         return ResponseEntity.ok(servicio.getMaterias());
     }
 
@@ -36,17 +38,17 @@ public class ControladorMateria {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Materia> actualizar(@PathVariable String codigo, @RequestBody Materia materiaDto) {
+    public ResponseEntity<IMateria> actualizar(@PathVariable String codigo, @RequestBody Materia materiaDto) {
         return ResponseEntity.ok(servicio.actualizar(codigo, materiaDto));
     }
 
     @PatchMapping("/{codigo}/estado")
-    public ResponseEntity<Materia> setEstado(@PathVariable String codigo) {
+    public ResponseEntity<IMateria> setEstado(@PathVariable String codigo) {
         return ResponseEntity.ok(servicio.cambiarEstado(codigo));
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Materia> getMateria(@PathVariable String codigo) {
+    public ResponseEntity<IMateria> getMateria(@PathVariable String codigo) {
         return ResponseEntity.ok(servicio.getMateriaPorCodigo(codigo));
     }
 }

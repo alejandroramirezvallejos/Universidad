@@ -1,8 +1,8 @@
 package com.example.Server.estrategias.usuario;
 
-import com.example.Server.modelos.DirectorCarrera;
-import com.example.Server.modelos.Usuario;
-import com.example.Server.repositorios.RepositorioDirectorCarrera;
+import com.example.Server.modelos.abstracciones.AUsuario;
+import com.example.Server.modelos.abstracciones.IDirectorCarrera;
+import com.example.Server.repositorios.abstracciones.IRepositorioDirectorCarrera;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Map;
@@ -10,16 +10,16 @@ import java.util.Map;
 @Component
 public class UsuarioDirector implements IEstrategiaUsuario {
     @Autowired
-    private RepositorioDirectorCarrera repositorioDirector;
+    private IRepositorioDirectorCarrera repositorioDirector;
 
     @Override
-    public Usuario buscar(String codigo) {
-        return repositorioDirector.buscarPorCodigo(codigo);
+    public AUsuario buscar(String codigo) {
+        return (AUsuario) repositorioDirector.buscarPorCodigo(codigo);
     }
 
     @Override
-    public Usuario actualizar(String codigo, Map<String, Object> datos) {
-        DirectorCarrera director = repositorioDirector.buscarPorCodigo(codigo);
+    public AUsuario actualizar(String codigo, Map<String, Object> datos) {
+        IDirectorCarrera director = repositorioDirector.buscarPorCodigo(codigo);
 
         if (director == null)
             return null;
@@ -29,6 +29,6 @@ public class UsuarioDirector implements IEstrategiaUsuario {
         if (datos.containsKey("email")) director.setEmail((String) datos.get("email"));
         if (datos.containsKey("contrasenna")) director.setContrasenna((String) datos.get("contrasenna"));
 
-        return repositorioDirector.guardar(director);
+        return (AUsuario) repositorioDirector.guardar(director);
     }
 }

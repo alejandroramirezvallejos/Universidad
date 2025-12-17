@@ -1,5 +1,5 @@
 package com.example.Server.estrategias.usuario;
-import com.example.Server.modelos.Usuario;
+import com.example.Server.modelos.abstracciones.AUsuario;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Map;
 public class ContextoUsuario {
     private final List<IEstrategiaUsuario> estrategias;
 
-    public Usuario buscarPorCodigo(String codigo) {
+    public AUsuario buscarPorCodigo(String codigo) {
         for (IEstrategiaUsuario estrategia : estrategias) {
-            Usuario usuario = estrategia.buscar(codigo);
+            AUsuario usuario = estrategia.buscar(codigo);
 
             if (usuario != null)
                 return usuario;
@@ -21,9 +21,9 @@ public class ContextoUsuario {
         return null;
     }
 
-    public Usuario actualizar(String codigo, Map<String, Object> datos) {
+    public AUsuario actualizar(String codigo, Map<String, Object> datos) {
         for (IEstrategiaUsuario estrategia : estrategias) {
-            Usuario usuario = estrategia.actualizar(codigo, datos);
+            AUsuario usuario = estrategia.actualizar(codigo, datos);
 
             if (usuario != null)
                 return usuario;

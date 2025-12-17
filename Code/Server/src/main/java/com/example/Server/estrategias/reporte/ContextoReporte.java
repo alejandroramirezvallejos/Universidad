@@ -1,6 +1,6 @@
 package com.example.Server.estrategias.reporte;
 
-import com.example.Server.modelos.Reporte;
+import com.example.Server.modelos.abstracciones.AReporte;
 import com.example.Server.validadores.reporte.IValidarReporte;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ public class ContextoReporte {
     private final List<IEstrategiaReporte> estrategias;
     private final IValidarReporte validador;
 
-    public Map<String, Object> generarReporte(Reporte reporte) {
+    public Map<String, Object> generarReporte(AReporte reporte) {
         validador.validar(reporte);
 
         for (IEstrategiaReporte estrategia : estrategias) {

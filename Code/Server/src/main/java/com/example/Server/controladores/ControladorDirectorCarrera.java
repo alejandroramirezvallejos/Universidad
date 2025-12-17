@@ -1,6 +1,8 @@
 package com.example.Server.controladores;
-import com.example.Server.modelos.DirectorCarrera;
-import com.example.Server.servicios.ServicioDirectorCarrera;
+
+import com.example.Server.modelos.abstracciones.IDirectorCarrera;
+import com.example.Server.modelos.implementaciones.DirectorCarrera;
+import com.example.Server.servicios.abstracciones.IServicioDirectorCarrera;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ControladorDirectorCarrera {
-    private final ServicioDirectorCarrera servicio;
+    private final IServicioDirectorCarrera servicio;
 
     @PostMapping
-    public ResponseEntity<DirectorCarrera> crear(@RequestBody DirectorCarrera director) {
+    public ResponseEntity<IDirectorCarrera> crear(@RequestBody DirectorCarrera director) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(director));
     }
 
     @GetMapping
-    public ResponseEntity<List<DirectorCarrera>> getDirectores() {
+    public ResponseEntity<List<IDirectorCarrera>> getDirectores() {
         return ResponseEntity.ok(servicio.getDirectores());
     }
 

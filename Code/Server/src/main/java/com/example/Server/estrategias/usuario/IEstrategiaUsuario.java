@@ -1,8 +1,8 @@
 package com.example.Server.estrategias.usuario;
-import com.example.Server.modelos.Usuario;
+import com.example.Server.modelos.abstracciones.AUsuario;
 import java.util.Map;
 
 public interface IEstrategiaUsuario {
-    Usuario buscar(String codigo);
-    Usuario actualizar(String codigo, Map<String, Object> datos);
+    AUsuario buscar(String codigo);
+    AUsuario actualizar(String codigo, Map<String, Object> datos);
 }

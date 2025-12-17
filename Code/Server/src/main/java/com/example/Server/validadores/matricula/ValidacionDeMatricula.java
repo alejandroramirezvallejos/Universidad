@@ -1,6 +1,7 @@
 package com.example.Server.validadores.matricula;
-import com.example.Server.modelos.Estudiante;
-import com.example.Server.modelos.ParaleloMateria;
+
+import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ public class ValidacionDeMatricula implements IValidarMatricula {
     private final List<IValidarMatricula> validadores;
 
     @Override
-    public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
+    public String validar(IEstudiante estudiante, IParaleloMateria paraleloMateria) {
         for (IValidarMatricula validador : validadores) {
             String error = validador.validar(estudiante, paraleloMateria);
 
