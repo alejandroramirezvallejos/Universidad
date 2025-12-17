@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IActaEstudiante;
 import com.example.Server.modelos.implementaciones.ActaEstudiante;
 import com.example.Server.repositorios.abstracciones.IRepositorioActaEstudiante;
@@ -31,8 +30,7 @@ public class RepositorioActaEstudiante implements IRepositorioActaEstudiante {
         List<IActaEstudiante> actaLista = new ArrayList<>();
 
         for (List<ActaEstudiante> lista : actas.values())
-            for (ActaEstudiante acta : lista)
-                actaLista.add(acta);
+            actaLista.addAll(lista);
 
         return actaLista;
     }
@@ -47,12 +45,13 @@ public class RepositorioActaEstudiante implements IRepositorioActaEstudiante {
     }
 
     @Override
-    public List<IActaEstudiante> buscarPorEstudiante(String codigoEstudiante) {
+    public List<IActaEstudiante> buscar(String codigoEstudiante) {
         List<IActaEstudiante> resultado = new ArrayList<>();
         List<ActaEstudiante> lista = actas.get(codigoEstudiante);
+
         if (lista != null)
-            for (ActaEstudiante acta : lista)
-                resultado.add(acta);
+            resultado.addAll(lista);
+
         return resultado;
     }
 }

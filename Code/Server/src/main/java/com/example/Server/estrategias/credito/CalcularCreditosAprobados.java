@@ -1,5 +1,4 @@
 package com.example.Server.estrategias.credito;
-
 import com.example.Server.modelos.abstracciones.IActaEstudiante;
 import org.springframework.stereotype.Component;
 import java.util.List;

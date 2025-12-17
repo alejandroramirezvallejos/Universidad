@@ -1,5 +1,4 @@
 package com.example.Server.servicios.abstracciones;
-
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import java.util.List;
 

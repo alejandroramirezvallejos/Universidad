@@ -1,5 +1,4 @@
 package com.example.Server.notificaciones;
-
 import com.example.Server.modelos.abstracciones.INotificacion;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;

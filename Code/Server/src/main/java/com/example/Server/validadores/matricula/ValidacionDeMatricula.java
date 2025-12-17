@@ -1,5 +1,4 @@
 package com.example.Server.validadores.matricula;
-
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +14,13 @@ public class ValidacionDeMatricula implements IValidarMatricula {
 
     @Override
     public String validar(IEstudiante estudiante, IParaleloMateria paraleloMateria) {
-        for (IValidarMatricula validador : validadores) {
-            String error = validador.validar(estudiante, paraleloMateria);
+        for (IValidarMatricula validador : validadores)
+            if (validador != this) {
+                String resultado = validador.validar(estudiante, paraleloMateria);
 
-            if (error != null)
-                return error;
-        }
+                if (resultado != null)
+                    return resultado;
+            }
 
         return null;
     }

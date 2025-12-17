@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IGestion;
 import com.example.Server.modelos.implementaciones.Gestion;
 import com.example.Server.repositorios.abstracciones.IRepositorioGestion;
@@ -22,10 +21,7 @@ public class RepositorioGestion implements IRepositorioGestion {
 
     @Override
     public List<IGestion> getGestiones() {
-        List<IGestion> resultado = new ArrayList<>();
-        for (Gestion gestion : gestiones.values())
-            resultado.add(gestion);
-        return resultado;
+        return new ArrayList<>(gestiones.values());
     }
 
     @Override

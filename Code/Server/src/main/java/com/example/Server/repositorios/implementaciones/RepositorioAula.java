@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IAula;
 import com.example.Server.modelos.implementaciones.Aula;
 import com.example.Server.repositorios.abstracciones.IRepositorioAula;
@@ -22,10 +21,7 @@ public class RepositorioAula implements IRepositorioAula {
 
     @Override
     public List<IAula> getAulas() {
-        List<IAula> resultado = new ArrayList<>();
-        for (Aula aula : aulas.values())
-            resultado.add(aula);
-        return resultado;
+        return new ArrayList<>(aulas.values());
     }
 
     @Override
@@ -34,7 +30,7 @@ public class RepositorioAula implements IRepositorioAula {
     }
 
     @Override
-    public IAula buscarPorCodigo(String codigo) {
+    public IAula buscar(String codigo) {
         return aulas.get(codigo);
     }
 }

@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IDocente;
 import com.example.Server.repositorios.abstracciones.IRepositorioDocente;
 import com.example.Server.servicios.abstracciones.IServicioDocente;
@@ -40,10 +39,12 @@ public class ServicioDocente implements IServicioDocente {
     }
 
     @Override
-    public IDocente buscarPorCodigo(String codigo) {
+    public IDocente buscar(String codigo) {
         IDocente docente = repositorio.buscarPorCodigo(codigo);
+
         if (docente == null)
             throw new RuntimeException("Docente no encontrado");
+
         return docente;
     }
 }

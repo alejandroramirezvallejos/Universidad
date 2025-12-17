@@ -1,5 +1,4 @@
 package com.example.Server.servicios.abstracciones;
-
 import com.example.Server.modelos.abstracciones.ICalificacion;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IHistorialAcademico;

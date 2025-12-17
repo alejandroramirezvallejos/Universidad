@@ -1,5 +1,4 @@
 package com.example.Server.modelos.abstracciones;
-
 import java.util.List;
 
 public interface IMateria {

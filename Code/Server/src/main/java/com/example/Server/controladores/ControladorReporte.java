@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.servicios.abstracciones.IServicioReporte;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

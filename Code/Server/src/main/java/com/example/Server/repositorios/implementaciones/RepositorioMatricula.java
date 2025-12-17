@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IMatricula;
 import com.example.Server.modelos.implementaciones.Matricula;
 import com.example.Server.repositorios.abstracciones.IRepositorioMatricula;
@@ -31,8 +30,7 @@ public class RepositorioMatricula implements IRepositorioMatricula {
         List<IMatricula> matriculasLista = new ArrayList<>();
 
         for (List<Matricula> lista : matriculas.values())
-            for (Matricula matricula : lista)
-                matriculasLista.add(matricula);
+            matriculasLista.addAll(lista);
 
         return matriculasLista;
     }
@@ -47,12 +45,13 @@ public class RepositorioMatricula implements IRepositorioMatricula {
     }
 
     @Override
-    public List<IMatricula> buscarPorEstudiante(String codigoEstudiante) {
+    public List<IMatricula> buscar(String codigoEstudiante) {
         List<IMatricula> resultado = new ArrayList<>();
         List<Matricula> lista = matriculas.get(codigoEstudiante);
+
         if (lista != null)
-            for (Matricula matricula : lista)
-                resultado.add(matricula);
+            resultado.addAll(lista);
+
         return resultado;
     }
 }

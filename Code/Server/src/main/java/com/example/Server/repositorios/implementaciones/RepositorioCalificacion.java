@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.ICalificacion;
 import com.example.Server.modelos.implementaciones.Calificacion;
 import com.example.Server.repositorios.abstracciones.IRepositorioCalificacion;
@@ -31,8 +30,7 @@ public class RepositorioCalificacion implements IRepositorioCalificacion {
         List<ICalificacion> calificacionLista = new ArrayList<>();
 
         for (List<Calificacion> lista : calificaciones.values())
-            for (Calificacion calificacion : lista)
-                calificacionLista.add(calificacion);
+            calificacionLista.addAll(lista);
 
         return calificacionLista;
     }
@@ -47,12 +45,13 @@ public class RepositorioCalificacion implements IRepositorioCalificacion {
     }
 
     @Override
-    public List<ICalificacion> buscarPorEstudiante(String codigoEstudiante) {
+    public List<ICalificacion> buscar(String codigoEstudiante) {
         List<ICalificacion> resultado = new ArrayList<>();
         List<Calificacion> lista = calificaciones.get(codigoEstudiante);
+
         if (lista != null)
-            for (Calificacion calificacion : lista)
-                resultado.add(calificacion);
+            resultado.addAll(lista);
+
         return resultado;
     }
 }

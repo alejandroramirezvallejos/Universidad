@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IMateria;
 import com.example.Server.repositorios.abstracciones.IRepositorioCarrera;
@@ -23,6 +22,7 @@ public class ServicioMateria implements IServicioMateria {
                 repositorioCarrera.guardar(carreraExistente);
                 break;
             }
+
         return repositorio.guardar(materia);
     }
 
@@ -42,27 +42,33 @@ public class ServicioMateria implements IServicioMateria {
     }
 
     @Override
-    public IMateria getMateriaPorCodigo(String codigo) {
-        return repositorio.buscarPorCodigo(codigo);
+    public IMateria getMateria(String codigo) {
+        return repositorio.buscar(codigo);
     }
 
     @Override
     public IMateria actualizar(String codigo, IMateria materiaDto) {
-        IMateria materia = getMateriaPorCodigo(codigo);
+        IMateria materia = getMateria(codigo);
+
         if (materia == null)
             throw new RuntimeException("Materia no encontrada");
+
         materia.setNombre(materiaDto.getNombre());
         materia.setSemestre(materiaDto.getSemestre());
         materia.setCreditos(materiaDto.getCreditos());
+
         return crear(materia);
     }
 
     @Override
-    public IMateria cambiarEstado(String codigo) {
-        IMateria materia = getMateriaPorCodigo(codigo);
+    public IMateria setEstado(String codigo) {
+        IMateria materia = getMateria(codigo);
+
         if (materia == null)
             throw new RuntimeException("Materia no encontrada");
+
         materia.setActiva(!materia.isActiva());
+
         return crear(materia);
     }
 }

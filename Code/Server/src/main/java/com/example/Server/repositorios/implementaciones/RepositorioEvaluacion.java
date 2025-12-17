@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IEvaluacion;
 import com.example.Server.modelos.implementaciones.Evaluacion;
 import com.example.Server.repositorios.abstracciones.IRepositorioEvaluacion;
@@ -39,8 +38,7 @@ public class RepositorioEvaluacion implements IRepositorioEvaluacion {
         List<IEvaluacion> evaluacionLista = new ArrayList<>();
 
         for (List<Evaluacion> lista : evaluaciones.values())
-            for (Evaluacion evaluacion : lista)
-                evaluacionLista.add(evaluacion);
+            evaluacionLista.addAll(lista);
 
         return evaluacionLista;
     }
@@ -53,9 +51,11 @@ public class RepositorioEvaluacion implements IRepositorioEvaluacion {
         if (evaluaciones.containsKey(codigo)) {
             List<Evaluacion> lista = evaluaciones.get(codigo);
             List<Evaluacion> eliminar = new ArrayList<>();
-            for (Evaluacion e : lista)
-                if (e.getCodigo().equals(evaluacionImpl.getCodigo()))
-                    eliminar.add(e);
+
+            for (Evaluacion evaluacionItem : lista)
+                if (evaluacionItem.getCodigo().equals(evaluacionImpl.getCodigo()))
+                    eliminar.add(evaluacionItem);
+
             lista.removeAll(eliminar);
         }
     }
@@ -64,9 +64,10 @@ public class RepositorioEvaluacion implements IRepositorioEvaluacion {
     public List<IEvaluacion> buscarPorParalelo(String paraleloCodigo) {
         List<IEvaluacion> resultado = new ArrayList<>();
         List<Evaluacion> lista = evaluaciones.get(paraleloCodigo);
+
         if (lista != null)
-            for (Evaluacion evaluacion : lista)
-                resultado.add(evaluacion);
+            resultado.addAll(lista);
+
         return resultado;
     }
 

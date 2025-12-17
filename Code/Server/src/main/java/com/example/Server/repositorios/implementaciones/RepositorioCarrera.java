@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.implementaciones.Carrera;
 import com.example.Server.repositorios.abstracciones.IRepositorioCarrera;
@@ -22,10 +21,7 @@ public class RepositorioCarrera implements IRepositorioCarrera {
 
     @Override
     public List<ICarrera> getCarreras() {
-        List<ICarrera> resultado = new ArrayList<>();
-        for (Carrera carrera : carreras.values())
-            resultado.add(carrera);
-        return resultado;
+        return new ArrayList<>(carreras.values());
     }
 
     @Override
@@ -34,7 +30,7 @@ public class RepositorioCarrera implements IRepositorioCarrera {
     }
 
     @Override
-    public ICarrera buscarPorCodigo(String codigo) {
+    public ICarrera buscar(String codigo) {
         return carreras.get(codigo);
     }
 }

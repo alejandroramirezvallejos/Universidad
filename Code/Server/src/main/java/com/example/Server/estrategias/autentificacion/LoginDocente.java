@@ -3,30 +3,28 @@ package com.example.Server.estrategias.autentificacion;
 import com.example.Server.modelos.abstracciones.AUsuario;
 import com.example.Server.modelos.abstracciones.IDocente;
 import com.example.Server.repositorios.abstracciones.IRepositorioDocente;
-import com.example.Server.validadores.autentificacion.IValidarLogin;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Server.validadores.autentificacion.ValidacionCredenciales;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class LoginDocente implements IEstrategiaLogin {
-    @Autowired
-    private IRepositorioDocente repositorioDocente;
-    @Autowired
-    private IValidarLogin validadorLogin;
+    private final IRepositorioDocente repositorioDocente;
+    private final ValidacionCredenciales validadorCredenciales;
 
     @Override
     public AUsuario login(String email, String contrasenna) {
         IDocente docente = repositorioDocente.buscarPorEmail(email);
-
         if (docente == null)
             return null;
 
-        String error = validadorLogin.validar((AUsuario) docente, contrasenna);
-
-        if (error != null)
+        try {
+            validadorCredenciales.validarConUsuario((AUsuario) docente, (AUsuario) docente, contrasenna);
+            docente.setRol("DOCENTE");
+            return (AUsuario) docente;
+        } catch (RuntimeException e) {
             return null;
-
-        docente.setRol("DOCENTE");
-        return (AUsuario) docente;
+        }
     }
 }

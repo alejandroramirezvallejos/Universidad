@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.abstracciones;
-
 import com.example.Server.modelos.abstracciones.IDirectorCarrera;
 import java.util.List;
 

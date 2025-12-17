@@ -1,5 +1,4 @@
 package com.example.Server.notificaciones;
-
 import com.example.Server.modelos.abstracciones.INotificacion;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;

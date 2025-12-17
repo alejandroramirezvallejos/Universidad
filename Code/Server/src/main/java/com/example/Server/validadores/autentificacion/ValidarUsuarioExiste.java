@@ -1,16 +1,14 @@
 package com.example.Server.validadores.autentificacion;
+import com.example.Server.modelos.abstracciones.AUsuario;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import com.example.Server.modelos.abstracciones.AUsuario;
 
 @Component
-@Order(1)
-public class ValidarUsuarioExiste implements IValidarLogin {
+@Order(3)
+public class ValidarUsuarioExiste implements IValidadorCredenciales {
     @Override
-    public String validar(AUsuario usuario, String contrasenna) {
-        if (usuario == null)
-            return "Usuario no encontrado";
-
-        return null;
+    public void validar(AUsuario credenciales) {
+        if (credenciales == null)
+            throw new RuntimeException("Usuario no encontrado");
     }
 }

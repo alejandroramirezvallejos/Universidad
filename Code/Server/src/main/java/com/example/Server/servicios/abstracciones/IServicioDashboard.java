@@ -1,5 +1,4 @@
 package com.example.Server.servicios.abstracciones;
-
 import java.util.Map;
 
 public interface IServicioDashboard {

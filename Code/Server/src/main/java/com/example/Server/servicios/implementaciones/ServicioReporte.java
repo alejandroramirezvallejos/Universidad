@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.estrategias.reporte.ContextoReporte;
 import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IGestion;
@@ -32,7 +31,7 @@ public class ServicioReporte implements IServicioReporte {
 
     @Override
     public Map<String, Object> getReporteEstudiantesPorCarrera(String codigoCarrera, String solicitante) {
-        ICarrera carrera = repositorioCarrera.buscarPorCodigo(codigoCarrera);
+        ICarrera carrera = repositorioCarrera.buscar(codigoCarrera);
 
         if (carrera == null)
             throw new RuntimeException("Carrera no encontrada");
@@ -47,6 +46,7 @@ public class ServicioReporte implements IServicioReporte {
     @Override
     public Map<String, Object> getReporteInscripcionesPorGestion(String codigoGestion) {
         IGestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion);
+
         if (gestion == null)
             throw new RuntimeException("Gestión no encontrada");
 
@@ -58,7 +58,7 @@ public class ServicioReporte implements IServicioReporte {
 
     @Override
     public Map<String, Object> getReporteRendimientoPorParalelo(String codigoParalelo, String solicitante) {
-        IParaleloMateria paralelo = repositorioParalelo.buscarPorCodigo(codigoParalelo);
+        IParaleloMateria paralelo = repositorioParalelo.buscar(codigoParalelo);
 
         if (paralelo == null)
             throw new RuntimeException("Paralelo no encontrado");

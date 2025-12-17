@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.abstracciones.IMatricula;
 import com.example.Server.modelos.implementaciones.Matricula;
 import com.example.Server.servicios.abstracciones.IServicioInscripcion;
@@ -35,9 +34,7 @@ public class ControladorInscripcion {
 
     @PostMapping("/batch")
     public ResponseEntity<List<IMatricula>> inscribirBatch(@RequestBody List<Matricula> inscripciones) {
-        List<IMatricula> lista = new ArrayList<>();
-        for (Matricula m : inscripciones)
-            lista.add(m);
+        List<IMatricula> lista = new ArrayList<>(inscripciones);
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.inscribirBatch(lista));
     }
 

@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IHistorialAcademico;
 import com.example.Server.modelos.implementaciones.HistorialAcademico;
 import com.example.Server.repositorios.abstracciones.IRepositorioHistorialAcademico;
@@ -22,10 +21,7 @@ public class RepositorioHistorialAcademico implements IRepositorioHistorialAcade
 
     @Override
     public List<IHistorialAcademico> getHistoriales() {
-        List<IHistorialAcademico> resultado = new ArrayList<>();
-        for (HistorialAcademico historial : historiales.values())
-            resultado.add(historial);
-        return resultado;
+        return new ArrayList<>(historiales.values());
     }
 
     @Override
@@ -35,7 +31,7 @@ public class RepositorioHistorialAcademico implements IRepositorioHistorialAcade
     }
 
     @Override
-    public IHistorialAcademico buscarPorEstudiante(String codigoEstudiante) {
+    public IHistorialAcademico buscar(String codigoEstudiante) {
         return historiales.get(codigoEstudiante);
     }
 }

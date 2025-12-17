@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IMatricula;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
@@ -57,8 +56,10 @@ public class ServicioInscripcion implements IServicioInscripcion {
     @Override
     public List<IMatricula> inscribirBatch(List<IMatricula> inscripciones) {
         List<IMatricula> matriculasCreadas = new ArrayList<>();
+
         for (IMatricula inscripcion : inscripciones) {
             IMatricula matricula = crear(inscripcion.getEstudiante(), inscripcion.getParaleloMateria());
+
             if (matricula != null)
                 matriculasCreadas.add(matricula);
         }
@@ -67,7 +68,7 @@ public class ServicioInscripcion implements IServicioInscripcion {
 
     @Override
     public List<IMatricula> getMatriculasPorEstudiante(String estudianteCodigo) {
-        return repositorio.buscarPorEstudiante(estudianteCodigo);
+        return repositorio.buscar(estudianteCodigo);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class ServicioInscripcion implements IServicioInscripcion {
 
     @Override
     public void cancelar(String estudianteCodigo, String paraleloCodigo) {
-        List<IMatricula> matriculasEstudiante = repositorio.buscarPorEstudiante(estudianteCodigo);
+        List<IMatricula> matriculasEstudiante = repositorio.buscar(estudianteCodigo);
         IMatricula matriculaAEliminar = null;
 
         for (IMatricula matricula : matriculasEstudiante)

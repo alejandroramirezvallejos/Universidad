@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import com.example.Server.modelos.implementaciones.ParaleloMateria;
 import com.example.Server.servicios.abstracciones.IServicioParaleloMateria;

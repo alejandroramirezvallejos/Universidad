@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IActaEstudiante;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IEvaluacion;
@@ -64,9 +63,11 @@ public class ServicioActaEstudiante implements IServicioActaEstudiante {
 
     private List<IActaEstudiante> getActasPorEstado(boolean aprobado) {
         List<IActaEstudiante> resultado = new ArrayList<>();
+
         for (IActaEstudiante acta : repositorio.getActas())
             if (acta.isAprobado() == aprobado)
                 resultado.add(acta);
+
         return resultado;
     }
 

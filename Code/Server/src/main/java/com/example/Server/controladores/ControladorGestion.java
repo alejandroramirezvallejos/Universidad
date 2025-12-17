@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.abstracciones.IGestion;
 import com.example.Server.modelos.implementaciones.Gestion;
 import com.example.Server.servicios.abstracciones.IServicioGestion;
@@ -28,7 +27,7 @@ public class ControladorGestion {
 
     @GetMapping("/actual")
     public ResponseEntity<IGestion> getGestionActual() {
-        return ResponseEntity.ok(servicio.getGestionActual());
+        return ResponseEntity.ok(servicio.getGestion());
     }
 
     @GetMapping("/{codigo}")

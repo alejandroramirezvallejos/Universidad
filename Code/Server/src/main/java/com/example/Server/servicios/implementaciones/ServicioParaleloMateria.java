@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IDocente;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import com.example.Server.repositorios.abstracciones.IRepositorioDocente;
@@ -48,7 +47,7 @@ public class ServicioParaleloMateria implements IServicioParaleloMateria {
 
     @Override
     public IParaleloMateria getParaleloPorCodigo(String codigo) {
-        return repositorio.buscarPorCodigo(codigo);
+        return repositorio.buscar(codigo);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class ServicioParaleloMateria implements IServicioParaleloMateria {
 
     @Override
     public IParaleloMateria actualizar(String codigo, IParaleloMateria paraleloDto) {
-        IParaleloMateria paralelo = repositorio.buscarPorCodigo(codigo);
+        IParaleloMateria paralelo = repositorio.buscar(codigo);
         if (paralelo == null)
             throw new RuntimeException("Paralelo no encontrado");
 
@@ -83,6 +82,7 @@ public class ServicioParaleloMateria implements IServicioParaleloMateria {
         paralelo.setDocente(paraleloDto.getDocente());
         paralelo.setAula(paraleloDto.getAula());
         paralelo.setCupoMaximo(paraleloDto.getCupoMaximo());
+
         if (paraleloDto.getHorarios() != null)
             paralelo.setHorarios(paraleloDto.getHorarios());
 

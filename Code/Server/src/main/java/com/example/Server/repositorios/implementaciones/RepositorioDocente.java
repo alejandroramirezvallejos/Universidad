@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IDocente;
 import com.example.Server.modelos.implementaciones.Docente;
 import com.example.Server.repositorios.abstracciones.IRepositorioDocente;
@@ -22,10 +21,7 @@ public class RepositorioDocente implements IRepositorioDocente {
 
     @Override
     public List<IDocente> getDocentes() {
-        List<IDocente> resultado = new ArrayList<>();
-        for (Docente docente : docentes.values())
-            resultado.add(docente);
-        return resultado;
+        return new ArrayList<>(docentes.values());
     }
 
     @Override

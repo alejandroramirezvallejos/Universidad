@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IActaEstudiante;
 import com.example.Server.modelos.abstracciones.ICalificacion;
 import com.example.Server.modelos.abstracciones.IEstudiante;
@@ -27,7 +26,7 @@ public class ServicioHistorialAcademico implements IServicioHistorialAcademico {
 
     @Override
     public IHistorialAcademico crear(IEstudiante estudiante) {
-        List<IActaEstudiante> actas = repositorioActa.buscarPorEstudiante(estudiante.getCodigo());
+        List<IActaEstudiante> actas = repositorioActa.buscar(estudiante.getCodigo());
         double promedio = calculadorPromedio.calcular(actas);
         int aprobados = (int) calculadorCreditosAprobados.calcular(actas);
         int totales = (int) calculadorCreditosTotales.calcular(actas);
@@ -54,30 +53,36 @@ public class ServicioHistorialAcademico implements IServicioHistorialAcademico {
 
     @Override
     public IHistorialAcademico getHistorialPorEstudiante(String estudianteCodigo) {
-        IHistorialAcademico historial = repositorio.buscarPorEstudiante(estudianteCodigo);
+        IHistorialAcademico historial = repositorio.buscar(estudianteCodigo);
+
         if (historial == null)
             throw new RuntimeException("Historial no encontrado");
+
         return historial;
     }
 
     @Override
     public Double calcularPromedioGeneral(String estudianteCodigo) {
-        IHistorialAcademico historial = repositorio.buscarPorEstudiante(estudianteCodigo);
+        IHistorialAcademico historial = repositorio.buscar(estudianteCodigo);
+
         if (historial == null)
             return 0.0;
+
         return historial.getPromedioGeneral();
     }
 
     @Override
     public ICalificacion getPromedioEstudiante(String estudianteCodigo) {
         Double promedio = calcularPromedioGeneral(estudianteCodigo);
-        IHistorialAcademico historial = repositorio.buscarPorEstudiante(estudianteCodigo);
+        IHistorialAcademico historial = repositorio.buscar(estudianteCodigo);
 
         Calificacion calificacion = new Calificacion();
         calificacion.setValor(promedio);
         calificacion.setObservaciones("Promedio General");
+
         if (historial != null)
             calificacion.setEstudiante(historial.getEstudiante());
+
         return calificacion;
     }
 }

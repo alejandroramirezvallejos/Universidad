@@ -1,5 +1,4 @@
 package com.example.Server.modelos.abstracciones;
-
 import java.util.Date;
 import java.util.List;
 

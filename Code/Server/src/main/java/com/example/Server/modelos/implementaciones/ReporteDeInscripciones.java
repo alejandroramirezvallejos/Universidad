@@ -1,5 +1,4 @@
 package com.example.Server.modelos.implementaciones;
-
 import com.example.Server.modelos.abstracciones.AReporte;
 import com.example.Server.modelos.abstracciones.IGestion;
 import com.example.Server.modelos.abstracciones.IMatricula;

@@ -1,5 +1,4 @@
 package com.example.Server.servicios.abstracciones;
-
 import com.example.Server.modelos.abstracciones.IDocente;
 import java.util.List;
 
@@ -8,6 +7,6 @@ public interface IServicioDocente {
     List<IDocente> getDocentes();
     void eliminar(IDocente docente);
     List<IDocente> getDocentesActivos();
-    IDocente buscarPorCodigo(String codigo);
+    IDocente buscar(String codigo);
 }
 

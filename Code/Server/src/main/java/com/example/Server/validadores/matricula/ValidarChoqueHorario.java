@@ -1,5 +1,4 @@
 package com.example.Server.validadores.matricula;
-
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IHorario;
 import com.example.Server.modelos.abstracciones.IMateria;

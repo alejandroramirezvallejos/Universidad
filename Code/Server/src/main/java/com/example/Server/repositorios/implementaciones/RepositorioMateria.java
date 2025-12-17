@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IMateria;
 import com.example.Server.modelos.implementaciones.Materia;
 import com.example.Server.repositorios.abstracciones.IRepositorioMateria;
@@ -22,10 +21,7 @@ public class RepositorioMateria implements IRepositorioMateria {
 
     @Override
     public List<IMateria> getMaterias() {
-        List<IMateria> resultado = new ArrayList<>();
-        for (Materia materia : materias.values())
-            resultado.add(materia);
-        return resultado;
+        return new ArrayList<>(materias.values());
     }
 
     @Override
@@ -34,7 +30,7 @@ public class RepositorioMateria implements IRepositorioMateria {
     }
 
     @Override
-    public IMateria buscarPorCodigo(String codigo) {
+    public IMateria buscar(String codigo) {
         return materias.get(codigo);
     }
 }

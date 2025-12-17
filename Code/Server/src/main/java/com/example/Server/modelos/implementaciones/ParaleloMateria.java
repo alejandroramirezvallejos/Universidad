@@ -1,5 +1,4 @@
 package com.example.Server.modelos.implementaciones;
-
 import com.example.Server.modelos.abstracciones.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

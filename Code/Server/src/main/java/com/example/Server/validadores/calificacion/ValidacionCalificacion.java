@@ -13,10 +13,10 @@ public class ValidacionCalificacion implements IValidarCalificacion {
     @Override
     public boolean validar(double nota) {
         for (IValidarCalificacion validador : validadores)
-            if (validador != this && !validador.validar(nota))
-                return false;
+            if (validador != this)
+                if (!validador.validar(nota))
+                    return false;
 
         return true;
     }
 }
-

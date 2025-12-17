@@ -1,5 +1,4 @@
 package com.example.Server.validadores.matricula;
-
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IGestion;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
@@ -16,9 +15,9 @@ public class ValidarPeriodoDisponible implements IValidarMatricula {
         if (gestion == null)
             return "El paralelo no tiene una gestión asignada";
 
-        java.util.Date now = new java.util.Date();
+        java.util.Date ahora = new java.util.Date();
 
-        if (now.before(gestion.getFechaInicioMatricula()) || now.after(gestion.getFechaFinMatricula()))
+        if (ahora.before(gestion.getFechaInicioMatricula()) || ahora.after(gestion.getFechaFinMatricula()))
              return "Fuera de periodo de inscripción";
 
         return null;

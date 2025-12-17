@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IGestion;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import com.example.Server.modelos.implementaciones.Gestion;
@@ -23,8 +22,10 @@ public class ServicioOfertaAcademica implements IServicioOfertaAcademica {
     @Override
     public IGestion getOfertaPorGestion(String codigoGestion) {
         IGestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion);
+
         if (gestion == null)
             throw new RuntimeException("Gestión no encontrada");
+
         return generar((Gestion) gestion);
     }
 

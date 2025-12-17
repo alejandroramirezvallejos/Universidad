@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IDirectorCarrera;
 import com.example.Server.modelos.implementaciones.DirectorCarrera;
 import com.example.Server.repositorios.abstracciones.IRepositorioDirectorCarrera;
@@ -22,10 +21,7 @@ public class RepositorioDirectorCarrera implements IRepositorioDirectorCarrera {
 
     @Override
     public List<IDirectorCarrera> getDirectores() {
-        List<IDirectorCarrera> resultado = new ArrayList<>();
-        for (DirectorCarrera director : directores.values())
-            resultado.add(director);
-        return resultado;
+        return new ArrayList<>(directores.values());
     }
 
     @Override

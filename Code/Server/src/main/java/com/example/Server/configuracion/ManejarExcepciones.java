@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestControllerAdvice
-public class ManejadorDeExcepciones {
+public class ManejarExcepciones {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> manejarRuntimeException(RuntimeException excepcion) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

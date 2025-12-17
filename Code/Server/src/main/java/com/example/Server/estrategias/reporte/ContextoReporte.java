@@ -1,5 +1,4 @@
 package com.example.Server.estrategias.reporte;
-
 import com.example.Server.modelos.abstracciones.AReporte;
 import com.example.Server.validadores.reporte.IValidarReporte;
 import lombok.AllArgsConstructor;

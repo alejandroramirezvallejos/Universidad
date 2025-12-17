@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.implementaciones.Estudiante;
 import com.example.Server.repositorios.abstracciones.IRepositorioEstudiante;
@@ -22,10 +21,7 @@ public class RepositorioEstudiante implements IRepositorioEstudiante {
 
     @Override
     public List<IEstudiante> getEstudiantes() {
-        List<IEstudiante> resultado = new ArrayList<>();
-        for (Estudiante estudiante : estudiantes.values())
-            resultado.add(estudiante);
-        return resultado;
+        return new ArrayList<>(estudiantes.values());
     }
 
     @Override

@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.abstracciones.AUsuario;
 import com.example.Server.servicios.abstracciones.IServicioUsuario;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ public class ControladorUsuario {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<AUsuario> getUsuario(@PathVariable String codigo) {
-        return ResponseEntity.ok(servicio.getUsuarioPorCodigo(codigo));
+        return ResponseEntity.ok(servicio.getUsuario(codigo));
     }
 
     @PutMapping("/{codigo}")

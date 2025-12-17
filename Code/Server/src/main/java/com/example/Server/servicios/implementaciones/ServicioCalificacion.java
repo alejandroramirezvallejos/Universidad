@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.ICalificacion;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IEvaluacion;
@@ -30,9 +29,11 @@ public class ServicioCalificacion implements IServicioCalificacion {
     @Override
     public List<ICalificacion> getCalificacionesPorEstudiante(String estudianteCodigo) {
         IEstudiante estudiante = repositorioEstudiante.buscarPorCodigo(estudianteCodigo);
+
         if (estudiante == null)
             return new ArrayList<>();
-        return repositorio.buscarPorEstudiante(estudianteCodigo);
+
+        return repositorio.buscar(estudianteCodigo);
     }
 
     @Override

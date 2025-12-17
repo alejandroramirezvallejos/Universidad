@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.abstracciones.IAula;
 import com.example.Server.modelos.implementaciones.Aula;
 import com.example.Server.servicios.abstracciones.IServicioAula;

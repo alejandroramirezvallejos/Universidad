@@ -1,5 +1,4 @@
 package com.example.Server.repositorios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import com.example.Server.modelos.implementaciones.ParaleloMateria;
 import com.example.Server.repositorios.abstracciones.IRepositorioParaleloMateria;
@@ -22,10 +21,7 @@ public class RepositorioParaleloMateria implements IRepositorioParaleloMateria {
 
     @Override
     public List<IParaleloMateria> getParalelos() {
-        List<IParaleloMateria> resultado = new ArrayList<>();
-        for (ParaleloMateria paralelo : paraleloMaterias.values())
-            resultado.add(paralelo);
-        return resultado;
+        return new ArrayList<>(paraleloMaterias.values());
     }
 
     @Override
@@ -34,7 +30,7 @@ public class RepositorioParaleloMateria implements IRepositorioParaleloMateria {
     }
 
     @Override
-    public IParaleloMateria buscarPorCodigo(String codigo) {
+    public IParaleloMateria buscar(String codigo) {
         return paraleloMaterias.get(codigo);
     }
 }

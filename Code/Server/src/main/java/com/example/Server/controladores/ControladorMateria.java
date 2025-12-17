@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.abstracciones.IMateria;
 import com.example.Server.modelos.implementaciones.Materia;
 import com.example.Server.servicios.abstracciones.IServicioMateria;
@@ -44,11 +43,11 @@ public class ControladorMateria {
 
     @PatchMapping("/{codigo}/estado")
     public ResponseEntity<IMateria> setEstado(@PathVariable String codigo) {
-        return ResponseEntity.ok(servicio.cambiarEstado(codigo));
+        return ResponseEntity.ok(servicio.setEstado(codigo));
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<IMateria> getMateria(@PathVariable String codigo) {
-        return ResponseEntity.ok(servicio.getMateriaPorCodigo(codigo));
+        return ResponseEntity.ok(servicio.getMateria(codigo));
     }
 }

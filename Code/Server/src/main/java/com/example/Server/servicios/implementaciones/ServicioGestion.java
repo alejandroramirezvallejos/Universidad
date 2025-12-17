@@ -1,5 +1,4 @@
 package com.example.Server.servicios.implementaciones;
-
 import com.example.Server.modelos.abstracciones.IGestion;
 import com.example.Server.repositorios.abstracciones.IRepositorioGestion;
 import com.example.Server.servicios.abstracciones.IServicioGestion;
@@ -25,16 +24,20 @@ public class ServicioGestion implements IServicioGestion {
     @Override
     public IGestion getGestionPorCodigo(String codigo) {
         IGestion gestion = repositorio.buscarPorCodigo(codigo);
+
         if (gestion == null)
             throw new RuntimeException("Gestión no encontrada");
+
         return gestion;
     }
 
     @Override
-    public IGestion getGestionActual() {
+    public IGestion getGestion() {
         IGestion gestion = repositorio.buscarGestionActual();
+
         if (gestion == null)
             throw new RuntimeException("No hay gestión actual");
+
         return gestion;
     }
 

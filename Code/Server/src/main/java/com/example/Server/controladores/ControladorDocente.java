@@ -1,5 +1,4 @@
 package com.example.Server.controladores;
-
 import com.example.Server.modelos.abstracciones.IDocente;
 import com.example.Server.modelos.implementaciones.Docente;
 import com.example.Server.servicios.abstracciones.IServicioDocente;
@@ -39,7 +38,7 @@ public class ControladorDocente {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<IDocente> getDocentePorCodigo(@PathVariable String codigo) {
-        IDocente docente = servicio.buscarPorCodigo(codigo);
+        IDocente docente = servicio.buscar(codigo);
         return docente == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(docente);
     }
 }
