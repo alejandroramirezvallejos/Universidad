@@ -196,6 +196,407 @@ El sistema define tres roles principales con funcionalidades específicas:
 **Java**  17  Lenguaje de programación 
 
 ---
+## Diagrama UML del Sistema
+
+<img width="734" height="448" alt="Image" src="https://github.com/user-attachments/assets/ddc5b8bc-44e3-4042-86e5-1d4b888382d2" />
+
+<img width="711" height="423" alt="Image" src="https://github.com/user-attachments/assets/88eeb2a8-649d-41dd-993f-06acbc9db5d0" />
+
+<img width="822" height="536" alt="Image" src="https://github.com/user-attachments/assets/baeb9ac4-9d7c-4cad-9818-df561b00f033" />
+
+<img width="721" height="349" alt="Image" src="https://github.com/user-attachments/assets/ecc7a552-832f-4968-96b9-629164bfc33e" />
+
+<img width="836" height="549" alt="Image" src="https://github.com/user-attachments/assets/05170e29-50cd-4a49-a595-651b95f4e243" />
+
+<img width="729" height="428" alt="Image" src="https://github.com/user-attachments/assets/30a4432b-4982-43e4-9934-0c37a1895ed6" />
+
+<img width="857" height="404" alt="Image" src="https://github.com/user-attachments/assets/bb5e5ba4-53a2-498f-8055-0c95e215861d" />
+
+<img width="913" height="417" alt="Image" src="https://github.com/user-attachments/assets/adc6fee1-39c8-4fc3-8500-5614cd69650f" />
+
+<img width="649" height="398" alt="Image" src="https://github.com/user-attachments/assets/0440a430-6457-4a55-bae8-22a4fc3b0882" />
+
+<img width="844" height="404" alt="Image" src="https://github.com/user-attachments/assets/55ee829a-e186-4f8b-b466-4e29663d3755" />
+
+<img width="484" height="319" alt="Image" src="https://github.com/user-attachments/assets/9d8302ec-aa31-4fd9-96b7-310641b55f09" />
+
+<img width="471" height="314" alt="Image" src="https://github.com/user-attachments/assets/19b9f793-3e82-4dd5-b756-040c289a3c27" />
+
+---
+
+## JUSTIFICACIÓN DE PATRONES DE DISEÑO
+
+## Sistema de Gestión Universitaria - Backend
+
+---
+
+## 1. PATRÓN PROTOTYPE
+
+### Ubicación
+`modelos/Materia.java` e `IMateria.java`
+
+### Implementación
+```java
+public class Materia implements IMateria {
+    private List<Materia> materiasCorrelativas;
+    private List<ParaleloMateria> paraleloMaterias;
+    
+    public Materia clonar() {
+        List<Materia> correlativas = new ArrayList<>();
+        for (Materia materia : this.materiasCorrelativas)
+            correlativas.add(materia.clonar());
+        
+        return Materia.builder()
+            .codigo(this.codigo)
+            .nombre(this.nombre)
+            .creditos(this.creditos)
+            .materiasCorrelativas(correlativas)
+            .paraleloMaterias(new ArrayList<>(this.paraleloMaterias))
+            .carrera(this.carrera)
+            .build();
+    }
+}
+```
+
+### Justificación
+
+#### Problema que Resuelve
+La entidad `Materia` tiene relaciones complejas y recursivas (materias correlativas, paralelos, carrera). Crear copias manualmente es propenso a errores y genera acoplamiento.
+
+#### Ventajas Implementadas
+
+1. **Clonación Profunda Automática**
+   - Las materias correlativas se clonan recursivamente
+   - Evita efectos colaterales al modificar copias
+   - Preserva la integridad referencial
+
+2. **Reutilización en el Sistema**
+   - Crear plantillas de materias para nuevas gestiones
+   - Duplicar estructuras curriculares entre carreras
+   - Generar copias para reportes sin afectar datos originales
+
+3. **Encapsulación de la Lógica de Copia**
+   - El cliente no necesita conocer la estructura interna
+   - Una sola línea: `materiaCopia = materia.clonar()`
+   - Mantenimiento centralizado
+
+---
+
+## 2. PATRÓN STRATEGY
+
+### Ubicación
+`estrategias/`
+
+### Implementación - Autenticación
+```java
+public interface IEstrategiaLogin {
+    Usuario login(String email, String contrasenna);
+}
+
+@Component
+public class ContextoLogin {
+    private final List<IEstrategiaLogin> estrategias;
+    
+    public Usuario login(String email, String contrasenna) {
+        for (IEstrategiaLogin estrategia : estrategias) {
+            Usuario usuario = estrategia.login(email, contrasenna);
+            if (usuario != null) return usuario;
+        }
+        return null;
+    }
+}
+
+@Component
+public class LoginEstudiante implements IEstrategiaLogin {
+    @Override
+    public Usuario login(String email, String contrasenna) {
+        Estudiante estudiante = repositorioEstudiante.buscarPorEmail(email);
+        if (estudiante == null) return null;
+        
+        String error = validadorLogin.validar(estudiante, contrasenna);
+        if (error != null) return null;
+        
+        estudiante.setRol("ESTUDIANTE");
+        return estudiante;
+    }
+}
+```
+
+### Implementación - Cálculo de Calificaciones
+```java
+public interface IEstrategiaCalculoCalificacion {
+    double calcular(Estudiante estudiante, ParaleloMateria paralelo, 
+                    List<Evaluacion> evaluaciones);
+}
+
+@Component
+public class CalcularCalificacionFinal implements IEstrategiaCalculoCalificacion {
+    @Override
+    public double calcular(Estudiante estudiante, ParaleloMateria paralelo, 
+                          List<Evaluacion> evaluaciones) {
+        double notaFinal = 0.0;
+        for (Evaluacion evaluacion : evaluaciones) {
+            double valorCalificacion = servicioCalificacion
+                .getCalificacionesEnEvaluacion(estudiante, evaluacion);
+            notaFinal += valorCalificacion * (evaluacion.getPorcentaje() / 100.0);
+        }
+        return notaFinal;
+    }
+}
+```
+
+### Implementación - Reportes
+```java
+public interface IEstrategiaReporte {
+    Map<String, Object> generar(Reporte reporte);
+}
+
+@Component
+public class ReporteCarrera implements IEstrategiaReporte {
+    @Override
+    public Map<String, Object> generar(Reporte reporte) {
+        if (!(reporte instanceof ReporteDeCarrera reporteDeCarrera))
+            return null;
+        
+        Map<String, Object> resultado = new HashMap<>();
+        resultado.put("nombreCarrera", reporteDeCarrera.getCarrera().getNombre());
+        resultado.put("totalEstudiantes", reporteDeCarrera.getEstudiantes().size());
+        resultado.put("estudiantes", reporteDeCarrera.getEstudiantes());
+        return resultado;
+    }
+}
+```
+
+### Justificación
+
+#### Problema que Resuelve
+El sistema requiere múltiples algoritmos para:
+- **Login**: Diferentes tipos de usuarios (Estudiante, Docente, Director) con repositorios distintos
+- **Calificaciones**: Cálculo ponderado vs promedio simple
+- **Reportes**: Diferentes formatos (Carrera, Rendimiento, Inscripciones)
+- **Créditos**: Totales vs aprobados
+
+Sin Strategy, tendríamos condicionales complejos (`if-else`, `switch`) difíciles de mantener y extender.
+
+#### Ventajas Implementadas
+
+1. **Eliminación de Condicionales Complejos**
+   
+   **Sin Strategy:**
+   ```java
+   if (tipoUsuario.equals("ESTUDIANTE")) {
+       // lógica estudiante
+   } else if (tipoUsuario.equals("DOCENTE")) {
+       // lógica docente
+   } else if (tipoUsuario.equals("DIRECTOR")) {
+       // lógica director
+   }
+   ```
+   
+   **Con Strategy:**
+   ```java
+   for (IEstrategiaLogin estrategia : estrategias) {
+       Usuario usuario = estrategia.login(email, contrasenna);
+       if (usuario != null) return usuario;
+   }
+   ```
+
+2. **Intercambiabilidad en Runtime**
+   - Cambiar algoritmo de cálculo sin modificar el cliente
+   - El contexto delega automáticamente a la estrategia correcta
+   - Selección dinámica basada en tipo de reporte
+
+3. **Extensibilidad (Open/Closed Principle)**
+   ```java
+   // Agregar nueva estrategia sin modificar código existente
+   @Component
+   public class LoginAdministrador implements IEstrategiaLogin {
+       @Override
+       public Usuario login(String email, String contrasenna) {
+           // Nueva lógica de autenticación
+       }
+   }
+   ```
+
+---
+
+## 3. PATRÓN CHAIN OF RESPONSIBILITY
+
+### Ubicación
+`validadores/` 
+
+### Implementación - Validación de Matrícula
+```java
+public interface IValidarMatricula {
+    String validar(Estudiante estudiante, ParaleloMateria paraleloMateria);
+}
+
+@Service
+@Primary
+@RequiredArgsConstructor
+public class ValidacionDeMatricula implements IValidarMatricula {
+    private final List<IValidarMatricula> validadores;
+    
+    @Override
+    public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
+        for (IValidarMatricula validador : validadores) {
+            String error = validador.validar(estudiante, paraleloMateria);
+            if (error != null) return error; // Corto-circuito
+        }
+        return null;
+    }
+}
+
+```
+
+#### Problema que Resuelve
+La inscripción a materias requiere validar **9 condiciones complejas** antes de permitir la operación. Sin Chain of Responsibility, tendríamos un método gigante con lógica entrelazada, difícil de mantener y probar.
+
+#### Ventajas Implementadas
+
+1. **Desacoplamiento Total (Single Responsibility Principle)**
+   - Cada validador se enfoca en UNA sola regla de negocio
+   - Fácil de entender: nombre de clase = responsabilidad
+   - Fácil de probar: test unitario por validador
+
+2. **Corto-Circuito para Performance**
+   ```java
+   for (IValidarMatricula validador : validadores) {
+       String error = validador.validar(estudiante, paraleloMateria);
+       if (error != null) return error; // Se detiene al primer error
+   }
+   ```
+   - No ejecuta validaciones innecesarias
+   - Retorna mensaje de error específico
+   - Optimiza tiempo de respuesta
+
+3. **Extensibilidad Sin Modificación (Open/Closed)**
+   ```java
+   // Agregar nueva validación sin tocar código existente
+   @Component
+   @Order(10)
+   public class ValidarCuotasPendientes implements IValidarMatricula {
+       @Override
+       public String validar(Estudiante estudiante, ParaleloMateria paraleloMateria) {
+           if (estudiante.tieneCuotasPendientes())
+               return "El estudiante tiene cuotas pendientes de pago";
+           return null;
+       }
+   }
+   ```
+4. **Reutilización de Validadores**
+   - `ValidarContrasenna` usado en login, cambio de contraseña, recuperación
+   - `ValidarChoqueHorario` usado en matrícula y reasignación de aulas
+   - Componentes independientes compartidos
+
+---
+
+## 4. PATRÓN OBSERVER
+
+### Ubicación
+`alertas/` - Sistema de notificaciones académicas
+
+### Implementación Completa
+```java
+// Interfaces
+public interface ISujeto {
+    void suscribir(IObservador observador);
+    void desuscribir(IObservador observador);
+    void notificar(NotificacionEvento evento);
+}
+
+public interface IObservador {
+    void actualizar(NotificacionEvento evento);
+}
+
+// Sujeto Concreto
+@Component
+public class ContextoNotificacion implements ISujeto {
+    private final List<IObservador> observadores = new ArrayList<>();
+    
+    @Override
+    public void notificar(NotificacionEvento evento) {
+        for (IObservador observador : observadores)
+            observador.actualizar(evento);
+    }
+    
+    public void notificar(Estudiante estudiante, Materia materia, Double notaFinal) {
+        NotificacionEvento evento = new NotificacionEvento(estudiante, materia, notaFinal);
+        notificar(evento);
+    }
+}
+
+// Observador Estudiante
+@Component
+@RequiredArgsConstructor
+public class ObservadorEstudiante implements IObservador {
+    private final ContextoNotificacion sujeto;
+    
+    @PostConstruct
+    public void suscribir() { sujeto.suscribir(this); }
+    
+    @Override
+    public void actualizar(NotificacionEvento evento) {
+        String mensaje = evento.getNotaFinal() >= 51.0 ? "APROBADO" : "REPROBADO";
+        System.out.println("NOTIFICACIÓN A ESTUDIANTE:");
+        System.out.println("Hola " + evento.getEstudiante().getNombre() + ", " + mensaje);
+        System.out.println("Materia: " + evento.getMateria().getNombre());
+        System.out.println("Nota: " + evento.getNotaFinal());
+    }
+}
+
+```
+
+### Justificación
+
+#### Problema que Resuelve
+Cuando se registra una calificación, **múltiples actores** deben ser notificados simultáneamente:
+- Estudiante: Conocer su resultado
+- Docente: Confirmar el registro
+- Director: Seguimiento estadístico
+
+Sin Observer, el servicio de calificaciones estaría **acoplado** a todos los destinatarios, violando SRP y dificultando extensiones.
+
+#### Ventajas Implementadas
+
+1. **Comunicación Uno-a-Muchos Desacoplada**
+   ```java
+   // El sujeto NO conoce los tipos concretos de observadores
+   for (IObservador observador : observadores)
+       observador.actualizar(evento);
+   ```
+   - Una sola llamada notifica a todos
+   - El sujeto no depende de clases concretas
+   - Fácil agregar/quitar observadores
+
+2. **Extensibilidad Total (Open/Closed)**
+   ```java
+   // Agregar nuevo observador sin modificar código existente
+   @Component
+   @RequiredArgsConstructor
+   public class ObservadorEmail implements IObservador {
+       @PostConstruct
+       public void suscribir() { sujeto.suscribir(this); }
+       
+       @Override
+       public void actualizar(NotificacionEvento evento) {
+           emailService.enviar(evento.getEstudiante().getEmail(), 
+                              "Tu nota en " + evento.getMateria().getNombre());
+       }
+   }
+   
+   @Component
+   public class ObservadorSMS implements IObservador {
+       @Override
+       public void actualizar(NotificacionEvento evento) {
+           smsService.enviar(evento.getEstudiante().getTelefono(), 
+                            "Calificación registrada: " + evento.getNotaFinal());
+       }
+   }
+   ```
+
+
+---
 
 # CASOS DE USO - SISTEMA DE GESTIÓN UNIVERSITARIA
 
