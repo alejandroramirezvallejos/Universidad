@@ -1,5 +1,4 @@
 package com.example.Server.modelos.implementaciones;
-import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IDirectorCarrera;
 import com.example.Server.modelos.abstracciones.AUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,8 +15,10 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class DirectorCarrera extends AUsuario implements IDirectorCarrera {
     private String departamento;
+    
+    // Campo de tipo Carrera (clase concreta)
     @JsonIgnoreProperties({"director", "estudiantes", "materias"})
-    private ICarrera carrera;
+    private Carrera carrera;
 
     @Override
     public String toString() {

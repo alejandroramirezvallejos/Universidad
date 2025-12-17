@@ -497,12 +497,8 @@ export class GestionEstudiantesComponent implements OnInit {
     if (!confirmar) return;
 
     try {
-      // Pasar el objeto completo según lo que espera el backend
-      await this.estudiantesService.eliminarEstudiante({
-        codigoEstudiante: estudiante.codigo,
-        nombre: estudiante.nombre,
-        email: estudiante.email
-      });
+      // Pasar el objeto completo del estudiante según lo que espera el backend
+      await this.estudiantesService.eliminarEstudiante(estudiante);
       this.notificacion.exito('Estudiante eliminado exitosamente');
       await this.cargarDatos();
     } catch (error) {

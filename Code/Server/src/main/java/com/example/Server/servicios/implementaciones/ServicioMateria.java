@@ -1,6 +1,6 @@
 package com.example.Server.servicios.implementaciones;
-import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IMateria;
+import com.example.Server.modelos.implementaciones.Carrera;
 import com.example.Server.repositorios.abstracciones.IRepositorioCarrera;
 import com.example.Server.repositorios.abstracciones.IRepositorioMateria;
 import com.example.Server.servicios.abstracciones.IServicioMateria;
@@ -15,13 +15,14 @@ public class ServicioMateria implements IServicioMateria {
     private final IRepositorioCarrera repositorioCarrera;
 
     @Override
-    public IMateria agregar(IMateria materia, ICarrera carrera) {
-        for (ICarrera carreraExistente : repositorioCarrera.getCarreras())
-            if (carreraExistente.getCodigo().equals(carrera.getCodigo())) {
-                carreraExistente.getMaterias().add(materia);
-                repositorioCarrera.guardar(carreraExistente);
-                break;
-            }
+    public IMateria agregar(IMateria materia, Carrera carrera) {
+        // Buscar la carrera existente y agregar la materia
+        Carrera carreraExistente = (Carrera) repositorioCarrera.buscar(carrera.getCodigo());
+        
+        if (carreraExistente != null) {
+            carreraExistente.getMaterias().add(materia);
+            repositorioCarrera.guardar(carreraExistente);
+        }
 
         return repositorio.guardar(materia);
     }
@@ -56,6 +57,11 @@ public class ServicioMateria implements IServicioMateria {
         materia.setNombre(materiaDto.getNombre());
         materia.setSemestre(materiaDto.getSemestre());
         materia.setCreditos(materiaDto.getCreditos());
+        
+        // Actualizar carrera si viene en el DTO
+        if (materiaDto.getCarrera() != null) {
+            materia.setCarrera(materiaDto.getCarrera());
+        }
 
         return crear(materia);
     }

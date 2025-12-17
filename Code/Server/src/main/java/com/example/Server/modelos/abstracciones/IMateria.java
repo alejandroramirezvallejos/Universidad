@@ -1,4 +1,5 @@
 package com.example.Server.modelos.abstracciones;
+import com.example.Server.modelos.implementaciones.Carrera;
 import java.util.List;
 
 public interface IMateria {
@@ -16,7 +17,7 @@ public interface IMateria {
     void setMateriasCorrelativas(List<IMateria> materiasCorrelativas);
     List<IParaleloMateria> getParaleloMaterias();
     void setParaleloMaterias(List<IParaleloMateria> paraleloMaterias);
-    ICarrera getCarrera();
-    void setCarrera(ICarrera carrera);
+    Carrera getCarrera();
+    void setCarrera(Carrera carrera);
     IMateria clonar();
 }

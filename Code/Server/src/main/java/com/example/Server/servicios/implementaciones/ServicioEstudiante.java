@@ -2,6 +2,7 @@ package com.example.Server.servicios.implementaciones;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.repositorios.abstracciones.IRepositorioEstudiante;
 import com.example.Server.servicios.abstracciones.IServicioEstudiante;
+import com.example.Server.validadores.registro.estudiantes.ValidacionRegistroEstudiante;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,9 +11,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServicioEstudiante implements IServicioEstudiante {
     private final IRepositorioEstudiante repositorio;
+    private final ValidacionRegistroEstudiante validacionRegistroEstudiante;
 
     @Override
     public IEstudiante crear(IEstudiante estudiante) {
+        // ✅ VALIDAR antes de guardar (código único, email único, carrera existe, etc.)
+        validacionRegistroEstudiante.validar(estudiante);
+        
+        // Asegurar que el semestre tenga un valor válido
+        if (estudiante.getSemestre() == 0) {
+            estudiante.setSemestre(1);
+        }
+        
         return repositorio.guardar(estudiante);
     }
 

@@ -498,12 +498,8 @@ export class GestionDocentesComponent implements OnInit {
     if (!confirmar) return;
 
     try {
-      // Pasar el objeto completo según lo que espera el backend
-      await this.docentesService.eliminarDocente({
-        codigoDocente: docente.codigo,
-        nombre: docente.nombre,
-        especialidad: docente.especialidad
-      });
+      // Pasar el objeto completo del docente
+      await this.docentesService.eliminarDocente(docente);
       this.notificacion.exito('Docente eliminado exitosamente');
       await this.cargarDatos();
     } catch (error) {

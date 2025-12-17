@@ -1,5 +1,4 @@
 package com.example.Server.modelos.implementaciones;
-import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IMateria;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,8 +26,10 @@ public class Materia implements IMateria {
     @Builder.Default
     @JsonIgnoreProperties({"materia", "estudiantes", "horarios"})
     private List<IParaleloMateria> paraleloMaterias = new ArrayList<>();
-    @JsonIgnoreProperties({"estudiantes", "materias"})
-    private ICarrera carrera;
+    
+    // Campo de tipo Carrera (clase concreta) - Jackson puede deserializarlo sin problemas
+    @JsonIgnoreProperties({"estudiantes", "materias", "director"})
+    private Carrera carrera;
 
     public Materia clonar() {
         List<IMateria> correlativas = new ArrayList<>();

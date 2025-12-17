@@ -1,0 +1,428 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :compileJava UP-TO-DATE
+> Task :processResources
+> Task :classes
+> Task :resolveMainClassName
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+[32m :: Spring Boot :: [39m              [2m (v4.0.0)[0;39m
+
+[2m2025-12-17T02:18:13.480-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Starting ServerApplication using Java 24.0.2 with PID 61352 (/Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/classes/java/main started by terrazasllanosfernando in /Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server)
+[2m2025-12-17T02:18:13.482-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2025-12-17T02:18:13.531-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2m2025-12-17T02:18:13.531-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2m2025-12-17T02:18:14.255-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2025-12-17T02:18:14.291-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 29 ms. Found 0 JPA repository interfaces.
+[2m2025-12-17T02:18:14.767-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat initialized with port 8080 (http)
+[2m2025-12-17T02:18:14.779-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2025-12-17T02:18:14.780-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/11.0.14]
+[2m2025-12-17T02:18:14.810-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mb.w.c.s.WebApplicationContextInitializer[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 1277 ms
+[2m2025-12-17T02:18:14.931-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
+[2m2025-12-17T02:18:15.083-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:ccd78caf-325c-40b6-af9d-f611497a69b0 user=SA
+[2m2025-12-17T02:18:15.085-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
+[2m2025-12-17T02:18:15.119-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2025-12-17T02:18:15.156-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 7.1.8.Final
+[2m2025-12-17T02:18:15.496-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2025-12-17T02:18:15.574-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36morg.hibernate.orm.connections.pooling   [0;39m [2m:[0;39m HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:ccd78caf-325c-40b6-af9d-f611497a69b0]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: CCD78CAF-325C-40B6-AF9D-F611497A69B0/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2m2025-12-17T02:18:15.990-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2025-12-17T02:18:15.999-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+✅ Carrera 'Ingeniería de Sistemas' inicializada en el sistema
+[2m2025-12-17T02:18:16.217-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2025-12-17T02:18:16.750-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat started on port 8080 (http) with context path '/'
+[2m2025-12-17T02:18:16.758-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Started ServerApplication in 3.586 seconds (process running for 3.987)
+
+════════════════════════════════════════════════════════════
+🔧 INICIALIZANDO DATOS DE PRUEBA (Backend)
+════════════════════════════════════════════════════════════
+
+📅 Creando Gestiones...
+📚 Creando Carreras...
+👨‍🎓 Creando Estudiantes...
+👩‍🏫 Creando Docentes...
+👔 Creando Directores...
+🏛️ Creando Aulas...
+📖 Creando Materias...
+📅 Creando Paralelos...
+
+════════════════════════════════════════════════════════════
+✅ BACKEND INICIALIZADO
+════════════════════════════════════════════════════════════
+
+📋 USUARIOS DE PRUEBA:
+┌─────────────────────────────────────────────────────────┐
+│ Estudiante: juan.perez@ucb.edu.bo / password123         │
+│ Docente:    maria.gonzalez@ucb.edu.bo / password123     │
+│ Director:   carlos.rodriguez@ucb.edu.bo / password123   │
+└─────────────────────────────────────────────────────────┘
+[2m2025-12-17T02:18:41.614-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [nio-8080-exec-1] [0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2m2025-12-17T02:18:41.614-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [nio-8080-exec-1] [0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
+[2m2025-12-17T02:18:41.615-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [nio-8080-exec-1] [0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 1 ms
+[2m2025-12-17T02:18:41.760-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [nio-8080-exec-1] [0;39m[36m.m.m.a.ExceptionHandlerExceptionResolver[0;39m [2m:[0;39m Resolved [org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class com.example.Server.modelos.abstracciones.ICarrera]]
+[2m2025-12-17T02:20:43.608-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [   File Watcher] [0;39m[36mrtingClassPathChangeChangedEventListener[0;39m [2m:[0;39m Restarting due to 221 class path changes (0 additions, 221 deletions, 0 modifications)
+[2m2025-12-17T02:20:43.617-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-1] [0;39m[36mo.s.boot.tomcat.GracefulShutdown        [0;39m [2m:[0;39m Commencing graceful shutdown. Waiting for active requests to complete
+[2m2025-12-17T02:20:43.627-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [tomcat-shutdown] [0;39m[36mo.s.boot.tomcat.GracefulShutdown        [0;39m [2m:[0;39m Graceful shutdown complete
+[2m2025-12-17T02:20:43.633-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-1] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Closing JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-12-17T02:20:43.640-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-1] [0;39m[36mo.s.b.f.support.DisposableBeanAdapter   [0;39m [2m:[0;39m Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+[2m2025-12-17T02:20:43.641-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-1] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Shutdown initiated...
+[2m2025-12-17T02:20:43.645-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-1] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+[32m :: Spring Boot :: [39m              [2m (v4.0.0)[0;39m
+
+[2m2025-12-17T02:20:43.836-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Starting ServerApplication using Java 24.0.2 with PID 61352 (/Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/classes/java/main started by terrazasllanosfernando in /Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server)
+[2m2025-12-17T02:20:43.836-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2025-12-17T02:20:44.125-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2025-12-17T02:20:44.169-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 28 ms. Found 0 JPA repository interfaces.
+[2m2025-12-17T02:20:44.311-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat initialized with port 8080 (http)
+[2m2025-12-17T02:20:44.313-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2025-12-17T02:20:44.314-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/11.0.14]
+[2m2025-12-17T02:20:44.327-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mb.w.c.s.WebApplicationContextInitializer[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 485 ms
+[2m2025-12-17T02:20:44.377-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-2 - Starting...
+[2m2025-12-17T02:20:44.380-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:f4ed8a02-7335-49d4-b31b-5b0d6b360b37 user=SA
+[2m2025-12-17T02:20:44.381-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-2 - Start completed.
+[2m2025-12-17T02:20:44.383-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2025-12-17T02:20:44.432-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2025-12-17T02:20:44.433-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36morg.hibernate.orm.connections.pooling   [0;39m [2m:[0;39m HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:f4ed8a02-7335-49d4-b31b-5b0d6b360b37]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: F4ED8A02-7335-49D4-B31B-5B0D6B360B37/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2m2025-12-17T02:20:44.453-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2025-12-17T02:20:44.454-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-12-17T02:20:44.472-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mConfigServletWebServerApplicationContext[0;39m [2m:[0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'servicioCarrera' defined in file [/Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/classes/java/main/com/example/Server/servicios/implementaciones/ServicioCarrera.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.example.Server.repositorios.abstracciones.IRepositorioCarrera' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+[2m2025-12-17T02:20:44.473-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Closing JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-12-17T02:20:44.474-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.b.f.support.DisposableBeanAdapter   [0;39m [2m:[0;39m Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+[2m2025-12-17T02:20:44.474-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-2 - Shutdown initiated...
+[2m2025-12-17T02:20:44.475-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-2 - Shutdown completed.
+[2m2025-12-17T02:20:44.476-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Stopping service [Tomcat]
+[2m2025-12-17T02:20:44.479-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.b.a.l.ConditionEvaluationReportLogger[0;39m [2m:[0;39m 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2m2025-12-17T02:20:44.491-04:00[0;39m [31mERROR[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.b.d.LoggingFailureAnalysisReporter  [0;39m [2m:[0;39m 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.example.Server.servicios.implementaciones.ServicioCarrera required a bean of type 'com.example.Server.repositorios.abstracciones.IRepositorioCarrera' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.example.Server.repositorios.abstracciones.IRepositorioCarrera' in your configuration.
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+[32m :: Spring Boot :: [39m              [2m (v4.0.0)[0;39m
+
+[2m2025-12-17T02:20:45.934-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Starting ServerApplication using Java 24.0.2 with PID 61352 (/Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/classes/java/main started by terrazasllanosfernando in /Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server)
+[2m2025-12-17T02:20:45.935-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2025-12-17T02:20:46.073-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2025-12-17T02:20:46.084-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+[2m2025-12-17T02:20:46.173-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat initialized with port 8080 (http)
+[2m2025-12-17T02:20:46.175-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2025-12-17T02:20:46.175-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/11.0.14]
+[2m2025-12-17T02:20:46.188-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mb.w.c.s.WebApplicationContextInitializer[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 251 ms
+[2m2025-12-17T02:20:46.230-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-3 - Starting...
+[2m2025-12-17T02:20:46.232-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-3 - Added connection conn11: url=jdbc:h2:mem:15e4ed31-5c2a-4828-aadb-6826377f4c43 user=SA
+[2m2025-12-17T02:20:46.233-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-3 - Start completed.
+[2m2025-12-17T02:20:46.234-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2025-12-17T02:20:46.261-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2025-12-17T02:20:46.263-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36morg.hibernate.orm.connections.pooling   [0;39m [2m:[0;39m HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:15e4ed31-5c2a-4828-aadb-6826377f4c43]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: 15E4ED31-5C2A-4828-AADB-6826377F4C43/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2m2025-12-17T02:20:46.282-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2025-12-17T02:20:46.283-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-12-17T02:20:46.302-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mConfigServletWebServerApplicationContext[0;39m [2m:[0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'servicioCarrera' defined in file [/Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/classes/java/main/com/example/Server/servicios/implementaciones/ServicioCarrera.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.example.Server.repositorios.abstracciones.IRepositorioCarrera' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+[2m2025-12-17T02:20:46.302-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Closing JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-12-17T02:20:46.303-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.b.f.support.DisposableBeanAdapter   [0;39m [2m:[0;39m Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+[2m2025-12-17T02:20:46.303-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-3 - Shutdown initiated...
+[2m2025-12-17T02:20:46.303-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-3 - Shutdown completed.
+[2m2025-12-17T02:20:46.304-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Stopping service [Tomcat]
+[2m2025-12-17T02:20:46.307-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.b.a.l.ConditionEvaluationReportLogger[0;39m [2m:[0;39m 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2m2025-12-17T02:20:46.313-04:00[0;39m [31mERROR[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.b.d.LoggingFailureAnalysisReporter  [0;39m [2m:[0;39m 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.example.Server.servicios.implementaciones.ServicioCarrera required a bean of type 'com.example.Server.repositorios.abstracciones.IRepositorioCarrera' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.example.Server.repositorios.abstracciones.IRepositorioCarrera' in your configuration.
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+[32m :: Spring Boot :: [39m              [2m (v4.0.0)[0;39m
+
+[2m2025-12-17T02:21:48.660-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Starting ServerApplication using Java 24.0.2 with PID 61352 (/Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/classes/java/main started by terrazasllanosfernando in /Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server)
+[2m2025-12-17T02:21:48.661-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2025-12-17T02:21:48.801-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2025-12-17T02:21:48.803-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+[2m2025-12-17T02:21:48.879-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat initialized with port 8080 (http)
+[2m2025-12-17T02:21:48.880-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2025-12-17T02:21:48.880-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/11.0.14]
+[2m2025-12-17T02:21:48.891-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mb.w.c.s.WebApplicationContextInitializer[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 229 ms
+[2m2025-12-17T02:21:48.926-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-4 - Starting...
+[2m2025-12-17T02:21:48.931-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-4 - Added connection conn12: url=jdbc:h2:mem:0a48f96f-ff08-46ea-bdb1-26df49d9262c user=SA
+[2m2025-12-17T02:21:48.931-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-4 - Start completed.
+[2m2025-12-17T02:21:48.933-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2025-12-17T02:21:48.960-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2025-12-17T02:21:48.962-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36morg.hibernate.orm.connections.pooling   [0;39m [2m:[0;39m HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:0a48f96f-ff08-46ea-bdb1-26df49d9262c]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: 0A48F96F-FF08-46EA-BDB1-26DF49D9262C/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2m2025-12-17T02:21:48.986-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2025-12-17T02:21:48.986-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-12-17T02:21:49.029-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2025-12-17T02:21:49.290-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat started on port 8080 (http) with context path '/'
+[2m2025-12-17T02:21:49.294-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Started ServerApplication in 0.652 seconds (process running for 216.523)
+[2m2025-12-17T02:21:50.641-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [   File Watcher] [0;39m[36mrtingClassPathChangeChangedEventListener[0;39m [2m:[0;39m Restarting due to 220 class path changes (220 additions, 0 deletions, 0 modifications)
+[2m2025-12-17T02:21:50.642-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-5] [0;39m[36mo.s.boot.tomcat.GracefulShutdown        [0;39m [2m:[0;39m Commencing graceful shutdown. Waiting for active requests to complete
+[2m2025-12-17T02:21:50.645-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [tomcat-shutdown] [0;39m[36mo.s.boot.tomcat.GracefulShutdown        [0;39m [2m:[0;39m Graceful shutdown complete
+[2m2025-12-17T02:21:50.646-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-5] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Closing JPA EntityManagerFactory for persistence unit 'default'
+[2m2025-12-17T02:21:50.647-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-5] [0;39m[36mo.s.b.f.support.DisposableBeanAdapter   [0;39m [2m:[0;39m Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+[2m2025-12-17T02:21:50.647-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-5] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-4 - Shutdown initiated...
+[2m2025-12-17T02:21:50.648-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [       Thread-5] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-4 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+[32m :: Spring Boot :: [39m              [2m (v4.0.0)[0;39m
+
+[2m2025-12-17T02:21:50.721-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Starting ServerApplication using Java 24.0.2 with PID 61352 (/Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/classes/java/main started by terrazasllanosfernando in /Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server)
+[2m2025-12-17T02:21:50.721-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2025-12-17T02:21:50.894-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2025-12-17T02:21:50.908-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.
+[2m2025-12-17T02:21:50.980-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat initialized with port 8080 (http)
+[2m2025-12-17T02:21:50.981-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2025-12-17T02:21:50.981-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/11.0.14]
+[2m2025-12-17T02:21:50.990-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mb.w.c.s.WebApplicationContextInitializer[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 267 ms
+[2m2025-12-17T02:21:51.034-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-5 - Starting...
+[2m2025-12-17T02:21:51.037-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-5 - Added connection conn22: url=jdbc:h2:mem:15e3e87c-20db-4f46-a457-52570582410e user=SA
+[2m2025-12-17T02:21:51.037-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-5 - Start completed.
+[2m2025-12-17T02:21:51.038-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2025-12-17T02:21:51.056-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2025-12-17T02:21:51.057-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36morg.hibernate.orm.connections.pooling   [0;39m [2m:[0;39m HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:15e3e87c-20db-4f46-a457-52570582410e]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: 15E3E87C-20DB-4F46-A457-52570582410E/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2m2025-12-17T02:21:51.070-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2025-12-17T02:21:51.070-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+✅ Carrera 'Ingeniería de Sistemas' inicializada en el sistema
+[2m2025-12-17T02:21:51.177-04:00[0;39m [33m WARN[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2025-12-17T02:21:51.349-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mo.s.boot.tomcat.TomcatWebServer         [0;39m [2m:[0;39m Tomcat started on port 8080 (http) with context path '/'
+[2m2025-12-17T02:21:51.351-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36mcom.example.Server.ServerApplication    [0;39m [2m:[0;39m Started ServerApplication in 0.644 seconds (process running for 218.58)
+
+════════════════════════════════════════════════════════════
+🔧 INICIALIZANDO DATOS DE PRUEBA (Backend)
+════════════════════════════════════════════════════════════
+
+📅 Creando Gestiones...
+📚 Creando Carreras...
+👨‍🎓 Creando Estudiantes...
+👩‍🏫 Creando Docentes...
+👔 Creando Directores...
+🏛️ Creando Aulas...
+📖 Creando Materias...
+📅 Creando Paralelos...
+
+════════════════════════════════════════════════════════════
+✅ BACKEND INICIALIZADO
+════════════════════════════════════════════════════════════
+
+📋 USUARIOS DE PRUEBA:
+┌─────────────────────────────────────────────────────────┐
+│ Estudiante: juan.perez@ucb.edu.bo / password123         │
+│ Docente:    maria.gonzalez@ucb.edu.bo / password123     │
+│ Director:   carlos.rodriguez@ucb.edu.bo / password123   │
+└─────────────────────────────────────────────────────────┘
+[2m2025-12-17T02:21:51.363-04:00[0;39m [32m INFO[0;39m [35m61352[0;39m [2m--- [Server] [  restartedMain] [0;39m[36m.ConditionEvaluationDeltaLoggingListener[0;39m [2m:[0;39m Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   OAuth2ResourceServerJwtConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' getFiltrosDeSeguridad; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   OAuth2ResourceServerOpaqueTokenConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' getFiltrosDeSeguridad; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' getFiltrosDeSeguridad; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+
+> Task :bootRun FAILED
+
+[Incubating] Problems report is available at: file:///Users/terrazasllanosfernando/Desktop/NotasU/Semestre4/DisenoSoftware/FinalDisenoGithub/Universidad/Code/Server/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':bootRun'.
+> Process 'command '/Users/terrazasllanosfernando/Library/Java/JavaVirtualMachines/openjdk-24.0.2+12-54/Contents/Home/bin/java'' finished with non-zero exit value 137
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 4m 2s
+4 actionable tasks: 3 executed, 1 up-to-date
+Exception in thread "Thread-3" java.io.UncheckedIOException: java.io.IOException: Input/output error
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:63)
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:42)
+	at org.gradle.internal.daemon.client.clientinput.DaemonClientInputForwarder$ForwardingUserInput.lambda$readAndForwardStdin$0(DaemonClientInputForwarder.java:99)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+Caused by: java.io.IOException: Input/output error
+	at java.base/java.io.FileInputStream.readBytes(Native Method)
+	at java.base/java.io.FileInputStream.read(FileInputStream.java:294)
+	at java.base/java.lang.System$In.read(System.java:1849)
+	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:328)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:388)
+	at java.base/sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:279)
+	at java.base/sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:322)
+	at java.base/sun.nio.cs.StreamDecoder.read(StreamDecoder.java:186)
+	at java.base/java.io.InputStreamReader.read(InputStreamReader.java:175)
+	at java.base/java.io.BufferedReader.read1(BufferedReader.java:215)
+	at java.base/java.io.BufferedReader.read(BufferedReader.java:291)
+	at java.base/java.io.Reader.read(Reader.java:366)
+	at org.gradle.internal.daemon.client.clientinput.DaemonClientInputForwarder$ForwardingUserInput.lambda$readAndForwardStdin$0(DaemonClientInputForwarder.java:97)
+	... 3 more
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not dispatch a message to the daemon.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.

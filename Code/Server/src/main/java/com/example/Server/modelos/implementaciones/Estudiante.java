@@ -1,5 +1,4 @@
 package com.example.Server.modelos.implementaciones;
-import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IMateria;
 import com.example.Server.modelos.abstracciones.AUsuario;
@@ -20,6 +19,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Estudiante extends AUsuario implements IEstudiante {
     private int semestre;
+    
     @JsonIgnoreProperties({"estudiantes", "materias", "director"})
     private Carrera carrera;
     @Builder.Default
@@ -28,17 +28,6 @@ public class Estudiante extends AUsuario implements IEstudiante {
     @Builder.Default
     @JsonIgnoreProperties({"paraleloMaterias", "materiasCorrelativas", "carrera"})
     private List<IMateria> materiasAprobadas = new ArrayList<>();
-
-    // Métodos para cumplir con la interfaz IEstudiante que usa ICarrera
-    @Override
-    public ICarrera getCarrera() {
-        return this.carrera;
-    }
-
-    @Override
-    public void setCarrera(ICarrera carrera) {
-        this.carrera = (Carrera) carrera;
-    }
 
     @Override
     public String toString() {

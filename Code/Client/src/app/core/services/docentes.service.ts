@@ -56,20 +56,33 @@ export class DocentesService {
 
   /**
    * Elimina un docente del backend
+   * @param docente - DtoDocente con todos los datos necesarios
    */
-  async eliminarDocente(docente: any): Promise<void> {
+  async eliminarDocente(docente: DtoDocente): Promise<void> {
     try {
-      const dtoDocente = this.mappers.docenteToDto(docente);
+      console.log('🗑️ Eliminando docente:', docente);
+      
+      // Si el docente ya es un DTO (tiene 'codigo'), enviarlo directamente
+      // Si no, mapearlo primero
+      const dtoDocente = docente.codigo 
+        ? docente 
+        : this.mappers.docenteToDto(docente);
+      
       await firstValueFrom(
         this.api.delete('/docentes', dtoDocente)
       );
       
-      // Actualizar signal
+      // Actualizar signal - buscar por 'codigo' o 'codigoDocente'
       this._docentes.update(docentes => 
-        docentes.filter(d => d.codigoDocente !== docente.codigoDocente)
+        docentes.filter(d => 
+          d.codigoDocente !== dtoDocente.codigo && 
+          d.codigo !== dtoDocente.codigo
+        )
       );
+      
+      console.log('✅ Docente eliminado correctamente');
     } catch (error) {
-      console.error('Error al eliminar docente:', error);
+      console.error('❌ Error al eliminar docente:', error);
       throw error;
     }
   }

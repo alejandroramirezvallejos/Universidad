@@ -35,10 +35,16 @@ export class EstudiantesService {
 
   /**
    * Crea un nuevo estudiante en el backend
+   * @param estudiante - DtoEstudiante o modelo interno
    */
   async crearEstudiante(estudiante: any): Promise<any> {
     try {
-      const dtoEstudiante = this.mappers.estudianteToDto(estudiante);
+      // Si ya es un DtoEstudiante (tiene 'codigo'), enviarlo directamente
+      // Si es modelo interno (tiene 'codigoEstudiante'), mapearlo primero
+      const dtoEstudiante = estudiante.codigo && !estudiante.codigoEstudiante
+        ? estudiante  // Ya es DTO, enviar tal cual
+        : this.mappers.estudianteToDto(estudiante);  // Es modelo interno, mapear
+      
       console.log('🔍 Datos del estudiante a enviar:', dtoEstudiante);
       console.log('🔍 Carrera:', dtoEstudiante.carrera);
       
@@ -59,20 +65,33 @@ export class EstudiantesService {
 
   /**
    * Elimina un estudiante del backend
+   * @param estudiante - DtoEstudiante con todos los datos necesarios
    */
-  async eliminarEstudiante(estudiante: any): Promise<void> {
+  async eliminarEstudiante(estudiante: DtoEstudiante): Promise<void> {
     try {
-      const dtoEstudiante = this.mappers.estudianteToDto(estudiante);
+      console.log('🗑️ Eliminando estudiante:', estudiante);
+      
+      // Si el estudiante ya es un DTO (tiene 'codigo'), enviarlo directamente
+      // Si no, mapearlo primero
+      const dtoEstudiante = estudiante.codigo 
+        ? estudiante 
+        : this.mappers.estudianteToDto(estudiante);
+      
       await firstValueFrom(
         this.api.delete('/estudiantes', dtoEstudiante)
       );
       
-      // Actualizar signal
+      // Actualizar signal - buscar por 'codigo' o 'codigoEstudiante'
       this._estudiantes.update(estudiantes => 
-        estudiantes.filter(e => e.codigoEstudiante !== estudiante.codigoEstudiante)
+        estudiantes.filter(e => 
+          e.codigoEstudiante !== dtoEstudiante.codigo && 
+          e.codigo !== dtoEstudiante.codigo
+        )
       );
+      
+      console.log('✅ Estudiante eliminado correctamente');
     } catch (error) {
-      console.error('Error al eliminar estudiante:', error);
+      console.error('❌ Error al eliminar estudiante:', error);
       throw error;
     }
   }

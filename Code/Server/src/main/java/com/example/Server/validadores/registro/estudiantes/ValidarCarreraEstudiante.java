@@ -1,6 +1,6 @@
 package com.example.Server.validadores.registro.estudiantes;
-import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IEstudiante;
+import com.example.Server.modelos.implementaciones.Carrera;
 import com.example.Server.repositorios.abstracciones.IRepositorioCarrera;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -17,11 +17,12 @@ public class ValidarCarreraEstudiante implements IValidadorRegistroEstudiante {
         if (estudiante.getCarrera() == null || estudiante.getCarrera().getCodigo() == null)
             throw new RuntimeException("La carrera es requerida");
 
-        ICarrera carrera = repositorioCarrera.buscar(estudiante.getCarrera().getCodigo());
+        Carrera carrera = (Carrera) repositorioCarrera.buscar(estudiante.getCarrera().getCodigo());
 
         if (carrera == null)
             throw new RuntimeException("La carrera no existe");
 
+        // Asignar la carrera completa del repositorio
         estudiante.setCarrera(carrera);
     }
 }
