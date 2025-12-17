@@ -196,8 +196,35 @@ El sistema define tres roles principales con funcionalidades específicas:
 **Java**  17  Lenguaje de programación 
 
 ---
+## Diagrama UML del Sistema
 
-# JUSTIFICACIÓN DE PATRONES DE DISEÑO
+<img width="734" height="448" alt="Image" src="https://github.com/user-attachments/assets/ddc5b8bc-44e3-4042-86e5-1d4b888382d2" />
+
+<img width="711" height="423" alt="Image" src="https://github.com/user-attachments/assets/88eeb2a8-649d-41dd-993f-06acbc9db5d0" />
+
+<img width="822" height="536" alt="Image" src="https://github.com/user-attachments/assets/baeb9ac4-9d7c-4cad-9818-df561b00f033" />
+
+<img width="721" height="349" alt="Image" src="https://github.com/user-attachments/assets/ecc7a552-832f-4968-96b9-629164bfc33e" />
+
+<img width="836" height="549" alt="Image" src="https://github.com/user-attachments/assets/05170e29-50cd-4a49-a595-651b95f4e243" />
+
+<img width="729" height="428" alt="Image" src="https://github.com/user-attachments/assets/30a4432b-4982-43e4-9934-0c37a1895ed6" />
+
+<img width="857" height="404" alt="Image" src="https://github.com/user-attachments/assets/bb5e5ba4-53a2-498f-8055-0c95e215861d" />
+
+<img width="913" height="417" alt="Image" src="https://github.com/user-attachments/assets/adc6fee1-39c8-4fc3-8500-5614cd69650f" />
+
+<img width="649" height="398" alt="Image" src="https://github.com/user-attachments/assets/0440a430-6457-4a55-bae8-22a4fc3b0882" />
+
+<img width="844" height="404" alt="Image" src="https://github.com/user-attachments/assets/55ee829a-e186-4f8b-b466-4e29663d3755" />
+
+<img width="484" height="319" alt="Image" src="https://github.com/user-attachments/assets/9d8302ec-aa31-4fd9-96b7-310641b55f09" />
+
+<img width="471" height="314" alt="Image" src="https://github.com/user-attachments/assets/19b9f793-3e82-4dd5-b756-040c289a3c27" />
+
+---
+
+## JUSTIFICACIÓN DE PATRONES DE DISEÑO
 
 ## Sistema de Gestión Universitaria - Backend
 
