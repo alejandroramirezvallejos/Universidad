@@ -1,7 +1,7 @@
 /**
  * Servicio de Autenticación
- * ✅ CONECTADO A BACKEND - Usa endpoint /api/auth/login
- * ✅ FALLBACK LOCAL - Si el backend no responde, usa datos locales
+ * CONECTADO A BACKEND - Usa endpoint /api/auth/login
+ * FALLBACK LOCAL - Si el backend no responde, usa datos locales
  *
  * Heurística Nielsen #1: Visibilidad del estado del sistema
  * - Mantiene el estado de autenticación visible en toda la app
@@ -114,14 +114,14 @@ export class AuthService {
     private router: Router,
     private api: ApiService
   ) {
-    console.log('🔐 AuthService inicializado');
+    console.log('AuthService inicializado');
   }
 
   /**
    * LOGIN - Intenta autenticar con el backend, si falla usa datos locales
    */
   async login(credenciales: CredencialesLogin): Promise<{ exito: boolean; mensaje: string }> {
-    console.log('🔐 Intentando login con:', credenciales.email);
+    console.log('Intentando login con:', credenciales.email);
 
     // Primero intentar con el backend
     try {
@@ -134,11 +134,11 @@ export class AuthService {
         this.api.post<LoginResponse>('/auth/login', loginData)
       );
 
-      console.log('✅ Usuario autenticado via backend:', response.nombre);
+      console.log('Usuario autenticado via backend:', response.nombre);
       return this.procesarLoginExitoso(response, 'backend');
 
     } catch (error: any) {
-      console.warn('⚠️ Backend no disponible, usando autenticación local');
+      console.warn('Backend no disponible, usando autenticación local');
 
       // Si es error 401, son credenciales incorrectas (backend respondió)
       if (error.status === 401) {
@@ -336,7 +336,7 @@ export class AuthService {
     carreraId: number;
   }): Promise<{ exito: boolean; mensaje: string }> {
     try {
-      console.log('📝 Registrando nuevo estudiante:', datos.email);
+      console.log('[NOTE] Registrando nuevo estudiante:', datos.email);
 
       // Intentar con el backend primero
       const nuevoEstudiante = {
@@ -365,7 +365,7 @@ export class AuthService {
       return { exito: true, mensaje: `¡Registro exitoso! Bienvenido/a ${estudiante.nombre}.` };
 
     } catch (error: any) {
-      console.warn('⚠️ Backend no disponible, registrando localmente');
+      console.warn('Backend no disponible, registrando localmente');
 
       // Verificar si el email ya existe localmente
       const existe = USUARIOS_LOCALES.estudiantes.some(e => e.email === datos.email);
@@ -405,7 +405,7 @@ export class AuthService {
    * Logout - Cierra la sesión del usuario
    */
   logout(): void {
-    console.log('👋 Cerrando sesión');
+    console.log('[WAVE] Cerrando sesión');
     this.usuarioActual.set(null);
     localStorage.removeItem(this.STORAGE_KEY);
     this.router.navigate(['/login']);
@@ -419,7 +419,7 @@ export class AuthService {
     delete (usuarioSinPassword as any).password;
     delete (usuarioSinPassword as any).contrasenna;
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(usuarioSinPassword));
-    console.log('💾 Usuario guardado en localStorage');
+    console.log('[SAVE] Usuario guardado en localStorage');
   }
 
   /**
@@ -430,7 +430,7 @@ export class AuthService {
       const data = localStorage.getItem(this.STORAGE_KEY);
       if (data) {
         const usuario = JSON.parse(data);
-        console.log('🔄 Sesión recuperada:', usuario.email);
+        console.log('[REFRESH] Sesión recuperada:', usuario.email);
         return usuario;
       }
     } catch (error) {

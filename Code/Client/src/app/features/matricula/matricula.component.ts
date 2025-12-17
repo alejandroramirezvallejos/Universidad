@@ -165,7 +165,7 @@ import { Grupo } from '../../models';
       <ng-template #estadoVacio>
         <div class="estado-vacio-container">
           <div class="estado-vacio">
-            <div class="estado-vacio-icono">📋</div>
+            <div class="estado-vacio-icono"></div>
             <h2>No tienes materias seleccionadas</h2>
             <p>Explora la oferta académica y selecciona las materias que deseas cursar</p>
             <a routerLink="/oferta-academica" class="btn btn-primario btn-lg">
@@ -182,7 +182,7 @@ import { Grupo } from '../../models';
             <h3 class="modal-titulo">¡Matrícula Exitosa!</h3>
           </div>
           <div class="modal-body texto-centro">
-            <div class="exito-icono">✅</div>
+            <div class="exito-icono"></div>
             <p>Te has inscrito exitosamente en {{ matriculasConfirmadas }} materia(s)</p>
             <p class="texto-secundario">Puedes ver tu horario y materias inscritas en el dashboard</p>
           </div>

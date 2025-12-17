@@ -22,7 +22,7 @@ export class MappersService {
       id: parseInt(dto.codigo) || 0,
       codigo: dto.codigo,
       nombre: dto.nombre,
-      duracionSemestres: 10, // ⚠️ Backend no incluye duración, usamos valor por defecto
+      duracionSemestres: 10, // Backend no incluye duración, usamos valor por defecto
       facultad: 'General'
     };
   }
@@ -31,7 +31,7 @@ export class MappersService {
     return {
       codigo: carrera.codigo,
       nombre: carrera.nombre
-      // ⚠️ Backend no acepta duracion en DtoCarrera
+      // Backend no acepta duracion en DtoCarrera
     };
   }
 
@@ -51,7 +51,7 @@ export class MappersService {
         nombre: 'Ingeniería de Sistemas',
         duracionSemestres: 10,
         facultad: 'General'
-      }, // ⚠️ Backend no incluye carrera en DtoEstudiante
+      }, // Backend no incluye carrera en DtoEstudiante
       semestre: 1,
       fechaIngreso: new Date()
     };
@@ -62,7 +62,7 @@ export class MappersService {
       codigo: estudiante.codigoEstudiante,
       nombre: estudiante.nombre + ' ' + estudiante.apellido,
       email: estudiante.email
-      // ⚠️ Backend no incluye carrera en DtoEstudiante
+      // Backend no incluye carrera en DtoEstudiante
     };
   }
 
@@ -72,7 +72,7 @@ export class MappersService {
       codigo: dto.codigo,
       nombre: dto.nombre,
       creditos: dto.creditos,
-      horasTeoricas: 4, // ⚠️ Backend no incluye horas, usamos valor por defecto
+      horasTeoricas: 4, // Backend no incluye horas, usamos valor por defecto
       horasPracticas: 2,
       semestre: dto.semestre || 1,
       prerrequisitos: [],
@@ -93,11 +93,11 @@ export class MappersService {
     return {
       id: parseInt(dto.codigo) || 0,
       codigo: dto.codigo,
-      nombre: dto.edificio, // ⚠️ Backend usa "edificio" no "nombre"
+      nombre: dto.edificio, // Backend usa "edificio" no "nombre"
       capacidad: dto.capacidad,
       edificio: dto.edificio,
       piso: 1,
-      tipoAula: 'TEORIA', // ⚠️ Backend no incluye tipo
+      tipoAula: 'TEORIA', // Backend no incluye tipo
       disponible: dto.disponible
     };
   }

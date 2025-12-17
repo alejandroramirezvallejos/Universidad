@@ -1,8 +1,8 @@
 /**
  * Backend DTOs - Interfaces que coinciden EXACTAMENTE con los DTOs del backend Spring Boot
  *
- * ⚠️ IMPORTANTE:
- * - Los IDs son STRING (no number) - el backend usa String para todos los códigos
+ * IMPORTANTE:
+ * - Los IDs son STRING (no number) - el backend usa String para todos los codigos
  * - Los nombres de propiedades deben coincidir exactamente con los del backend
  * - Estas interfaces representan los datos tal como vienen/van al backend
  * - Para usar en el frontend, hay que mapearlos a los modelos locales
@@ -38,9 +38,9 @@ export enum DiasSemana {
 // ============================================================================
 
 export interface DtoCarrera {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   nombre: string;
-  // ⚠️ Backend NO incluye duracion en DtoCarrera
+  // Backend NO incluye duracion en DtoCarrera
 }
 
 // ============================================================================
@@ -48,10 +48,10 @@ export interface DtoCarrera {
 // ============================================================================
 
 export interface DtoEstudiante {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   nombre: string;
   email: string;
-  // ⚠️ Backend NO incluye carrera en DtoEstudiante
+  // Backend NO incluye carrera en DtoEstudiante
 }
 
 // ============================================================================
@@ -59,7 +59,7 @@ export interface DtoEstudiante {
 // ============================================================================
 
 export interface DtoDocente {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   nombre: string;
   especialidad: string;
 }
@@ -69,11 +69,11 @@ export interface DtoDocente {
 // ============================================================================
 
 export interface DtoMateria {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   nombre: string;
   creditos: number;
-  semestre: number;  // ⚠️ Backend usa "semestre" no "nivel"
-  // ⚠️ Backend NO incluye carrera ni materiasCorrelativas en DtoMateria simple
+  semestre: number;  // Backend usa "semestre" no "nivel"
+  // Backend NO incluye carrera ni materiasCorrelativas en DtoMateria simple
 }
 
 // ============================================================================
@@ -91,7 +91,7 @@ export interface DtoHorario {
 // ============================================================================
 
 export interface DtoAula {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   edificio: string;
   capacidad: number;
   disponible: boolean;
@@ -102,7 +102,7 @@ export interface DtoAula {
 // ============================================================================
 
 export interface DtoParaleloMateria {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   nroParalelo: number;
   cupoMaximo: number;
   materia: DtoMateria;
@@ -117,10 +117,10 @@ export interface DtoParaleloMateria {
 // ============================================================================
 
 export interface DtoInscripcion {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   estudiante: DtoEstudiante;
   paralelo: DtoParaleloMateria;
-  estado: EstadoInscripcion;  // ⚠️ PENDIENTE | ACEPTADA | RECHAZADA
+  estado: EstadoInscripcion;  // PENDIENTE | ACEPTADA | RECHAZADA
   fechaInscripcion: string;  // ISO 8601: "2024-01-15T10:30:00"
 }
 
@@ -139,7 +139,7 @@ export interface DtoMatricula {
 // ============================================================================
 
 export interface DtoEvaluacion {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   tipo: string;  // "PARCIAL", "FINAL", "PROYECTO"
   descripcion: string;
   fecha: string;  // ISO 8601: "2024-03-15"
@@ -152,7 +152,7 @@ export interface DtoEvaluacion {
 // ============================================================================
 
 export interface DtoCalificacion {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   evaluacion: DtoEvaluacion;
   estudiante: DtoEstudiante;
   nota: number;  // 0-100
@@ -164,7 +164,7 @@ export interface DtoCalificacion {
 // ============================================================================
 
 export interface DtoActaEstudiante {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   estudiante: DtoEstudiante;
   paralelo: DtoParaleloMateria;
   notaFinal: number;  // 0-100
@@ -177,10 +177,10 @@ export interface DtoActaEstudiante {
 // ============================================================================
 
 export interface DtoHistorialAcademico {
-  codigo: string;  // ⚠️ String en backend
+  codigo: string;  // String en backend
   estudiante: DtoEstudiante;
   materia: DtoMateria;
-  gestion: string;  // ⚠️ Backend no tiene modelo Gestion, usa String (ej: "2024-1")
+  gestion: string;  // Backend no tiene modelo Gestion, usa String (ej: "2024-1")
   notaFinal: number;  // 0-100
   estado: string;  // "APROBADO" | "REPROBADO"
 }
@@ -280,7 +280,7 @@ export interface DtoInscripcionAprobacionRequest {
 export interface DtoActaEstudiante {
   estudiante: DtoEstudiante;
   paraleloMateria: DtoParaleloMateria;
-  // ⚠️ Backend usa modelos completos, no DTOs anidados
+  // Backend usa modelos completos, no DTOs anidados
 }
 
 // ============================================================================

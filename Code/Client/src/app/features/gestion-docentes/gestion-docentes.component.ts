@@ -102,21 +102,21 @@ import { DtoDocente } from '../../models/backend-dtos';
       <!-- Estadísticas -->
       <section class="estadisticas-grid">
         <div class="card estadistica">
-          <div class="estadistica-icono">👨‍🏫</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ docentes().length }}</span>
             <span class="estadistica-label">Total Docentes</span>
           </div>
         </div>
         <div class="card estadistica">
-          <div class="estadistica-icono">🔍</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ docentesFiltrados().length }}</span>
             <span class="estadistica-label">Resultados Filtrados</span>
           </div>
         </div>
         <div class="card estadistica">
-          <div class="estadistica-icono">📚</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ especialidadesUnicas() }}</span>
             <span class="estadistica-label">Especialidades</span>
@@ -173,7 +173,7 @@ import { DtoDocente } from '../../models/backend-dtos';
         </div>
 
         <div class="estado-vacio" *ngIf="docentesFiltrados().length === 0">
-          <div class="estado-vacio-icono">👨‍🏫</div>
+          <div class="estado-vacio-icono"></div>
           <p>No se encontraron docentes</p>
         </div>
       </section>

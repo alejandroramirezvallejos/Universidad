@@ -28,7 +28,7 @@ export class MatriculaService {
 
   /**
    * Obtiene las matrículas del estudiante desde el backend
-   * ✅ USANDO: GET /api/inscripciones/estudiante/{codigo}
+   * USANDO: GET /api/inscripciones/estudiante/{codigo}
    */
   async obtenerMisMatriculas(): Promise<Matricula[]> {
     const userId = this.authService.usuarioId();
@@ -42,19 +42,19 @@ export class MatriculaService {
       );
       
       // Convertir DTOs a modelos frontend
-      console.log(`✅ ${dtoInscripciones.length} inscripciones obtenidas del backend`);
+      console.log(`${dtoInscripciones.length} inscripciones obtenidas del backend`);
       return dtoInscripciones.map(dto => this.mappers.dtoToMatricula(dto));
     } catch (error) {
-      console.error('❌ Error al obtener matrículas desde backend:', error);
+      console.error('Error al obtener matrículas desde backend:', error);
       // Fallback a datos mock
-      console.warn('⚠️ Usando datos mock como fallback');
+      console.warn('Usando datos mock como fallback');
       return this.datosMock.obtenerMatriculasUsuario(userId);
     }
   }
 
   /**
    * Obtiene inscripciones de un paralelo específico
-   * ✅ USANDO: GET /api/inscripciones/paralelo/{codigo}
+   * USANDO: GET /api/inscripciones/paralelo/{codigo}
    */
   async obtenerInscripcionesParalelo(codigoParalelo: string): Promise<Matricula[]> {
     try {
@@ -62,17 +62,17 @@ export class MatriculaService {
         this.api.get<DtoInscripcion[]>(`/inscripciones/paralelo/${codigoParalelo}`)
       );
       
-      console.log(`✅ ${dtoInscripciones.length} inscripciones obtenidas para paralelo ${codigoParalelo}`);
+      console.log(`${dtoInscripciones.length} inscripciones obtenidas para paralelo ${codigoParalelo}`);
       return dtoInscripciones.map(dto => this.mappers.dtoToMatricula(dto));
     } catch (error) {
-      console.error(`❌ Error al obtener inscripciones del paralelo ${codigoParalelo}:`, error);
+      console.error(`Error al obtener inscripciones del paralelo ${codigoParalelo}:`, error);
       return [];
     }
   }
 
   /**
    * Cancela una inscripción específica
-   * ✅ USANDO: DELETE /api/inscripciones/{estudianteCodigo}/{paraleloCodigo}
+   * USANDO: DELETE /api/inscripciones/{estudianteCodigo}/{paraleloCodigo}
    */
   async cancelarInscripcion(estudianteCodigo: string, paraleloCodigo: string): Promise<boolean> {
     try {
@@ -80,10 +80,10 @@ export class MatriculaService {
         this.api.delete(`/inscripciones/${estudianteCodigo}/${paraleloCodigo}`)
       );
       
-      console.log(`✅ Inscripción cancelada: Estudiante ${estudianteCodigo} - Paralelo ${paraleloCodigo}`);
+      console.log(`Inscripción cancelada: Estudiante ${estudianteCodigo} - Paralelo ${paraleloCodigo}`);
       return true;
     } catch (error) {
-      console.error('❌ Error al cancelar inscripción:', error);
+      console.error('Error al cancelar inscripción:', error);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class MatriculaService {
     }
 
     try {
-      // ✅ USANDO ENDPOINT BATCH: POST /api/inscripciones/batch
+      // USANDO ENDPOINT BATCH: POST /api/inscripciones/batch
       // Preparar todas las inscripciones en un solo payload
       const inscripciones = gruposEnProceso.map(grupo => ({
         estudiante: this.mappers.estudianteToDto(usuario as any),
@@ -175,7 +175,7 @@ export class MatriculaService {
       // Limpiar carrito después de confirmar
       this.limpiarCarrito();
       
-      console.log(`✅ ${matriculasCreadas.length} matrícula(s) confirmada(s) mediante endpoint batch`);
+      console.log(`${matriculasCreadas.length} matrícula(s) confirmada(s) mediante endpoint batch`);
       
       return { 
         exito: true, 
@@ -183,7 +183,7 @@ export class MatriculaService {
         matriculas: matriculasCreadas 
       };
     } catch (error: any) {
-      console.error('❌ Error al confirmar matrícula con backend:', error);
+      console.error('Error al confirmar matrícula con backend:', error);
       
       // Fallback: guardar en mock
       const nuevasMatriculas: Matricula[] = gruposEnProceso.map((grupo, index) => ({
@@ -198,7 +198,7 @@ export class MatriculaService {
       this.datosMock.agregarMatriculas(nuevasMatriculas);
       this.limpiarCarrito();
 
-      console.warn('⚠️ Usando datos mock como fallback');
+      console.warn('Usando datos mock como fallback');
       
       return { 
         exito: true, 
@@ -280,9 +280,9 @@ export class MatriculaService {
         this.api.put('/inscripciones/aceptar', dtoMatricula)
       );
 
-      console.log('✅ Inscripción aceptada exitosamente');
+      console.log('Inscripción aceptada exitosamente');
     } catch (error) {
-      console.error('❌ Error al aceptar inscripción:', error);
+      console.error('Error al aceptar inscripción:', error);
       throw error;
     }
   }
@@ -303,7 +303,7 @@ export class MatriculaService {
       
       return inscripcionesPendientes.map(dto => this.mappers.dtoToMatricula(dto));
     } catch (error) {
-      console.error('❌ Error al obtener inscripciones pendientes:', error);
+      console.error('Error al obtener inscripciones pendientes:', error);
       return [];
     }
   }

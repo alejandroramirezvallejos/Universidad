@@ -28,7 +28,7 @@ export class DocentesService {
       this._docentes.set(docentes);
       return docentes;
     } catch (error) {
-      console.error('❌ Error al obtener docentes del backend:', error);
+      console.error('Error al obtener docentes del backend:', error);
       return [];
     }
   }
@@ -49,7 +49,7 @@ export class DocentesService {
       
       return docenteCreado;
     } catch (error) {
-      console.error('❌ Error al crear docente:', error);
+      console.error('Error al crear docente:', error);
       throw error;
     }
   }
@@ -69,7 +69,7 @@ export class DocentesService {
         docentes.filter(d => d.codigoDocente !== docente.codigoDocente)
       );
     } catch (error) {
-      console.error('❌ Error al eliminar docente:', error);
+      console.error('Error al eliminar docente:', error);
       throw error;
     }
   }
@@ -105,7 +105,7 @@ export class DocentesService {
 
   /**
    * Obtiene solo los docentes activos
-   * ✅ USANDO: GET /api/docentes/activos
+   * USANDO: GET /api/docentes/activos
    */
   async obtenerDocentesActivos(): Promise<any[]> {
     try {
@@ -113,17 +113,17 @@ export class DocentesService {
         this.api.get<DtoDocente[]>('/docentes/activos')
       );
       const docentes = dtoDocentes.map(dto => this.mappers.dtoToDocente(dto));
-      console.log(`✅ ${docentes.length} docentes activos obtenidos del backend`);
+      console.log(`${docentes.length} docentes activos obtenidos del backend`);
       return docentes;
     } catch (error) {
-      console.error('❌ Error al obtener docentes activos:', error);
+      console.error('Error al obtener docentes activos:', error);
       return [];
     }
   }
 
   /**
    * Obtiene un docente específico por código desde el backend
-   * ✅ USANDO: GET /api/docentes/{codigo}
+   * USANDO: GET /api/docentes/{codigo}
    */
   async obtenerDocenteBackend(codigo: string): Promise<any | null> {
     try {
@@ -131,10 +131,10 @@ export class DocentesService {
         this.api.get<DtoDocente>(`/docentes/${codigo}`)
       );
       const docente = this.mappers.dtoToDocente(dtoDocente);
-      console.log(`✅ Docente ${codigo} obtenido del backend`);
+      console.log(`Docente ${codigo} obtenido del backend`);
       return docente;
     } catch (error) {
-      console.error(`❌ Error al obtener docente ${codigo}:`, error);
+      console.error(`Error al obtener docente ${codigo}:`, error);
       return null;
     }
   }

@@ -104,14 +104,14 @@ import { DtoEstudiante, DtoCarrera } from '../../models/backend-dtos';
       <!-- Estadísticas -->
       <section class="estadisticas-grid">
         <div class="card estadistica">
-          <div class="estadistica-icono">👥</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ estudiantes().length }}</span>
             <span class="estadistica-label">Total Estudiantes</span>
           </div>
         </div>
         <div class="card estadistica">
-          <div class="estadistica-icono">📚</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ estudiantesFiltrados().length }}</span>
             <span class="estadistica-label">Resultados Filtrados</span>
@@ -166,7 +166,7 @@ import { DtoEstudiante, DtoCarrera } from '../../models/backend-dtos';
         </div>
 
         <div class="estado-vacio" *ngIf="estudiantesFiltrados().length === 0">
-          <div class="estado-vacio-icono">👥</div>
+          <div class="estado-vacio-icono"></div>
           <p>No se encontraron estudiantes</p>
         </div>
       </section>

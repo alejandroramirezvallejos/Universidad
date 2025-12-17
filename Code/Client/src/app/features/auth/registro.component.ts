@@ -24,8 +24,8 @@ import { RegistroEstudiante, RegistroDocente } from '../../models';
           <div class="registro-header">
             <div class="logo-container">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
               </svg>
             </div>
             <h1>Crear Cuenta</h1>
@@ -427,7 +427,7 @@ export class RegistroComponent {
   }
 
   async cargarCarreras(): Promise<void> {
-    // ✅ USANDO BACKEND: Obtener carreras desde el backend
+    // USANDO BACKEND: Obtener carreras desde el backend
     const carrerasBackend = await this.carrerasService.obtenerCarreras();
     this.carreras = carrerasBackend;
   }

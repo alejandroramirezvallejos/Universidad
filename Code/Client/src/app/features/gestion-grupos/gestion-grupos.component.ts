@@ -250,7 +250,7 @@ import { Materia, Usuario, Grupo, Horario, DiaSemana, Aula } from '../../models'
         </div>
 
         <div class="estado-vacio" *ngIf="gruposExistentes().length === 0">
-          <div class="estado-vacio-icono">📚</div>
+          <div class="estado-vacio-icono"></div>
           <p>No hay grupos creados aún</p>
           <p class="texto-secundario">Crea el primer grupo para comenzar</p>
         </div>
@@ -503,7 +503,7 @@ export class GestionGruposComponent implements OnInit {
 
   async cargarDatos(): Promise<void> {
     try {
-      // ✅ USANDO BACKEND: Cargar datos desde los servicios
+      // USANDO BACKEND: Cargar datos desde los servicios
       await Promise.all([
         this.materiasService.obtenerTodasLasMaterias(),
         this.docentesService.obtenerDocentes(),
@@ -535,7 +535,7 @@ export class GestionGruposComponent implements OnInit {
         activo: true
       }));
       
-      // ✅ USANDO BACKEND: Cargar grupos (paralelos)
+      // USANDO BACKEND: Cargar grupos (paralelos)
       const paralellosBackend = await this.paralelosService.obtenerParalelos();
       this.gruposExistentes.set(paralellosBackend);
     } catch (error) {
@@ -583,7 +583,7 @@ export class GestionGruposComponent implements OnInit {
     }
 
     try {
-      // ✅ USANDO BACKEND: Crear paralelo
+      // USANDO BACKEND: Crear paralelo
       const docenteConCodigo = docente as any; // Cast temporal porque docentes viene con codigo del servicio
       const nuevoParalelo = {
         codigo: this.nuevoGrupo.codigo,
@@ -662,7 +662,7 @@ export class GestionGruposComponent implements OnInit {
     }
 
     try {
-      // ✅ USANDO BACKEND: Actualizar paralelo
+      // USANDO BACKEND: Actualizar paralelo
       const paraleloActualizado = {
         codigo: this.nuevoGrupo.codigo,
         cupoMaximo: this.nuevoGrupo.cupoMaximo,
@@ -685,7 +685,7 @@ export class GestionGruposComponent implements OnInit {
 
   async eliminarGrupo(grupoId: number): Promise<void> {
     try {
-      // ✅ USANDO BACKEND: Eliminar paralelo
+      // USANDO BACKEND: Eliminar paralelo
       const grupo = this.gruposExistentes().find(g => g.id === grupoId);
       if (!grupo) {
         this.notificacion.error('Grupo no encontrado');

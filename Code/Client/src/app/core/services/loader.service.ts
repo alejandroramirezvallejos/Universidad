@@ -321,7 +321,7 @@ export class LoaderService {
    */
   cargarDatosIniciales(): void {
     console.log('════════════════════════════════════════════════════════════');
-    console.log('🔧 CARGANDO DATOS DE PRUEBA (Frontend)');
+    console.log('CARGANDO DATOS DE PRUEBA (Frontend)');
     console.log('════════════════════════════════════════════════════════════');
 
     this.cargarGestiones();
@@ -333,39 +333,39 @@ export class LoaderService {
   }
 
   private cargarGestiones(): void {
-    console.log('📅 Cargando Gestiones Académicas...');
+    console.log('[DATE] Cargando Gestiones Academicas...');
     // Los datos se cargan en los signals de cada servicio cuando se llaman los endpoints
     this.datosIniciales.gestiones.forEach(g => {
-      console.log(`   ✓ ${g.codigo} (${g.estado})`);
+      console.log(`   - ${g.codigo} (${g.estado})`);
     });
   }
 
   private cargarCarreras(): void {
-    console.log('📚 Cargando Carreras...');
+    console.log('[BOOK] Cargando Carreras...');
     this.datosIniciales.carreras.forEach(c => {
-      console.log(`   ✓ ${c.nombre} (${c.codigo})`);
+      console.log(`   - ${c.nombre} (${c.codigo})`);
     });
   }
 
   private cargarAulas(): void {
-    console.log('🏛️  Cargando Aulas...');
+    console.log('[BUILDING] Cargando Aulas...');
     this.datosIniciales.aulas.forEach(a => {
-      console.log(`   ✓ Aula ${a.codigo} (Capacidad: ${a.capacidad})`);
+      console.log(`   - Aula ${a.codigo} (Capacidad: ${a.capacidad})`);
     });
   }
 
   private cargarMaterias(): void {
-    console.log('📖 Cargando Materias...');
+    console.log('[SUBJECT] Cargando Materias...');
     this.datosIniciales.materias.forEach(m => {
-      console.log(`   ✓ ${m.nombre} (${m.codigo}) - Semestre ${m.semestre}`);
+      console.log(`   - ${m.nombre} (${m.codigo}) - Semestre ${m.semestre}`);
     });
   }
 
   private imprimirResumen(): void {
     console.log('\n════════════════════════════════════════════════════════════');
-    console.log('✅ DATOS MOCK DISPONIBLES');
+    console.log('DATOS MOCK DISPONIBLES');
     console.log('════════════════════════════════════════════════════════════');
-    console.log('\n📋 RESUMEN:');
+    console.log('\nRESUMEN:');
     console.log(`   • ${this.datosIniciales.gestiones.length} Gestiones académicas`);
     console.log(`   • ${this.datosIniciales.carreras.length} Carreras`);
     console.log(`   • ${this.datosIniciales.estudiantes.length} Estudiantes`);
@@ -374,7 +374,7 @@ export class LoaderService {
     console.log(`   • ${this.datosIniciales.aulas.length} Aulas`);
     console.log(`   • ${this.datosIniciales.materias.length} Materias`);
     console.log(`   • ${this.datosIniciales.paralelos.length} Paralelos`);
-    console.log('\n📋 USUARIOS DE PRUEBA PARA LOGIN:');
+    console.log('\nUSUARIOS DE PRUEBA PARA LOGIN:');
     console.log('┌─────────────────────────────────────────────────────────┐');
     console.log('│ ESTUDIANTE: juan.perez@ucb.edu.bo                       │');
     console.log('│ DOCENTE: maria.gonzalez@ucb.edu.bo                      │');

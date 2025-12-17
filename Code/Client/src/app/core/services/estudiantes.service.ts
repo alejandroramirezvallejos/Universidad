@@ -28,7 +28,7 @@ export class EstudiantesService {
       this._estudiantes.set(estudiantes);
       return estudiantes;
     } catch (error) {
-      console.error('❌ Error al obtener estudiantes del backend:', error);
+      console.error('Error al obtener estudiantes del backend:', error);
       return [];
     }
   }
@@ -49,7 +49,7 @@ export class EstudiantesService {
       
       return estudianteCreado;
     } catch (error) {
-      console.error('❌ Error al crear estudiante:', error);
+      console.error('Error al crear estudiante:', error);
       throw error;
     }
   }
@@ -69,7 +69,7 @@ export class EstudiantesService {
         estudiantes.filter(e => e.codigoEstudiante !== estudiante.codigoEstudiante)
       );
     } catch (error) {
-      console.error('❌ Error al eliminar estudiante:', error);
+      console.error('Error al eliminar estudiante:', error);
       throw error;
     }
   }

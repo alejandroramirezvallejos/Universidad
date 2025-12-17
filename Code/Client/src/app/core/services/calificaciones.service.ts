@@ -74,7 +74,7 @@ export class CalificacionesService {
 
   /**
    * Obtiene las notas del estudiante actual organizadas por materia
-   * ✅ USANDO: GET /api/evaluaciones/estudiante/{codigo}
+   * USANDO: GET /api/evaluaciones/estudiante/{codigo}
    */
   async obtenerMisNotas(): Promise<NotaMateria[]> {
     const userId = this.authService.usuarioId();
@@ -87,7 +87,7 @@ export class CalificacionesService {
         this.api.get<any[]>(`/evaluaciones/estudiante/${userCodigo}`)
       );
       
-      console.log(`✅ ${dtoCalificaciones.length} calificaciones obtenidas del backend`);
+      console.log(`${dtoCalificaciones.length} calificaciones obtenidas del backend`);
       
       // Agrupar calificaciones por paralelo/materia
       const calificacionesPorParalelo = new Map<string, any[]>();
@@ -149,9 +149,9 @@ export class CalificacionesService {
       return notasMaterias;
       
     } catch (error) {
-      console.error('❌ Error al obtener calificaciones desde backend:', error);
+      console.error('Error al obtener calificaciones desde backend:', error);
       // Fallback a datos mock
-      console.warn('⚠️ Usando datos mock como fallback');
+      console.warn('Usando datos mock como fallback');
       return this.obtenerMisNotasMock();
     }
   }
@@ -541,7 +541,7 @@ export class CalificacionesService {
     }
 
     // Buscar si ya existe la calificación
-    // 🔒 Buscar en las calificaciones del estudiante específico
+    // [LOCK] Buscar en las calificaciones del estudiante específico
     // En Spring Boot: GET /api/estudiantes/{estudianteId}/calificaciones
     const calificacionesEstudiante = this.datosMock.obtenerCalificacionesUsuario(estudianteId);
     const califExistente = calificacionesEstudiante.find(
@@ -587,7 +587,7 @@ export class CalificacionesService {
   // ============ ALERTAS DE REPROBACIÓN ============
 
   private verificarAlertaReprobacion(matricula: Matricula): string | undefined {
-    // 🔒 Obtener solo las calificaciones del estudiante de esta matrícula
+    // [LOCK] Obtener solo las calificaciones del estudiante de esta matrícula
     // En Spring Boot: GET /api/estudiantes/{estudianteId}/calificaciones
     const calificacionesEstudiante = this.datosMock.obtenerCalificacionesUsuario(matricula.estudiante.id);
     const calificaciones = calificacionesEstudiante.filter(
@@ -625,7 +625,7 @@ export class CalificacionesService {
         };
         this.alertas.update(list => [...list, nuevaAlerta]);
         
-        return `⚠️ Alerta: ${matricula.estudiante.nombre} está en riesgo de reprobar ${matricula.grupo.materia.nombre} (nota proyectada: ${Math.round(notaProyectada)})`;
+        return `Alerta: ${matricula.estudiante.nombre} está en riesgo de reprobar ${matricula.grupo.materia.nombre} (nota proyectada: ${Math.round(notaProyectada)})`;
       }
     }
     
@@ -683,7 +683,7 @@ export class CalificacionesService {
     }
 
     // Agregar matrículas actuales (en curso)
-    // 🔒 Obtener solo MIS matrículas (no todas)
+    // [LOCK] Obtener solo MIS matrículas (no todas)
     // En Spring Boot: GET /api/estudiantes/{userId}/matriculas
     const matriculasActuales = this.datosMock.obtenerMatriculasUsuario(userId)
       .filter(m => m.estado === 'INSCRITO');
@@ -691,7 +691,7 @@ export class CalificacionesService {
     const gestionActual = this.datosMock.gestiones.find(g => g.estado === 'EN_CURSO');
     
     if (gestionActual) {
-      // 🔒 Obtener solo MIS calificaciones (no todas)
+      // [LOCK] Obtener solo MIS calificaciones (no todas)
       // En Spring Boot: GET /api/estudiantes/{userId}/calificaciones
       const misCalificaciones = this.datosMock.obtenerCalificacionesUsuario(userId);
       
@@ -757,7 +757,7 @@ export class CalificacionesService {
       const codigo = codigoEstudiante || (usuario as any)?.codigoEstudiante;
       
       if (!codigo) {
-        console.warn('⚠️ No se pudo obtener código de estudiante');
+        console.warn('No se pudo obtener código de estudiante');
         return [];
       }
 
@@ -770,10 +770,10 @@ export class CalificacionesService {
         acta.estudiante?.codigo === codigo
       );
       
-      console.log(`✅ ${misActas.length} actas obtenidas para estudiante ${codigo}`);
+      console.log(`${misActas.length} actas obtenidas para estudiante ${codigo}`);
       return misActas;
     } catch (error) {
-      console.error('❌ Error al obtener actas del backend:', error);
+      console.error('Error al obtener actas del backend:', error);
       return [];
     }
   }
@@ -787,7 +787,7 @@ export class CalificacionesService {
       const codigo = codigoEstudiante || (usuario as any)?.codigoEstudiante;
       
       if (!codigo) {
-        console.warn('⚠️ No se pudo obtener código de estudiante');
+        console.warn('No se pudo obtener código de estudiante');
         return [];
       }
 
@@ -800,10 +800,10 @@ export class CalificacionesService {
         acta.estudiante?.codigo === codigo
       );
       
-      console.log(`✅ ${misActasAprobadas.length} actas aprobadas para estudiante ${codigo}`);
+      console.log(`${misActasAprobadas.length} actas aprobadas para estudiante ${codigo}`);
       return misActasAprobadas;
     } catch (error) {
-      console.error('❌ Error al obtener actas aprobadas del backend:', error);
+      console.error('Error al obtener actas aprobadas del backend:', error);
       return [];
     }
   }
@@ -817,7 +817,7 @@ export class CalificacionesService {
       const codigo = codigoEstudiante || (usuario as any)?.codigoEstudiante;
       
       if (!codigo) {
-        console.warn('⚠️ No se pudo obtener código de estudiante');
+        console.warn('No se pudo obtener código de estudiante');
         return [];
       }
 
@@ -830,10 +830,10 @@ export class CalificacionesService {
         acta.estudiante?.codigo === codigo
       );
       
-      console.log(`✅ ${misActasReprobadas.length} actas reprobadas para estudiante ${codigo}`);
+      console.log(`${misActasReprobadas.length} actas reprobadas para estudiante ${codigo}`);
       return misActasReprobadas;
     } catch (error) {
-      console.error('❌ Error al obtener actas reprobadas del backend:', error);
+      console.error('Error al obtener actas reprobadas del backend:', error);
       return [];
     }
   }
@@ -847,7 +847,7 @@ export class CalificacionesService {
       const codigo = codigoEstudiante || (usuario as any)?.codigoEstudiante;
       
       if (!codigo) {
-        console.warn('⚠️ No se pudo obtener código de estudiante');
+        console.warn('No se pudo obtener código de estudiante');
         return this.obtenerHistorialAcademicoMock();
       }
 
@@ -863,10 +863,10 @@ export class CalificacionesService {
       // Usar mapper para convertir a formato frontend
       const historialFormateado = this.mappers.dtoToHistorial(miHistorial);
       
-      console.log(`✅ Historial académico obtenido para estudiante ${codigo}`);
+      console.log(`Historial académico obtenido para estudiante ${codigo}`);
       return historialFormateado;
     } catch (error) {
-      console.error('❌ Error al obtener historial del backend:', error);
+      console.error('Error al obtener historial del backend:', error);
       return this.obtenerHistorialAcademicoMock();
     }
   }
@@ -908,9 +908,9 @@ export class CalificacionesService {
         this.api.post('/actas', dtoActa)
       );
       
-      console.log('✅ Acta creada exitosamente');
+      console.log('Acta creada exitosamente');
     } catch (error) {
-      console.error('❌ Error al crear acta:', error);
+      console.error('Error al crear acta:', error);
       throw error;
     }
   }
@@ -930,9 +930,9 @@ export class CalificacionesService {
         this.api.post('/evaluaciones', dtoEvaluacion)
       );
       
-      console.log(`✅ Evaluación "${nombre}" creada (${porcentaje}%)`);
+      console.log(`Evaluación "${nombre}" creada (${porcentaje}%)`);
     } catch (error) {
-      console.error('❌ Error al crear evaluación:', error);
+      console.error('Error al crear evaluación:', error);
       throw error;
     }
   }
@@ -948,9 +948,9 @@ export class CalificacionesService {
         })
       );
       
-      console.log('✅ Evaluación eliminada');
+      console.log('Evaluación eliminada');
     } catch (error) {
-      console.error('❌ Error al eliminar evaluación:', error);
+      console.error('Error al eliminar evaluación:', error);
       throw error;
     }
   }
@@ -959,7 +959,7 @@ export class CalificacionesService {
 
   /**
    * Obtiene las evaluaciones de un paralelo específico
-   * ✅ USANDO: GET /api/evaluaciones/paralelo/{codigo}
+   * USANDO: GET /api/evaluaciones/paralelo/{codigo}
    */
   async obtenerEvaluacionesParalelo(codigoParalelo: string): Promise<any[]> {
     try {
@@ -967,17 +967,17 @@ export class CalificacionesService {
         this.api.get<any[]>(`/evaluaciones/paralelo/${codigoParalelo}`)
       );
       
-      console.log(`✅ ${dtoEvaluaciones.length} evaluaciones obtenidas para paralelo ${codigoParalelo}`);
+      console.log(`${dtoEvaluaciones.length} evaluaciones obtenidas para paralelo ${codigoParalelo}`);
       return dtoEvaluaciones;
     } catch (error) {
-      console.error(`❌ Error al obtener evaluaciones del paralelo ${codigoParalelo}:`, error);
+      console.error(`Error al obtener evaluaciones del paralelo ${codigoParalelo}:`, error);
       return [];
     }
   }
 
   /**
    * Registra una calificación para una evaluación
-   * ✅ USANDO: POST /api/evaluaciones/calificacion
+   * USANDO: POST /api/evaluaciones/calificacion
    */
   async registrarCalificacion(
     codigoEvaluacion: string,
@@ -999,17 +999,17 @@ export class CalificacionesService {
         this.api.post('/evaluaciones/calificacion', dtoCalificacion)
       );
       
-      console.log(`✅ Calificación registrada: Estudiante ${codigoEstudiante} - Nota: ${nota}`);
+      console.log(`Calificación registrada: Estudiante ${codigoEstudiante} - Nota: ${nota}`);
       return true;
     } catch (error) {
-      console.error('❌ Error al registrar calificación:', error);
+      console.error('Error al registrar calificación:', error);
       return false;
     }
   }
 
   /**
    * Obtiene todas las calificaciones de un estudiante
-   * ✅ USANDO: GET /api/evaluaciones/estudiante/{codigo}
+   * USANDO: GET /api/evaluaciones/estudiante/{codigo}
    * (Ya se usa en obtenerMisNotas, este es un wrapper más directo)
    */
   async obtenerCalificacionesEstudiante(codigoEstudiante: string): Promise<any[]> {
@@ -1018,10 +1018,10 @@ export class CalificacionesService {
         this.api.get<any[]>(`/evaluaciones/estudiante/${codigoEstudiante}`)
       );
       
-      console.log(`✅ ${dtoCalificaciones.length} calificaciones obtenidas para estudiante ${codigoEstudiante}`);
+      console.log(`${dtoCalificaciones.length} calificaciones obtenidas para estudiante ${codigoEstudiante}`);
       return dtoCalificaciones;
     } catch (error) {
-      console.error(`❌ Error al obtener calificaciones del estudiante ${codigoEstudiante}:`, error);
+      console.error(`Error al obtener calificaciones del estudiante ${codigoEstudiante}:`, error);
       return [];
     }
   }

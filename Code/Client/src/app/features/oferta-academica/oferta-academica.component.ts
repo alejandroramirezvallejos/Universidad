@@ -204,7 +204,7 @@ import { Materia, Grupo } from '../../models';
 
         <!-- Estado vacío -->
         <div class="estado-vacio" *ngIf="materiasFiltradas().length === 0">
-          <div class="estado-vacio-icono">📚</div>
+          <div class="estado-vacio-icono"></div>
           <h3>No se encontraron materias</h3>
           <p>Intenta con otros filtros de búsqueda</p>
         </div>

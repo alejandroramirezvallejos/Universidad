@@ -29,7 +29,7 @@ export class CarrerasService {
       this._carreras.set(carreras);
       return carreras;
     } catch (error) {
-      console.error('❌ Error al obtener carreras del backend:', error);
+      console.error('Error al obtener carreras del backend:', error);
       // Fallback: devolver lista vacía
       return [];
     }
@@ -51,7 +51,7 @@ export class CarrerasService {
       
       return carreraCreada;
     } catch (error) {
-      console.error('❌ Error al crear carrera:', error);
+      console.error('Error al crear carrera:', error);
       throw error;
     }
   }
@@ -70,7 +70,7 @@ export class CarrerasService {
         carreras.filter(c => c.codigo !== codigoCarrera)
       );
     } catch (error) {
-      console.error('❌ Error al eliminar carrera:', error);
+      console.error('Error al eliminar carrera:', error);
       throw error;
     }
   }

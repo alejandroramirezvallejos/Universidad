@@ -2,7 +2,7 @@
  * Servicio de Oferta Académica
  * Gestiona materias, grupos, aulas y docentes
  * 
- * ⚠️ INTEGRACIÓN CON BACKEND:
+ * INTEGRACIÓN CON BACKEND:
  * - Conectado a Spring Boot (http://localhost:8080/api)
  * - Usa ApiService para comunicación HTTP
  * - Usa MappersService para convertir DTOs
@@ -57,17 +57,17 @@ export class OfertaAcademicaService {
       const backendDisponible = await this.api.verificarConexion();
       
       if (backendDisponible) {
-        console.log('✅ Backend disponible. Cargando datos reales...');
+        console.log('Backend disponible. Cargando datos reales...');
         await this.cargarDatosBackend();
         this._usandoBackend.set(true);
       } else {
-        console.warn('⚠️ Backend no disponible. Usando datos mock...');
+        console.warn('Backend no disponible. Usando datos mock...');
         this.cargarDatosMock();
         this._usandoBackend.set(false);
       }
     } catch (error) {
-      console.error('❌ Error al inicializar datos:', error);
-      console.warn('⚠️ Fallback a datos mock');
+      console.error('Error al inicializar datos:', error);
+      console.warn('Fallback a datos mock');
       this.cargarDatosMock();
       this._usandoBackend.set(false);
     } finally {
@@ -86,7 +86,7 @@ export class OfertaAcademicaService {
       );
       const materias = dtoMaterias.map(dto => this.mappers.dtoToMateria(dto));
       this._materias.set(materias);
-      console.log(`✅ ${materias.length} materias cargadas desde backend`);
+      console.log(`${materias.length} materias cargadas desde backend`);
 
       // Cargar paralelos/grupos
       const dtoParalelos = await firstValueFrom(
@@ -96,7 +96,7 @@ export class OfertaAcademicaService {
       const gestionActual = { id: 1, nombre: 'II-2025', anio: 2025, periodo: 2 };
       const grupos = dtoParalelos.map(dto => this.mappers.dtoToGrupo(dto, gestionActual));
       this._grupos.set(grupos);
-      console.log(`✅ ${grupos.length} grupos cargados desde backend`);
+      console.log(`${grupos.length} grupos cargados desde backend`);
 
       // Cargar aulas
       const dtoAulas = await firstValueFrom(
@@ -104,10 +104,10 @@ export class OfertaAcademicaService {
       );
       const aulas = dtoAulas.map(dto => this.mappers.dtoToAula(dto));
       this._aulas.set(aulas);
-      console.log(`✅ ${aulas.length} aulas cargadas desde backend`);
+      console.log(`${aulas.length} aulas cargadas desde backend`);
 
     } catch (error) {
-      console.error('❌ Error cargando datos del backend:', error);
+      console.error('Error cargando datos del backend:', error);
       throw error;
     }
   }
@@ -119,7 +119,7 @@ export class OfertaAcademicaService {
     this._materias.set(this.datosMock.materias);
     this._grupos.set(this.datosMock.grupos);
     this._aulas.set(this.datosMock.aulas);
-    console.log('✅ Datos mock cargados');
+    console.log('Datos mock cargados');
   }
 
   /**
@@ -159,7 +159,7 @@ export class OfertaAcademicaService {
 
   /**
    * Obtiene todas las gestiones
-   * ⚠️ LIMITACIÓN: Backend no tiene modelo Gestion, se usan datos locales
+   * LIMITACIÓN: Backend no tiene modelo Gestion, se usan datos locales
    */
   obtenerGestiones(): Gestion[] {
     return this.datosMock.gestiones;
@@ -167,7 +167,7 @@ export class OfertaAcademicaService {
 
   /**
    * Obtiene la gestión actual (en curso o matrícula)
-   * ⚠️ LIMITACIÓN: Backend no tiene modelo Gestion, se usa gestión mock actual
+   * LIMITACIÓN: Backend no tiene modelo Gestion, se usa gestión mock actual
    */
   obtenerGestionActual(): Gestion | undefined {
     return this.datosMock.gestiones.find(g => g.estado !== 'CERRADA');
@@ -196,7 +196,7 @@ export class OfertaAcademicaService {
 
   /**
    * Verifica disponibilidad de cupo en un grupo
-   * ⚠️ LIMITACIÓN: Backend no actualiza cupos dinámicamente
+   * LIMITACIÓN: Backend no actualiza cupos dinámicamente
    */
   verificarCupoDisponible(grupoId: number): boolean {
     const grupo = this._grupos().find(g => g.id === grupoId);
@@ -243,10 +243,10 @@ export class OfertaAcademicaService {
       // Actualizar signal
       this._materias.update(materias => [...materias, materiaCreada]);
       
-      console.log('✅ Materia creada:', materiaCreada.nombre);
+      console.log('Materia creada:', materiaCreada.nombre);
       return materiaCreada;
     } catch (error) {
-      console.error('❌ Error al crear materia:', error);
+      console.error('Error al crear materia:', error);
       throw error;
     }
   }
@@ -265,9 +265,9 @@ export class OfertaAcademicaService {
         materias.filter(m => m.codigo !== codigoMateria)
       );
       
-      console.log('✅ Materia eliminada:', codigoMateria);
+      console.log('Materia eliminada:', codigoMateria);
     } catch (error) {
-      console.error('❌ Error al eliminar materia:', error);
+      console.error('Error al eliminar materia:', error);
       throw error;
     }
   }
@@ -284,7 +284,7 @@ export class OfertaAcademicaService {
       this._materias.set(materias);
       return materias;
     } catch (error) {
-      console.error('❌ Error al obtener materias del backend:', error);
+      console.error('Error al obtener materias del backend:', error);
       // Fallback a datos mock
       const materiasMock = this.datosMock.materias;
       this._materias.set(materiasMock);
