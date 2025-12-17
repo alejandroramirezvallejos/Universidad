@@ -16,7 +16,6 @@ import lombok.experimental.SuperBuilder;
 public class DirectorCarrera extends AUsuario implements IDirectorCarrera {
     private String departamento;
     
-    // Campo de tipo Carrera (clase concreta)
     @JsonIgnoreProperties({"director", "estudiantes", "materias"})
     private Carrera carrera;
 

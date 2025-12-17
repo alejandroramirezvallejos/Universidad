@@ -28,7 +28,6 @@ public class ControladorInscripcion {
         System.out.println("Código estudiante recibido: " + matricula.getEstudiante().getCodigo());
         System.out.println("Código paralelo recibido: " + matricula.getParaleloMateria().getCodigo());
         
-        // Buscar el paralelo completo por su código
         IParaleloMateria paraleloCompleto = servicioParalelo.getParaleloPorCodigo(
             matricula.getParaleloMateria().getCodigo()
         );
@@ -40,7 +39,6 @@ public class ControladorInscripcion {
             return ResponseEntity.badRequest().body("Paralelo no encontrado");
         }
         
-        // Buscar el estudiante completo por su código
         IEstudiante estudianteCompleto = servicioEstudiante.getEstudiantes().stream()
             .filter(e -> e.getCodigo().equals(matricula.getEstudiante().getCodigo()))
             .findFirst()
@@ -82,26 +80,23 @@ public class ControladorInscripcion {
         List<IMatricula> matriculasCompletas = new ArrayList<>();
         
         for (Matricula inscripcion : inscripciones) {
-            // Buscar el paralelo completo por su código
             IParaleloMateria paraleloCompleto = servicioParalelo.getParaleloPorCodigo(
                 inscripcion.getParaleloMateria().getCodigo()
             );
             
             if (paraleloCompleto == null) {
-                continue; // Saltar esta inscripción si no se encuentra el paralelo
+                continue; 
             }
             
-            // Buscar el estudiante completo por su código
             IEstudiante estudianteCompleto = servicioEstudiante.getEstudiantes().stream()
                 .filter(e -> e.getCodigo().equals(inscripcion.getEstudiante().getCodigo()))
                 .findFirst()
                 .orElse(null);
             
             if (estudianteCompleto == null) {
-                continue; // Saltar esta inscripción si no se encuentra el estudiante
+                continue; 
             }
             
-            // Crear la matrícula con los objetos completos
             IMatricula resultado = servicio.crear(estudianteCompleto, paraleloCompleto);
             
             if (resultado != null) {

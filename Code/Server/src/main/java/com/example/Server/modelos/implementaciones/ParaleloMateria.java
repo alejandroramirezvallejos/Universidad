@@ -17,19 +17,19 @@ public class ParaleloMateria implements IParaleloMateria {
     private String codigo;
     @JsonIgnoreProperties({"paraleloMaterias", "materiasCorrelativas", "carrera"})
     @ToString.Exclude
-    private Materia materia;  // Cambiado de IMateria a Materia
+    private Materia materia; 
     @JsonIgnoreProperties({"paraleloMaterias"})
     @ToString.Exclude
-    private Docente docente;  // Cambiado de IDocente a Docente
+    private Docente docente;  
     @JsonIgnoreProperties({"paraleloMaterias"})
-    private Aula aula;  // Cambiado de IAula a Aula
+    private Aula aula;
     @JsonIgnoreProperties({"materias"})
-    private Gestion gestion;  // Cambiado de IGestion a Gestion
+    private Gestion gestion; 
     private Integer cupoMaximo;
     @Builder.Default
     @JsonIgnoreProperties({"materiasInscritas", "materiasAprobadas", "carrera"})
     @ToString.Exclude
     private List<IEstudiante> estudiantes = new ArrayList<>();
     @Builder.Default
-    private List<Horario> horarios = new ArrayList<>();  // Cambiado de IHorario a Horario
+    private List<Horario> horarios = new ArrayList<>(); 
 }

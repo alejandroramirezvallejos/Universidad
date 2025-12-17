@@ -20,7 +20,7 @@ public class Materia implements IMateria {
     private Integer semestre;
     private Integer creditos;
     @Builder.Default
-    private Boolean activa = true;  // Cambiado de boolean a Boolean para permitir null en JSON
+    private Boolean activa = true;  
     @Builder.Default
     @JsonIgnoreProperties({"paraleloMaterias", "carrera"})
     @ToString.Exclude
@@ -30,11 +30,9 @@ public class Materia implements IMateria {
     @ToString.Exclude
     private List<IParaleloMateria> paraleloMaterias = new ArrayList<>();
     
-    // Campo de tipo Carrera (clase concreta) - Jackson puede deserializarlo sin problemas
     @JsonIgnoreProperties({"estudiantes", "materias", "director"})
     private Carrera carrera;
 
-    // Sobrescribir métodos para Boolean en lugar de boolean
     public Boolean isActiva() {
         return activa;
     }

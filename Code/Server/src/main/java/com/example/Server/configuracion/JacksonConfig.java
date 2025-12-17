@@ -18,7 +18,6 @@ public class JacksonConfig {
         SimpleModule module = new SimpleModule();
         SimpleAbstractTypeResolver resolver = new SimpleAbstractTypeResolver();
         
-        // Registrar clases concretas para las interfaces - LA FORMA CORRECTA
         resolver.addMapping(ICarrera.class, Carrera.class);
         resolver.addMapping(IEstudiante.class, Estudiante.class);
         resolver.addMapping(IDocente.class, Docente.class);

@@ -20,14 +20,6 @@ public class ServicioCalificacion implements IServicioCalificacion {
 
     @Override
     public ICalificacion crear(ICalificacion calificacion) {
-        // Nota: La validación de que el estudiante esté inscrito se realiza del lado
-        // del cliente
-        // Ya que el paralelo que viene en el DTO puede no tener los estudiantes
-        // actualizados
-
-        // VALIDACIÓN DESHABILITADA - permitir que docentes pongan notas libremente
-        // Si fuera necesario validar, se debería buscar el paralelo real desde el
-        // repositorio
 
         return repositorio.guardar(calificacion);
     }

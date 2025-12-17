@@ -16,7 +16,6 @@ public class ServicioMateria implements IServicioMateria {
 
     @Override
     public IMateria agregar(IMateria materia, Carrera carrera) {
-        // Buscar la carrera existente y agregar la materia
         Carrera carreraExistente = (Carrera) repositorioCarrera.buscar(carrera.getCodigo());
         
         if (carreraExistente != null) {
@@ -58,7 +57,6 @@ public class ServicioMateria implements IServicioMateria {
         materia.setSemestre(materiaDto.getSemestre());
         materia.setCreditos(materiaDto.getCreditos());
         
-        // Actualizar carrera si viene en el DTO
         if (materiaDto.getCarrera() != null) {
             materia.setCarrera(materiaDto.getCarrera());
         }

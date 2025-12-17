@@ -5,7 +5,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(6)
+@Order(5)
 public class ValidarHorariosDefinidos implements IValidarMatricula {
     @Override
     public String validar(IEstudiante estudiante, IParaleloMateria paraleloMateria) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Order(8)
+@Order(1)
 public class ValidarMateriasCorrelativas implements IValidarMatricula {
     @Override
     public String validar(IEstudiante estudiante, IParaleloMateria paraleloMateria) {

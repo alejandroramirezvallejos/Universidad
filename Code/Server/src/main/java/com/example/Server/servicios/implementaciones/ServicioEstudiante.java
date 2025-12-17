@@ -15,10 +15,8 @@ public class ServicioEstudiante implements IServicioEstudiante {
 
     @Override
     public IEstudiante crear(IEstudiante estudiante) {
-        // ✅ VALIDAR antes de guardar (código único, email único, carrera existe, etc.)
         validacionRegistroEstudiante.validar(estudiante);
         
-        // Asegurar que el semestre tenga un valor válido
         if (estudiante.getSemestre() == 0) {
             estudiante.setSemestre(1);
         }

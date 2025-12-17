@@ -22,7 +22,6 @@ public class ValidarCarreraEstudiante implements IValidadorRegistroEstudiante {
         if (carrera == null)
             throw new RuntimeException("La carrera no existe");
 
-        // Asignar la carrera completa del repositorio
         estudiante.setCarrera(carrera);
     }
 }

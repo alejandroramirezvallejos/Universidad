@@ -36,7 +36,6 @@ public class ControladorCalificacion {
             }
         }
         
-        // Buscar estudiante completo por código
         if (calificacion.getEstudiante() != null && calificacion.getEstudiante().getCodigo() != null) {
             IEstudiante estudianteCompleto = servicioEstudiante.getEstudiantes().stream()
                 .filter(e -> e.getCodigo().equals(calificacion.getEstudiante().getCodigo()))
@@ -52,7 +51,6 @@ public class ControladorCalificacion {
             }
         }
         
-        // Buscar paralelo completo por código en la evaluación
         if (calificacion.getEvaluacion() != null && 
             calificacion.getEvaluacion().getParaleloMateria() != null &&
             calificacion.getEvaluacion().getParaleloMateria().getCodigo() != null) {

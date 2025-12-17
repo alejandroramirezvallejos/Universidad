@@ -16,11 +16,10 @@ import lombok.Builder;
 public class Matricula implements IMatricula {
     private String estado;
     @JsonIgnoreProperties({ "estudiantes" })
-    private ParaleloMateria paraleloMateria; // Cambiado de IParaleloMateria a ParaleloMateria
+    private ParaleloMateria paraleloMateria; 
     @JsonIgnoreProperties({ "materiasInscritas", "materiasAprobadas", "carrera" })
-    private Estudiante estudiante; // Cambiado de IEstudiante a Estudiante
+    private Estudiante estudiante; 
 
-    // Métodos para mantener compatibilidad con la interfaz IMatricula
     @Override
     public IParaleloMateria getParaleloMateria() {
         return paraleloMateria;

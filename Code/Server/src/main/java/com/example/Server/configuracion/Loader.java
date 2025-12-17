@@ -197,7 +197,6 @@ public class Loader implements ApplicationRunner {
         Aula aula202 = (Aula) aulaServicio.getAulas().get(1);
         Aula aulaB101 = (Aula) aulaServicio.getAulas().get(2);
 
-        // Obtener la gestión actual (EN_CURSO) para asignar a los paralelos
         Gestion gestionActual = (Gestion) gestionServicio.getGestion();
 
         crearParalelo("SIS-101-A", prog1, doc1, aula201, 30, gestionActual,
@@ -225,8 +224,7 @@ public class Loader implements ApplicationRunner {
         paralelo.setDocente(docente);
         paralelo.setAula(aula);
         paralelo.setCupoMaximo(cupo);
-        paralelo.setGestion(gestion); // Asignar gestión para que los validadores funcionen
-
+        paralelo.setGestion(gestion); 
         for (Horario horario : horarios)
             paralelo.getHorarios().add(horario);
 
@@ -235,9 +233,9 @@ public class Loader implements ApplicationRunner {
 
     private void imprimirResumen() {
         System.out.println("\n════════════════════════════════════════════════════════════");
-        System.out.println("✅ BACKEND INICIALIZADO");
+        System.out.println("BACKEND INICIALIZADO");
         System.out.println("════════════════════════════════════════════════════════════");
-        System.out.println("\n📋 USUARIOS DE PRUEBA:");
+        System.out.println("\nUSUARIOS DE PRUEBA:");
         System.out.println("┌─────────────────────────────────────────────────────────┐");
         System.out.println("│ Estudiante: juan.perez@ucb.edu.bo / password123         │");
         System.out.println("│ Docente:    maria.gonzalez@ucb.edu.bo / password123     │");

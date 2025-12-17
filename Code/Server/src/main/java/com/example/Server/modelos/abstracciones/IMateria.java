@@ -11,8 +11,8 @@ public interface IMateria {
     void setSemestre(Integer semestre);
     Integer getCreditos();
     void setCreditos(Integer creditos);
-    Boolean isActiva();  // Cambiado de boolean a Boolean
-    void setActiva(Boolean activa);  // Cambiado de boolean a Boolean
+    Boolean isActiva(); 
+    void setActiva(Boolean activa); 
     List<IMateria> getMateriasCorrelativas();
     void setMateriasCorrelativas(List<IMateria> materiasCorrelativas);
     List<IParaleloMateria> getParaleloMaterias();

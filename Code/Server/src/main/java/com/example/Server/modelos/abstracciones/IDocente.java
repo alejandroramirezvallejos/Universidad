@@ -6,8 +6,8 @@ public interface IDocente extends IUsuario {
     void setDepartamento(String departamento);
     String getEspecialidad();
     void setEspecialidad(String especialidad);
-    Boolean isActivo();  // Cambiado de boolean a Boolean
-    void setActivo(Boolean activo);  // Cambiado de boolean a Boolean
+    Boolean isActivo();
+    void setActivo(Boolean activo);
     List<IParaleloMateria> getParaleloMaterias();
     void setParaleloMaterias(List<IParaleloMateria> paraleloMaterias);
 }

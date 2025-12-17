@@ -24,20 +24,17 @@ public class ServicioInscripcion implements IServicioInscripcion {
 
     @Override
     public IMatricula crear(IEstudiante estudiante, IParaleloMateria paralelo) {
-        // Buscar entidades completas desde los repositorios
         IEstudiante estudianteReal = repositorioEstudiante.buscarPorCodigo(estudiante.getCodigo());
         IParaleloMateria paraleloReal = repositorioParalelo.buscar(paralelo.getCodigo());
 
-        // Usar entidades del repositorio si existen, sino usar las del request
         IEstudiante estudianteAValidar = estudianteReal != null ? estudianteReal : estudiante;
         IParaleloMateria paraleloAValidar = paraleloReal != null ? paraleloReal : paralelo;
 
-        // Verificar si ya existe una inscripción para este estudiante en este paralelo
         for (IMatricula matriculaExistente : repositorio.getMatriculas()) {
             if (matriculaExistente.getEstudiante().getCodigo().equals(estudianteAValidar.getCodigo()) &&
                 matriculaExistente.getParaleloMateria().getCodigo().equals(paraleloAValidar.getCodigo())) {
                 System.out.println("INSCRIPCIÓN YA EXISTE: " + estudianteAValidar.getCodigo() + " en " + paraleloAValidar.getCodigo());
-                return matriculaExistente; // Retornar la existente en vez de crear duplicado
+                return matriculaExistente; 
             }
         }
 
@@ -53,10 +50,8 @@ public class ServicioInscripcion implements IServicioInscripcion {
         matricula.setParaleloMateria(paraleloAValidar);
         matricula.setEstado("ACEPTADA");
 
-        // Guardar la matrícula
         IMatricula matriculaGuardada = repositorio.guardar(matricula);
 
-        // Agregar estudiante al paralelo y materia al estudiante (sin guardar de nuevo)
         paraleloAValidar.getEstudiantes().add(estudianteAValidar);
         estudianteAValidar.getMateriasInscritas().add(paraleloAValidar.getMateria());
 
@@ -71,7 +66,6 @@ public class ServicioInscripcion implements IServicioInscripcion {
         IEstudiante estudiante = matricula.getEstudiante();
         IParaleloMateria paralelo = matricula.getParaleloMateria();
         
-        // Solo agregar si no está ya en la lista
         if (!paralelo.getEstudiantes().contains(estudiante)) {
             paralelo.getEstudiantes().add(estudiante);
         }
@@ -80,7 +74,6 @@ public class ServicioInscripcion implements IServicioInscripcion {
         }
 
         matricula.setEstado("ACEPTADA");
-        // No guardar de nuevo, ya fue guardada en crear()
     }
 
     @Override

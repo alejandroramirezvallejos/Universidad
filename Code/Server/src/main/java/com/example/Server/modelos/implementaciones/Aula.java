@@ -11,12 +11,11 @@ import lombok.Builder;
 @Builder
 public class Aula implements IAula {
     @Builder.Default
-    private Boolean disponible = true;  // Cambiado de boolean a Boolean para permitir null
+    private Boolean disponible = true;  
     private Integer capacidad;
     private String edificio;
     private String codigo;
 
-    // Sobrescribir métodos para Boolean en lugar de boolean
     public Boolean isDisponible() {
         return disponible;
     }

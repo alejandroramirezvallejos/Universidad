@@ -20,19 +20,16 @@ public class Evaluacion implements IEvaluacion {
     private String codigo = UUID.randomUUID().toString();
     private String nombre;
     private Double porcentaje;
-    @JsonIgnoreProperties({"docente", "estudiantes", "horarios", "gestion", "aula"})  // Incluimos materia
+    @JsonIgnoreProperties({"docente", "estudiantes", "horarios", "gestion", "aula"})  
     private ParaleloMateria paraleloMateria;
     @Builder.Default
     @JsonIgnoreProperties({"evaluacion"})
     private List<ICalificacion> calificaciones = new ArrayList<>();
 
-    // Getter para la interfaz (requerido por IEvaluacion)
     @Override
     public IParaleloMateria getParaleloMateria() {
         return paraleloMateria;
     }
-
-    // Setter para la interfaz
     @Override
     public void setParaleloMateria(IParaleloMateria paraleloMateria) {
         this.paraleloMateria = (ParaleloMateria) paraleloMateria;
