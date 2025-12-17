@@ -16,20 +16,17 @@ public class ControladorCalificacion {
 
     @PostMapping
     public ResponseEntity<Calificacion> crear(@RequestBody Calificacion calificacion) {
-        Calificacion creada = servicio.crear(calificacion);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(calificacion));
     }
 
     @GetMapping
     public ResponseEntity<List<Calificacion>> getCalificaciones() {
-        List<Calificacion> calificaciones = servicio.getCalificaciones();
-        return ResponseEntity.ok(calificaciones);
+        return ResponseEntity.ok(servicio.getCalificaciones());
     }
 
     @GetMapping("/estudiante/{estudianteCodigo}")
     public ResponseEntity<List<Calificacion>> getCalificacionesPorEstudiante(@PathVariable String estudianteCodigo) {
-        List<Calificacion> calificaciones = servicio.getCalificacionesPorEstudiante(estudianteCodigo);
-        return ResponseEntity.ok(calificaciones);
+        return ResponseEntity.ok(servicio.getCalificacionesPorEstudiante(estudianteCodigo));
     }
 
     @DeleteMapping

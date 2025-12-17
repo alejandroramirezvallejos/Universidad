@@ -19,12 +19,14 @@ public class ServicioGestion {
         return repositorio.getGestiones();
     }
 
-    public Optional<Gestion> getGestionPorCodigo(String codigo) {
-        return repositorio.buscarPorCodigo(codigo);
+    public Gestion getGestionPorCodigo(String codigo) {
+        return repositorio.buscarPorCodigo(codigo)
+                .orElseThrow(() -> new RuntimeException("Gestión no encontrada"));
     }
 
-    public Optional<Gestion> getGestionActual() {
-        return repositorio.buscarGestionActual();
+    public Gestion getGestionActual() {
+        return repositorio.buscarGestionActual()
+                .orElseThrow(() -> new RuntimeException("No hay gestión actual"));
     }
 
     public void eliminar(Gestion gestion) {

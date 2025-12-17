@@ -17,14 +17,12 @@ public class ControladorHistorialAcademico {
 
     @PostMapping
     public ResponseEntity<HistorialAcademico> crear(@RequestBody Estudiante estudiante) {
-        HistorialAcademico historial = servicio.crear(estudiante);
-        return ResponseEntity.ok(historial);
+        return ResponseEntity.ok(servicio.crear(estudiante));
     }
 
     @GetMapping
     public ResponseEntity<List<HistorialAcademico>> getHistoriales() {
-        List<HistorialAcademico> historiales = servicio.getHistoriales();
-        return ResponseEntity.ok(historiales);
+        return ResponseEntity.ok(servicio.getHistoriales());
     }
 
     @DeleteMapping
@@ -36,17 +34,13 @@ public class ControladorHistorialAcademico {
     @GetMapping("/estudiante/{estudianteCodigo}")
     public ResponseEntity<HistorialAcademico> getHistorial(@PathVariable String estudianteCodigo) {
         HistorialAcademico historial = servicio.getHistorialPorEstudiante(estudianteCodigo);
-
-        if (historial == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(historial);
+        return historial == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(historial);
     }
 
     @GetMapping("/estudiante/{estudianteCodigo}/promedio")
     public ResponseEntity<Map<String, Object>> getPromedio(@PathVariable String estudianteCodigo) {
         Double promedio = servicio.calcularPromedioGeneral(estudianteCodigo);
-        
+
         return ResponseEntity.ok(Map.of(
             "estudianteCodigo", estudianteCodigo,
             "promedio", promedio,

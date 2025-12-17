@@ -16,14 +16,12 @@ public class ControladorDirectorCarrera {
 
     @PostMapping
     public ResponseEntity<DirectorCarrera> crear(@RequestBody DirectorCarrera director) {
-        DirectorCarrera creado = servicio.crear(director);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(director));
     }
 
     @GetMapping
     public ResponseEntity<List<DirectorCarrera>> getDirectores() {
-        List<DirectorCarrera> directores = servicio.getDirectores();
-        return ResponseEntity.ok(directores);
+        return ResponseEntity.ok(servicio.getDirectores());
     }
 
     @DeleteMapping

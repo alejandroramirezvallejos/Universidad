@@ -60,6 +60,15 @@ public class ServicioInscripcion {
         return repositorio.getMatriculas();
     }
 
+    public List<Matricula> inscribirBatch(List<Matricula> inscripciones) {
+        List<Matricula> matriculasCreadas = new ArrayList<>();
+        for (Matricula inscripcion : inscripciones) {
+            Matricula matricula = crear(inscripcion.getEstudiante(), inscripcion.getParaleloMateria());
+            if (matricula != null) matriculasCreadas.add(matricula);
+        }
+        return matriculasCreadas;
+    }
+
     public List<Matricula> getMatriculasPorEstudiante(String estudianteCodigo) {
         return repositorio.buscarPorEstudiante(estudianteCodigo);
     }

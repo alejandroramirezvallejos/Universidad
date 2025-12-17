@@ -34,7 +34,9 @@ public class ServicioDocente {
     }
 
     public Docente buscarPorCodigo(String codigo) {
-        return repositorio.buscarPorCodigo(codigo);
+        Docente docente = repositorio.buscarPorCodigo(codigo);
+        if (docente == null) throw new RuntimeException("Docente no encontrado");
+        return docente;
     }
 }
 

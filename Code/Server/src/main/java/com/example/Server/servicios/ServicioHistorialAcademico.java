@@ -10,6 +10,7 @@ import com.example.Server.repositorios.RepositorioHistorialAcademico;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -58,11 +59,24 @@ public class ServicioHistorialAcademico {
             if (historial.getEstudiante().getCodigo().equals(estudianteCodigo))
                 return historial;
 
-        return null;
+        throw new RuntimeException("Historial no encontrado");
     }
 
     public Double calcularPromedioGeneral(String estudianteCodigo) {
-        HistorialAcademico historial = getHistorialPorEstudiante(estudianteCodigo);
-        return historial != null ? historial.getPromedioGeneral() : 0.0;
+        try {
+            HistorialAcademico historial = getHistorialPorEstudiante(estudianteCodigo);
+            return historial.getPromedioGeneral();
+        } catch (RuntimeException e) {
+            return 0.0;
+        }
+    }
+
+    public Map<String, Object> getPromedioMap(String estudianteCodigo) {
+        Double promedio = calcularPromedioGeneral(estudianteCodigo);
+        return Map.of(
+            "estudianteCodigo", estudianteCodigo,
+            "promedio", promedio,
+            "totalMaterias", 0
+        );
     }
 }

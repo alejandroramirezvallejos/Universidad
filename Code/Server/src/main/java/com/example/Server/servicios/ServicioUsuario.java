@@ -11,10 +11,14 @@ public class ServicioUsuario {
     private ContextoUsuario contextoUsuario;
 
     public Usuario getUsuarioPorCodigo(String codigo) {
-        return contextoUsuario.buscarPorCodigo(codigo);
+        Usuario usuario = contextoUsuario.buscarPorCodigo(codigo);
+        if (usuario == null) throw new RuntimeException("Usuario no encontrado");
+        return usuario;
     }
 
     public Usuario actualizar(String codigo, Map<String, Object> datos) {
-        return contextoUsuario.actualizar(codigo, datos);
+        Usuario usuario = contextoUsuario.actualizar(codigo, datos);
+        if (usuario == null) throw new RuntimeException("Usuario no encontrado");
+        return usuario;
     }
 }

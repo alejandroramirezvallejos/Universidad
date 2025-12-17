@@ -4,7 +4,6 @@ import com.example.Server.servicios.ServicioAutenticacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -14,35 +13,17 @@ public class ControladorAutenticacion {
     private ServicioAutenticacion servicio;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario credenciales) {
-        try {
-            Usuario usuario = servicio.login(credenciales);
-            return ResponseEntity.ok(usuario);
-        }
-        catch (RuntimeException e) {
-            return ResponseEntity.status(401).body(Collections.singletonMap("mensaje", e.getMessage()));
-        }
+    public ResponseEntity<Usuario> login(@RequestBody Usuario credenciales) {
+        return ResponseEntity.ok(servicio.login(credenciales));
     }
 
     @PostMapping("/registro/estudiante")
-    public ResponseEntity<?> registrarEstudiante(@RequestBody Estudiante estudiante) {
-        try {
-            Estudiante creado = servicio.registrarEstudiante(estudiante);
-            return ResponseEntity.ok(creado);
-        }
-        catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", e.getMessage()));
-        }
+    public ResponseEntity<Estudiante> registrarEstudiante(@RequestBody Estudiante estudiante) {
+        return ResponseEntity.ok(servicio.registrarEstudiante(estudiante));
     }
 
     @PostMapping("/registro/docente")
-    public ResponseEntity<?> registrarDocente(@RequestBody Docente docente) {
-        try {
-            Docente creado = servicio.registrarDocente(docente);
-            return ResponseEntity.ok(creado);
-        }
-        catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", e.getMessage()));
-        }
+    public ResponseEntity<Docente> registrarDocente(@RequestBody Docente docente) {
+        return ResponseEntity.ok(servicio.registrarDocente(docente));
     }
 }

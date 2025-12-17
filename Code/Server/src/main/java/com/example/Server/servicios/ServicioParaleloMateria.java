@@ -66,4 +66,18 @@ public class ServicioParaleloMateria {
 
         return resultado;
     }
+
+    public ParaleloMateria actualizar(String codigo, ParaleloMateria paraleloDto) {
+        ParaleloMateria paralelo = getParaleloPorCodigo(codigo);
+        if (paralelo == null) throw new RuntimeException("Paralelo no encontrado");
+
+        paralelo.setMateria(paraleloDto.getMateria());
+        paralelo.setDocente(paraleloDto.getDocente());
+        paralelo.setAula(paraleloDto.getAula());
+        paralelo.setCupoMaximo(paraleloDto.getCupoMaximo());
+        if (paraleloDto.getHorarios() != null)
+            paralelo.setHorarios(paraleloDto.getHorarios());
+
+        return crear(paralelo);
+    }
 }

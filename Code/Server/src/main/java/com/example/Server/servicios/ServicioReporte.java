@@ -31,7 +31,7 @@ public class ServicioReporte {
         Carrera carrera = repositorioCarrera.buscarPorCodigo(codigoCarrera);
 
         if (carrera == null)
-            return null;
+            throw new RuntimeException("Carrera no encontrada");
 
         return contexto.generarReporte(ReporteDeCarrera.builder()
                 .carrera(carrera)
@@ -41,10 +41,8 @@ public class ServicioReporte {
     }
 
     public Map<String, Object> getReporteInscripcionesPorGestion(String codigoGestion) {
-        Gestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion).orElse(null);
-
-        if (gestion == null)
-            return null;
+        Gestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion)
+                .orElseThrow(() -> new RuntimeException("Gestión no encontrada"));
 
         return contexto.generarReporte(new ReporteDeInscripciones(gestion, repositorioMatricula.getMatriculas()));
     }
@@ -53,7 +51,7 @@ public class ServicioReporte {
         ParaleloMateria paralelo = repositorioParalelo.buscarPorCodigo(codigoParalelo);
 
         if (paralelo == null)
-            return null;
+            throw new RuntimeException("Paralelo no encontrado");
 
         return contexto.generarReporte(ReporteDeRendimiento.builder()
                 .paralelo(paralelo)

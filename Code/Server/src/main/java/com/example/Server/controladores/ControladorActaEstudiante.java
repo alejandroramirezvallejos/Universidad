@@ -16,26 +16,22 @@ public class ControladorActaEstudiante {
 
     @PostMapping
     public ResponseEntity<ActaEstudiante> crear(@RequestBody ActaEstudiante acta) {
-        ActaEstudiante creada = servicio.crear(acta.getEstudiante(), acta.getParaleloMateria());
-        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(acta.getEstudiante(), acta.getParaleloMateria()));
     }
 
     @GetMapping
     public ResponseEntity<List<ActaEstudiante>> getActas() {
-        List<ActaEstudiante> actas = servicio.getActas();
-        return ResponseEntity.ok(actas);
+        return ResponseEntity.ok(servicio.getActas());
     }
 
     @GetMapping("/aprobadas")
     public ResponseEntity<List<ActaEstudiante>> getActasAprobadas() {
-        List<ActaEstudiante> actas = servicio.getActasAprobadas();
-        return ResponseEntity.ok(actas);
+        return ResponseEntity.ok(servicio.getActasAprobadas());
     }
 
     @GetMapping("/reprobadas")
     public ResponseEntity<List<ActaEstudiante>> getActasReprobadas() {
-        List<ActaEstudiante> actas = servicio.getActasReprobadas();
-        return ResponseEntity.ok(actas);
+        return ResponseEntity.ok(servicio.getActasReprobadas());
     }
 
     @DeleteMapping

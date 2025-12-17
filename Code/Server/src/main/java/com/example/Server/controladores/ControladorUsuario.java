@@ -15,24 +15,11 @@ public class ControladorUsuario {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Usuario> getUsuario(@PathVariable String codigo) {
-        Usuario usuario = servicio.getUsuarioPorCodigo(codigo);
-
-        if (usuario == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(servicio.getUsuarioPorCodigo(codigo));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Usuario> actualizar(
-            @PathVariable String codigo,
-            @RequestBody Map<String, Object> datos) {
-
-        Usuario usuario = servicio.actualizar(codigo, datos);
-
-        if (usuario == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(usuario);
+    public ResponseEntity<Usuario> actualizar(@PathVariable String codigo, @RequestBody Map<String, Object> datos) {
+        return ResponseEntity.ok(servicio.actualizar(codigo, datos));
     }
 }

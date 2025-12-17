@@ -19,7 +19,7 @@ public class ServicioDashboard {
         Estudiante estudiante = repositorioEstudiante.buscarPorCodigo(codigoEstudiante);
 
         if (estudiante == null)
-            return null;
+            throw new RuntimeException("Estudiante no encontrado");
 
         Map<String, Object> dashboard = new HashMap<>();
         dashboard.put("estudiante", estudiante);
@@ -31,7 +31,7 @@ public class ServicioDashboard {
         Docente docente = repositorioDocente.buscarPorCodigo(codigoDocente);
 
         if (docente == null)
-            return null;
+            throw new RuntimeException("Docente no encontrado");
 
         Map<String, Object> dashboard = new HashMap<>();
         dashboard.put("docente", docente);

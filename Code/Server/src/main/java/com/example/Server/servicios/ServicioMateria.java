@@ -43,4 +43,20 @@ public class ServicioMateria {
     public Materia getMateriaPorCodigo(String codigo) {
         return repositorio.buscarPorCodigo(codigo);
     }
+
+    public Materia actualizar(String codigo, Materia materiaDto) {
+        Materia materia = getMateriaPorCodigo(codigo);
+        if (materia == null) throw new RuntimeException("Materia no encontrada");
+        materia.setNombre(materiaDto.getNombre());
+        materia.setSemestre(materiaDto.getSemestre());
+        materia.setCreditos(materiaDto.getCreditos());
+        return crear(materia);
+    }
+
+    public Materia cambiarEstado(String codigo) {
+        Materia materia = getMateriaPorCodigo(codigo);
+        if (materia == null) throw new RuntimeException("Materia no encontrada");
+        materia.setActiva(!materia.isActiva());
+        return crear(materia);
+    }
 }

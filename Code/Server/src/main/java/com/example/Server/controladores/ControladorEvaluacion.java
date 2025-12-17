@@ -17,8 +17,7 @@ public class ControladorEvaluacion {
 
     @PostMapping
     public ResponseEntity<Evaluacion> crear(@RequestBody Evaluacion evaluacion) {
-        Evaluacion creada = servicio.crear(evaluacion.getParaleloMateria(), evaluacion.getNombre(), evaluacion.getPorcentaje());
-        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(evaluacion.getParaleloMateria(), evaluacion.getNombre(), evaluacion.getPorcentaje()));
     }
 
     @PutMapping("/calificaciones")
@@ -29,8 +28,7 @@ public class ControladorEvaluacion {
 
     @GetMapping
     public ResponseEntity<List<Evaluacion>> getEvaluaciones() {
-        List<Evaluacion> evaluaciones = servicio.getEvaluaciones();
-        return ResponseEntity.ok(evaluaciones);
+        return ResponseEntity.ok(servicio.getEvaluaciones());
     }
 
     @DeleteMapping
@@ -41,14 +39,12 @@ public class ControladorEvaluacion {
 
     @GetMapping("/paralelo/{paraleloCodigo}")
     public ResponseEntity<List<Evaluacion>> getEvaluacionesPorParalelo(@PathVariable String paraleloCodigo) {
-        List<Evaluacion> evaluaciones = servicio.getEvaluacionesPorParalelo(paraleloCodigo);
-        return ResponseEntity.ok(evaluaciones);
+        return ResponseEntity.ok(servicio.getEvaluacionesPorParalelo(paraleloCodigo));
     }
 
     @GetMapping("/estudiante/{estudianteCodigo}")
     public ResponseEntity<List<Calificacion>> getEvaluacionesPorEstudiante(@PathVariable String estudianteCodigo) {
-        List<Calificacion> calificaciones = servicio.getCalificacionesEstudiante(estudianteCodigo);
-        return ResponseEntity.ok(calificaciones);
+        return ResponseEntity.ok(servicio.getCalificacionesEstudiante(estudianteCodigo));
     }
 
     @PostMapping("/calificacion")

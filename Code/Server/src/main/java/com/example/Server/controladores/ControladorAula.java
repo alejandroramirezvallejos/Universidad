@@ -16,14 +16,12 @@ public class ControladorAula {
 
     @PostMapping
     public ResponseEntity<Aula> crear(@RequestBody Aula aula) {
-        Aula creada = servicio.crear(aula);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(aula));
     }
 
     @GetMapping
     public ResponseEntity<List<Aula>> getAulas() {
-        List<Aula> aulas = servicio.getAulas();
-        return ResponseEntity.ok(aulas);
+        return ResponseEntity.ok(servicio.getAulas());
     }
 
     @DeleteMapping

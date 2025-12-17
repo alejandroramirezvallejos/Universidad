@@ -14,21 +14,11 @@ public class ControladorDashboard {
 
     @GetMapping("/estudiante/{codigo}")
     public ResponseEntity<Map<String, Object>> getDashboardEstudiante(@PathVariable String codigo) {
-        Map<String, Object> dashboard = servicio.generarDashboardEstudiante(codigo);
-
-        if (dashboard == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(dashboard);
+        return ResponseEntity.ok(servicio.generarDashboardEstudiante(codigo));
     }
 
     @GetMapping("/docente/{codigo}")
     public ResponseEntity<Map<String, Object>> getDashboardDocente(@PathVariable String codigo) {
-        Map<String, Object> dashboard = servicio.generarDashboardDocente(codigo);
-
-        if (dashboard == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(dashboard);
+        return ResponseEntity.ok(servicio.generarDashboardDocente(codigo));
     }
 }

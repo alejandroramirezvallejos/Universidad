@@ -16,14 +16,12 @@ public class ControladorCarrera {
 
     @PostMapping
     public ResponseEntity<Carrera> crear(@RequestBody Carrera carrera) {
-        Carrera creada = servicio.crear(carrera);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(carrera));
     }
 
     @GetMapping
     public ResponseEntity<List<Carrera>> getCarreras() {
-        List<Carrera> carreras = servicio.getCarreras();
-        return ResponseEntity.ok(carreras);
+        return ResponseEntity.ok(servicio.getCarreras());
     }
 
     @DeleteMapping

@@ -16,14 +16,12 @@ public class ControladorParaleloMateria {
 
     @PostMapping
     public ResponseEntity<ParaleloMateria> crear(@RequestBody ParaleloMateria paralelo) {
-        ParaleloMateria creado = servicio.crear(paralelo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(paralelo));
     }
 
     @GetMapping
     public ResponseEntity<List<ParaleloMateria>> getParalelos() {
-        List<ParaleloMateria> paralelos = servicio.getParalelos();
-        return ResponseEntity.ok(paralelos);
+        return ResponseEntity.ok(servicio.getParalelos());
     }
 
     @DeleteMapping
@@ -33,47 +31,23 @@ public class ControladorParaleloMateria {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<ParaleloMateria> actualizar(
-            @PathVariable String codigo,
-            @RequestBody ParaleloMateria paraleloDto) {
-        ParaleloMateria paralelo = servicio.getParaleloPorCodigo(codigo);
-
-        if (paralelo == null)
-            return ResponseEntity.notFound().build();
-
-        paralelo.setMateria(paraleloDto.getMateria());
-        paralelo.setDocente(paraleloDto.getDocente());
-        paralelo.setAula(paraleloDto.getAula());
-        paralelo.setCupoMaximo(paraleloDto.getCupoMaximo());
-
-        if (paraleloDto.getHorarios() != null)
-            paralelo.setHorarios(paraleloDto.getHorarios());
-
-        ParaleloMateria actualizado = servicio.crear(paralelo);
-
-        return ResponseEntity.ok(actualizado);
+    public ResponseEntity<ParaleloMateria> actualizar(@PathVariable String codigo,  @RequestBody ParaleloMateria paraleloDto) {
+        return ResponseEntity.ok(servicio.actualizar(codigo, paraleloDto));
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<ParaleloMateria> getParaleloPorCodigo(@PathVariable String codigo) {
-        ParaleloMateria paralelo = servicio.getParaleloPorCodigo(codigo);
-
-        if (paralelo == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(paralelo);
+        return ResponseEntity.ok(servicio.getParaleloPorCodigo(codigo));
     }
 
     @GetMapping("/docente/{docenteCodigo}")
     public ResponseEntity<List<ParaleloMateria>> getParaleloPorDocente(@PathVariable String docenteCodigo) {
-        List<ParaleloMateria> paralelos = servicio.getParalelosPorDocente(docenteCodigo);
-        return ResponseEntity.ok(paralelos);
+        return ResponseEntity.ok(servicio.getParalelosPorDocente(docenteCodigo));
     }
 
     @GetMapping("/materia/{materiaCodigo}")
     public ResponseEntity<List<ParaleloMateria>> getParaleloPorMateria(@PathVariable String materiaCodigo) {
-        List<ParaleloMateria> paralelos = servicio.getParalelosPorMateria(materiaCodigo);
-        return ResponseEntity.ok(paralelos);
+        return ResponseEntity.ok(servicio.getParalelosPorMateria(materiaCodigo));
     }
 }
 

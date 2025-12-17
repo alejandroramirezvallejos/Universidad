@@ -16,20 +16,17 @@ public class ControladorMateria {
 
     @PostMapping
     public ResponseEntity<Materia> crear(@RequestBody Materia materia) {
-        Materia creada = servicio.crear(materia);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(materia));
     }
 
     @PostMapping("/agregar-carrera")
     public ResponseEntity<Materia> agregar(@RequestBody Materia materia) {
-        Materia resultado = servicio.agregar(materia, materia.getCarrera());
-        return ResponseEntity.ok(resultado);
+        return ResponseEntity.ok(servicio.agregar(materia, materia.getCarrera()));
     }
 
     @GetMapping
     public ResponseEntity<List<Materia>> getMaterias() {
-        List<Materia> materias = servicio.getMaterias();
-        return ResponseEntity.ok(materias);
+        return ResponseEntity.ok(servicio.getMaterias());
     }
 
     @DeleteMapping
@@ -40,39 +37,16 @@ public class ControladorMateria {
 
     @PutMapping("/{codigo}")
     public ResponseEntity<Materia> actualizar(@PathVariable String codigo, @RequestBody Materia materiaDto) {
-        Materia materia = servicio.getMateriaPorCodigo(codigo);
-
-        if (materia == null)
-            return ResponseEntity.notFound().build();
-
-        materia.setNombre(materiaDto.getNombre());
-        materia.setSemestre(materiaDto.getSemestre());
-        materia.setCreditos(materiaDto.getCreditos());
-
-        Materia actualizada = servicio.crear(materia);
-        return ResponseEntity.ok(actualizada);
+        return ResponseEntity.ok(servicio.actualizar(codigo, materiaDto));
     }
 
     @PatchMapping("/{codigo}/estado")
     public ResponseEntity<Materia> setEstado(@PathVariable String codigo) {
-        Materia materia = servicio.getMateriaPorCodigo(codigo);
-
-        if (materia == null)
-            return ResponseEntity.notFound().build();
-
-        materia.setActiva(!materia.isActiva());
-        Materia actualizada = servicio.crear(materia);
-
-        return ResponseEntity.ok(actualizada);
+        return ResponseEntity.ok(servicio.cambiarEstado(codigo));
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Materia> getMateria(@PathVariable String codigo) {
-        Materia materia = servicio.getMateriaPorCodigo(codigo);
-
-        if (materia == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(materia);
+        return ResponseEntity.ok(servicio.getMateriaPorCodigo(codigo));
     }
 }

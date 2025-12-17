@@ -16,14 +16,12 @@ public class ControladorDocente {
 
     @PostMapping
     public ResponseEntity<Docente> crear(@RequestBody Docente docente) {
-        Docente creado = servicio.crear(docente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(servicio.crear(docente));
     }
 
     @GetMapping
     public ResponseEntity<List<Docente>> getDocentes() {
-        List<Docente> docentes = servicio.getDocentes();
-        return ResponseEntity.ok(docentes);
+        return ResponseEntity.ok(servicio.getDocentes());
     }
 
     @DeleteMapping
@@ -34,17 +32,12 @@ public class ControladorDocente {
 
     @GetMapping("/activos")
     public ResponseEntity<List<Docente>> getDocentesActivos() {
-        List<Docente> docentes = servicio.getDocentesActivos();
-        return ResponseEntity.ok(docentes);
+        return ResponseEntity.ok(servicio.getDocentesActivos());
     }
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Docente> getDocentePorCodigo(@PathVariable String codigo) {
         Docente docente = servicio.buscarPorCodigo(codigo);
-
-        if (docente == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(docente);
+        return docente == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(docente);
     }
 }

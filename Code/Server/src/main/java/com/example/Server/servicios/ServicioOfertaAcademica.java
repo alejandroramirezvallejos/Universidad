@@ -19,10 +19,8 @@ public class ServicioOfertaAcademica {
     private final RepositorioParaleloMateria repositorioParalelo;
 
     public Gestion getOfertaPorGestion(String codigoGestion) {
-        Gestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion).orElse(null);
-
-        if (gestion == null)
-            return null;
+        Gestion gestion = repositorioGestion.buscarPorCodigo(codigoGestion)
+                .orElseThrow(() -> new RuntimeException("Gestión no encontrada"));
 
         return generar(gestion);
     }

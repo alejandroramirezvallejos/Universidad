@@ -20,42 +20,17 @@ public class ControladorReporte {
     }
 
     @GetMapping("/estudiantes-por-carrera/{codigoCarrera}")
-    public ResponseEntity<Map<String, Object>> reporteEstudiantesPorCarrera(
-            @PathVariable String codigoCarrera,
-            @RequestParam(defaultValue = "Sistema") String solicitante) {
-
-        Map<String, Object> reporte =
-                servicio.getReporteEstudiantesPorCarrera(codigoCarrera, solicitante);
-
-        if (reporte == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(reporte);
+    public ResponseEntity<Map<String, Object>> reporteEstudiantesPorCarrera(@PathVariable String codigoCarrera, @RequestParam(defaultValue = "Sistema") String solicitante) {
+        return ResponseEntity.ok(servicio.getReporteEstudiantesPorCarrera(codigoCarrera, solicitante));
     }
 
     @GetMapping("/inscripciones/{codigoGestion}")
-    public ResponseEntity<Map<String, Object>> reporteInscripciones(
-            @PathVariable String codigoGestion) {
-
-        Map<String, Object> reporte = servicio.getReporteInscripcionesPorGestion(codigoGestion);
-
-        if (reporte == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(reporte);
+    public ResponseEntity<Map<String, Object>> reporteInscripciones(@PathVariable String codigoGestion) {
+        return ResponseEntity.ok(servicio.getReporteInscripcionesPorGestion(codigoGestion));
     }
 
     @GetMapping("/rendimiento/{codigoParalelo}")
-    public ResponseEntity<Map<String, Object>> reporteRendimiento(
-            @PathVariable String codigoParalelo,
-            @RequestParam(defaultValue = "Sistema") String solicitante) {
-
-        Map<String, Object> reporte =
-                servicio.getReporteRendimientoPorParalelo(codigoParalelo, solicitante);
-
-        if (reporte == null)
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(reporte);
+    public ResponseEntity<Map<String, Object>> reporteRendimiento(@PathVariable String codigoParalelo, @RequestParam(defaultValue = "Sistema") String solicitante) {
+        return ResponseEntity.ok(servicio.getReporteRendimientoPorParalelo(codigoParalelo, solicitante));
     }
 }
