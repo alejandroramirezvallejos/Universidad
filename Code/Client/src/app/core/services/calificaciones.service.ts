@@ -454,7 +454,7 @@ export class CalificacionesService {
 
       const inscripcion = dtoInscripciones.find(i => 
         i.estudiante.codigo === estudianteId.toString() &&
-        i.paralelo.codigo === grupoId.toString()
+        i.paraleloMateria.codigo === grupoId.toString()
       );
 
       if (!inscripcion) {
@@ -477,22 +477,21 @@ export class CalificacionesService {
         porcentaje = 20;
       }
 
-      const dtoCalificacion: Partial<DtoCalificacion> = {
+      // Backend Calificacion.java tiene: valor, observaciones, estudiante, evaluacion
+      // Backend Evaluacion.java tiene: codigo, nombre, porcentaje, paraleloMateria
+      const dtoCalificacion = {
+        valor: nota || 0,
+        observaciones: '',
         estudiante: inscripcion.estudiante,
         evaluacion: {
-          codigo: Date.now().toString(),
-          tipo: tipoEval,
-          descripcion: tipoNota,
-          fecha: new Date().toISOString().split('T')[0],
+          nombre: tipoNota,
           porcentaje: porcentaje,
-          paralelo: inscripcion.paralelo
-        },
-        nota: nota || 0,
-        observaciones: ''
+          paraleloMateria: inscripcion.paraleloMateria
+        }
       };
 
       await firstValueFrom(
-        this.api.post<DtoCalificacion>('/calificaciones', dtoCalificacion)
+        this.api.post<any>('/calificaciones', dtoCalificacion)
       );
 
       return { exito: true, mensaje: 'Nota guardada correctamente en backend' };

@@ -791,7 +791,8 @@ export class DashboardComponent implements OnInit {
       accesos.push(
         { titulo: 'Gestión de Materias', descripcion: 'Catálogo de materias', icono: this.iconos.notas, ruta: '/gestion-materias', roles: ['DIRECTOR'] },
         { titulo: 'Gestión de Grupos', descripcion: 'Grupos y docentes', icono: this.iconos.horario, ruta: '/gestion-grupos', roles: ['DIRECTOR'] },
-        { titulo: 'Gestión de Períodos', descripcion: 'Períodos académicos', icono: this.iconos.historial, ruta: '/gestiones', roles: ['DIRECTOR'] },
+        // ⚠️ DESHABILITADO: El backend no tiene gestión de períodos académicos
+        // { titulo: 'Gestión de Períodos', descripcion: 'Períodos académicos', icono: this.iconos.historial, ruta: '/gestiones', roles: ['DIRECTOR'] },
         { titulo: 'Reportes', descripcion: 'Estadísticas y reportes', icono: this.iconos.matricula, ruta: '/reportes', roles: ['DIRECTOR'] }
       );
     }

@@ -442,13 +442,17 @@ export class RegistroComponent {
 
     try {
       if (this.tipoUsuario() === 'ESTUDIANTE') {
+        // Obtener el código de la carrera seleccionada
+        const carreraSeleccionada = this.carreras.find(c => c.id === this.carreraId);
+        
         const resultado = await this.authService.register({
           nombre: this.nombre,
           apellido: this.apellido,
           email: this.email,
           password: this.password,
           codigoEstudiante: this.generarCodigoEstudiante(),
-          carreraId: this.carreraId!
+          carreraId: this.carreraId!,
+          carreraCodigo: carreraSeleccionada?.codigo || 'ING-SIS'
         });
 
         if (resultado.exito) {
@@ -457,7 +461,8 @@ export class RegistroComponent {
           this.errorGeneral.set(resultado.mensaje);
         }
       } else {
-        this.errorGeneral.set('Registro de docentes pendiente');
+        // Registrar docente con backend
+        await this.registrarDocente();
       }
     } catch (error) {
       this.errorGeneral.set('Error al crear la cuenta');
@@ -559,6 +564,42 @@ export class RegistroComponent {
       especialidad: this.especialidad,
       fechaCreacion: new Date()
     };
+  }
+
+  /**
+   * Registra docente usando el backend
+   * Backend espera POST /api/auth/registro/docente con: codigo, nombre, apellido, email, contrasenna, departamento, especialidad
+   */
+  private async registrarDocente(): Promise<void> {
+    const nuevoDocente = {
+      codigo: this.generarCodigoDocente(),
+      nombre: this.nombre,
+      apellido: this.apellido,
+      email: this.email,
+      contrasenna: this.password,
+      departamento: this.departamento,
+      especialidad: this.especialidad,
+      activo: true
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/registro/docente', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nuevoDocente)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error al registrar docente');
+      }
+
+      this.router.navigate(['/login']);
+      // Mostrar mensaje de éxito (el docente debe iniciar sesión)
+    } catch (error: any) {
+      console.error('Error registrando docente:', error);
+      this.errorGeneral.set(error.message || 'Error al registrar docente');
+    }
   }
 
   private limpiarErrores(): void {

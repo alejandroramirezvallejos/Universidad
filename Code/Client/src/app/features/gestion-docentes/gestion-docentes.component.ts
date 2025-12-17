@@ -63,13 +63,65 @@ import { DtoDocente } from '../../models/backend-dtos';
 
           <!-- Nombre -->
           <div class="form-group">
-            <label class="form-label">Nombre Completo *</label>
+            <label class="form-label">Nombre *</label>
             <input 
               type="text" 
               class="form-input" 
               [(ngModel)]="docenteForm.nombre" 
               name="nombre"
-              placeholder="Nombre completo del docente"
+              placeholder="Nombre del docente"
+              required
+            >
+          </div>
+
+          <!-- Apellido -->
+          <div class="form-group">
+            <label class="form-label">Apellido *</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              [(ngModel)]="docenteForm.apellido" 
+              name="apellido"
+              placeholder="Apellido del docente"
+              required
+            >
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label">Email *</label>
+            <input 
+              type="email" 
+              class="form-input" 
+              [(ngModel)]="docenteForm.email" 
+              name="email"
+              placeholder="correo@universidad.edu"
+              required
+            >
+          </div>
+
+          <!-- Contraseña -->
+          <div class="form-group">
+            <label class="form-label">Contraseña *</label>
+            <input 
+              type="password" 
+              class="form-input" 
+              [(ngModel)]="docenteForm.contrasenna" 
+              name="contrasenna"
+              placeholder="Contraseña"
+              required
+            >
+          </div>
+
+          <!-- Departamento -->
+          <div class="form-group">
+            <label class="form-label">Departamento *</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              [(ngModel)]="docenteForm.departamento" 
+              name="departamento"
+              placeholder="Ej: Ingeniería, Ciencias"
               required
             >
           </div>
@@ -146,6 +198,9 @@ import { DtoDocente } from '../../models/backend-dtos';
                   <span class="badge badge-info">{{ docente.especialidad }}</span>
                 </td>
                 <td class="acciones-col">
+                  <!-- ⚠️ EDICIÓN DESHABILITADA: El backend no tiene endpoint PUT /api/docentes/{codigo} -->
+                  <!-- Para modificar un docente: eliminarlo y crear uno nuevo -->
+                  <!--
                   <button 
                     class="btn btn-ghost btn-sm" 
                     (click)="editarDocente(docente)"
@@ -156,6 +211,7 @@ import { DtoDocente } from '../../models/backend-dtos';
                       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                   </button>
+                  -->
                   <button 
                     class="btn btn-error btn-sm" 
                     (click)="eliminarDocente(docente)"
@@ -308,6 +364,10 @@ export class GestionDocentesComponent implements OnInit {
   docenteForm = {
     codigo: '',
     nombre: '',
+    apellido: '',
+    email: '',
+    contrasenna: '',
+    departamento: '',
     especialidad: ''
   };
 
@@ -364,6 +424,10 @@ export class GestionDocentesComponent implements OnInit {
     return !!(
       this.docenteForm.codigo &&
       this.docenteForm.nombre &&
+      this.docenteForm.apellido &&
+      this.docenteForm.email &&
+      this.docenteForm.contrasenna &&
+      this.docenteForm.departamento &&
       this.docenteForm.especialidad
     );
   }
@@ -383,7 +447,12 @@ export class GestionDocentesComponent implements OnInit {
         const nuevoDocente: DtoDocente = {
           codigo: this.docenteForm.codigo,
           nombre: this.docenteForm.nombre,
-          especialidad: this.docenteForm.especialidad
+          apellido: this.docenteForm.apellido,
+          email: this.docenteForm.email,
+          contrasenna: this.docenteForm.contrasenna,
+          departamento: this.docenteForm.departamento,
+          especialidad: this.docenteForm.especialidad,
+          activo: true
         };
 
         await this.docentesService.crearDocente(nuevoDocente);
@@ -398,17 +467,28 @@ export class GestionDocentesComponent implements OnInit {
     }
   }
 
+  /*
+   * ⚠️ MÉTODO DESHABILITADO
+   * El backend no tiene endpoint PUT /api/docentes/{codigo}
+   * Para modificar un docente: eliminarlo y crear uno nuevo
+   */
+  /*
   editarDocente(docente: DtoDocente): void {
     this.modoEdicion = true;
     this.docenteEditando = docente;
     this.docenteForm = {
       codigo: docente.codigo,
       nombre: docente.nombre,
-      especialidad: docente.especialidad
+      apellido: docente.apellido || '',
+      email: docente.email,
+      contrasenna: docente.contrasenna || '',
+      departamento: docente.departamento || '',
+      especialidad: docente.especialidad || ''
     };
     this.mostrarFormulario = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  */
 
   async eliminarDocente(docente: DtoDocente): Promise<void> {
     const confirmar = window.confirm(
@@ -439,6 +519,10 @@ export class GestionDocentesComponent implements OnInit {
     this.docenteForm = {
       codigo: '',
       nombre: '',
+      apellido: '',
+      email: '',
+      contrasenna: '',
+      departamento: '',
       especialidad: ''
     };
   }

@@ -12,6 +12,19 @@ import java.util.Map;
 public class RepositorioCarrera implements IRepositorioCarrera {
     private final Map<String, Carrera> carreras = new HashMap<>();
 
+    /**
+     * Constructor que inicializa la carrera de Ingeniería de Sistemas por defecto
+     */
+    public RepositorioCarrera() {
+        // Crear carrera de Ingeniería de Sistemas por defecto
+        Carrera ingenieriaSistemas = Carrera.builder()
+            .codigo("ING-SIS")
+            .nombre("Ingeniería de Sistemas")
+            .build();
+        carreras.put(ingenieriaSistemas.getCodigo(), ingenieriaSistemas);
+        System.out.println("✅ Carrera 'Ingeniería de Sistemas' inicializada en el sistema");
+    }
+
     @Override
     public ICarrera guardar(ICarrera carrera) {
         Carrera carreraImpl = (Carrera) carrera;

@@ -63,17 +63,29 @@ import { DtoEstudiante, DtoCarrera } from '../../models/backend-dtos';
           </div>
 
           <!-- Nombre -->
-          <div class="form-group form-group-full">
-            <label class="form-label">Nombre Completo *</label>
+          <div class="form-group">
+            <label class="form-label">Nombre *</label>
             <input 
               type="text" 
               class="form-input" 
               [(ngModel)]="estudianteForm.nombre" 
               name="nombre"
-              placeholder="Nombre completo del estudiante"
+              placeholder="Nombre"
               required
             >
-            <span class="form-hint">Ingresa nombre y apellido completo</span>
+          </div>
+
+          <!-- Apellido -->
+          <div class="form-group">
+            <label class="form-label">Apellido *</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              [(ngModel)]="estudianteForm.apellido" 
+              name="apellido"
+              placeholder="Apellido"
+              required
+            >
           </div>
 
           <!-- Email -->
@@ -84,8 +96,51 @@ import { DtoEstudiante, DtoCarrera } from '../../models/backend-dtos';
               class="form-input" 
               [(ngModel)]="estudianteForm.email" 
               name="email"
-              placeholder="correo@universidad.edu"
+              placeholder="correo@ucb.edu.bo"
               required
+            >
+          </div>
+
+          <!-- Contraseña -->
+          <div class="form-group" *ngIf="!modoEdicion">
+            <label class="form-label">Contraseña *</label>
+            <input 
+              type="password" 
+              class="form-input" 
+              [(ngModel)]="estudianteForm.contrasenna" 
+              name="contrasenna"
+              placeholder="Contraseña"
+              required
+            >
+          </div>
+
+          <!-- Carrera -->
+          <div class="form-group">
+            <label class="form-label">Carrera *</label>
+            <select 
+              class="form-input" 
+              [(ngModel)]="estudianteForm.carreraCodigo" 
+              name="carrera"
+              required
+            >
+              <option value="">Seleccione una carrera</option>
+              <option *ngFor="let carrera of carreras()" [value]="carrera.codigo">
+                {{ carrera.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Semestre -->
+          <div class="form-group">
+            <label class="form-label">Semestre</label>
+            <input 
+              type="number" 
+              class="form-input" 
+              [(ngModel)]="estudianteForm.semestre" 
+              name="semestre"
+              placeholder="1"
+              min="1"
+              max="10"
             >
           </div>
 
@@ -139,6 +194,7 @@ import { DtoEstudiante, DtoCarrera } from '../../models/backend-dtos';
                 <td>{{ estudiante.nombre }}</td>
                 <td>{{ estudiante.email }}</td>
                 <td class="acciones-col">
+                  <!-- ⚠️ EDICIÓN DESHABILITADA: El backend no tiene endpoint PUT /api/estudiantes/{codigo}
                   <button 
                     class="btn btn-ghost btn-sm" 
                     (click)="editarEstudiante(estudiante)"
@@ -149,6 +205,7 @@ import { DtoEstudiante, DtoCarrera } from '../../models/backend-dtos';
                       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                   </button>
+                  -->
                   <button 
                     class="btn btn-error btn-sm" 
                     (click)="eliminarEstudiante(estudiante)"
@@ -303,7 +360,11 @@ export class GestionEstudiantesComponent implements OnInit {
   estudianteForm = {
     codigo: '',
     nombre: '',
-    email: ''
+    apellido: '',
+    email: '',
+    contrasenna: '',
+    carreraCodigo: '',
+    semestre: 1
   };
 
   constructor(
@@ -358,7 +419,11 @@ export class GestionEstudiantesComponent implements OnInit {
     return !!(
       this.estudianteForm.codigo &&
       this.estudianteForm.nombre &&
-      this.estudianteForm.email
+      this.estudianteForm.apellido &&
+      this.estudianteForm.email &&
+      this.estudianteForm.contrasenna &&
+      this.estudianteForm.carreraCodigo &&
+      this.estudianteForm.semestre
     );
   }
 
@@ -373,11 +438,18 @@ export class GestionEstudiantesComponent implements OnInit {
         // Actualizar (por ahora no soportado por backend)
         this.notificacion.advertencia('Actualización no implementada en backend');
       } else {
+        // Buscar la carrera seleccionada
+        const carreraSeleccionada = this.carreras().find(c => c.codigo === this.estudianteForm.carreraCodigo);
+        
         // Crear nuevo estudiante
         const nuevoEstudiante: DtoEstudiante = {
           codigo: this.estudianteForm.codigo,
           nombre: this.estudianteForm.nombre,
-          email: this.estudianteForm.email
+          apellido: this.estudianteForm.apellido,
+          email: this.estudianteForm.email,
+          contrasenna: this.estudianteForm.contrasenna,
+          semestre: this.estudianteForm.semestre,
+          carrera: carreraSeleccionada
         };
 
         await this.estudiantesService.crearEstudiante(nuevoEstudiante);
@@ -392,17 +464,30 @@ export class GestionEstudiantesComponent implements OnInit {
     }
   }
 
+  /* ⚠️ MÉTODO DESHABILITADO - El backend no tiene endpoint PUT /api/estudiantes/{codigo}
+   * Este método está comentado porque el backend solo soporta:
+   * - POST /api/estudiantes (crear)
+   * - GET /api/estudiantes (listar)
+   * - DELETE /api/estudiantes/{codigo} (eliminar)
+   * Descomentar cuando el backend agregue el endpoint PUT
+   */
+  /*
   editarEstudiante(estudiante: DtoEstudiante): void {
     this.modoEdicion = true;
     this.estudianteEditando = estudiante;
     this.estudianteForm = {
       codigo: estudiante.codigo,
       nombre: estudiante.nombre,
-      email: estudiante.email
+      apellido: estudiante.apellido || '',
+      email: estudiante.email,
+      contrasenna: estudiante.contrasenna || '',
+      carreraCodigo: estudiante.carrera?.codigo || '',
+      semestre: estudiante.semestre || 1
     };
     this.mostrarFormulario = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  */
 
   async eliminarEstudiante(estudiante: DtoEstudiante): Promise<void> {
     const confirmar = window.confirm(
@@ -433,7 +518,11 @@ export class GestionEstudiantesComponent implements OnInit {
     this.estudianteForm = {
       codigo: '',
       nombre: '',
-      email: ''
+      apellido: '',
+      email: '',
+      contrasenna: '',
+      carreraCodigo: '',
+      semestre: 1
     };
   }
 }

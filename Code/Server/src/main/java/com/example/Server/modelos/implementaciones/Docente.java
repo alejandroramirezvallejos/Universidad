@@ -2,6 +2,7 @@ package com.example.Server.modelos.implementaciones;
 import com.example.Server.modelos.abstracciones.IDocente;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import com.example.Server.modelos.abstracciones.AUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Docente extends AUsuario implements IDocente {
     @Builder.Default
     private boolean activo = true;
     @Builder.Default
+    @JsonIgnoreProperties({"docente", "materia", "estudiantes", "horarios"})
     private List<IParaleloMateria> paraleloMaterias = new ArrayList<>();
 
     @Override

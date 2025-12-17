@@ -1,162 +1,182 @@
 /**
- * Backend DTOs - Interfaces que coinciden EXACTAMENTE con los DTOs del backend Spring Boot
+ * Backend DTOs - Interfaces que coinciden EXACTAMENTE con los modelos del backend Spring Boot
  *
  * IMPORTANTE:
- * - Los IDs son STRING (no number) - el backend usa String para todos los codigos
- * - Los nombres de propiedades deben coincidir exactamente con los del backend
- * - Estas interfaces representan los datos tal como vienen/van al backend
- * - Para usar en el frontend, hay que mapearlos a los modelos locales
+ * - Estos DTOs reflejan la estructura JSON que devuelve el backend
+ * - El backend usa Lombok con @Data que genera getters/setters
+ * - Jackson serializa los campos con sus nombres originales en camelCase
  */
 
 // ============================================================================
-// ENUMS
+// CARRERA - Coincide con Carrera.java
 // ============================================================================
-
-export enum EstadoInscripcion {
-  PENDIENTE = 'PENDIENTE',
-  ACEPTADA = 'ACEPTADA',
-  RECHAZADA = 'RECHAZADA'
-}
-
-export enum Turno {
-  MANANA = 'MANANA',
-  TARDE = 'TARDE',
-  NOCHE = 'NOCHE'
-}
-
-export enum DiasSemana {
-  LUNES = 'LUNES',
-  MARTES = 'MARTES',
-  MIERCOLES = 'MIERCOLES',
-  JUEVES = 'JUEVES',
-  VIERNES = 'VIERNES',
-  SABADO = 'SABADO'
-}
-
-// ============================================================================
-// CARRERA
-// ============================================================================
-
 export interface DtoCarrera {
-  codigo: string;  // String en backend
+  codigo: string;
   nombre: string;
-  // Backend NO incluye duracion en DtoCarrera
+  estudiantes?: DtoEstudiante[];
+  director?: DtoDirectorCarrera;
+  materias?: DtoMateria[];
 }
 
 // ============================================================================
-// ESTUDIANTE
+// ESTUDIANTE - Coincide con Estudiante.java (extiende AUsuario)
+// Backend: codigo, nombre, apellido, email, contrasenna, rol, semestre, carrera
 // ============================================================================
-
 export interface DtoEstudiante {
-  codigo: string;  // String en backend
+  codigo: string;
   nombre: string;
+  apellido: string;
   email: string;
-  // Backend NO incluye carrera en DtoEstudiante
+  contrasenna?: string;
+  rol?: string;
+  semestre?: number;
+  carrera?: DtoCarrera;
+  materiasInscritas?: DtoMateria[];
+  materiasAprobadas?: DtoMateria[];
 }
 
 // ============================================================================
-// DOCENTE
+// DOCENTE - Coincide con Docente.java (extiende AUsuario)
+// Backend: codigo, nombre, apellido, email, contrasenna, rol, departamento, especialidad, activo
 // ============================================================================
-
 export interface DtoDocente {
-  codigo: string;  // String en backend
+  codigo: string;
   nombre: string;
-  especialidad: string;
+  apellido: string;
+  email: string;
+  contrasenna?: string;
+  rol?: string;
+  departamento?: string;
+  especialidad?: string;
+  activo?: boolean;
+  paraleloMaterias?: DtoParaleloMateria[];
 }
 
 // ============================================================================
-// MATERIA
+// DIRECTOR DE CARRERA - Coincide con DirectorCarrera.java
 // ============================================================================
+export interface DtoDirectorCarrera {
+  codigo: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  contrasenna?: string;
+  rol?: string;
+  carrera?: DtoCarrera;
+}
 
+// ============================================================================
+// MATERIA - Coincide con Materia.java
+// ============================================================================
 export interface DtoMateria {
-  codigo: string;  // String en backend
+  codigo: string;
   nombre: string;
-  creditos: number;
-  semestre: number;  // Backend usa "semestre" no "nivel"
-  // Backend NO incluye carrera ni materiasCorrelativas en DtoMateria simple
+  semestre?: number;
+  creditos?: number;
+  activa?: boolean;
+  materiasCorrelativas?: DtoMateria[];
+  paraleloMaterias?: DtoParaleloMateria[];
+  carrera?: DtoCarrera;
 }
 
 // ============================================================================
-// HORARIO
+// AULA - Coincide con Aula.java
+// Orden en backend: disponible, capacidad, edificio, codigo
 // ============================================================================
-
-export interface DtoHorario {
-  dia: DiasSemana;
-  horaInicio: string;  // Formato: "HH:mm:ss"
-  horaFin: string;     // Formato: "HH:mm:ss"
-}
-
-// ============================================================================
-// AULA
-// ============================================================================
-
 export interface DtoAula {
-  codigo: string;  // String en backend
+  codigo: string;
   edificio: string;
   capacidad: number;
   disponible: boolean;
 }
 
 // ============================================================================
-// PARALELO/GRUPO
+// HORARIO - Coincide con Horario.java
+// Backend usa: diaSemana, horaInicio (LocalTime), horaFin (LocalTime)
 // ============================================================================
+export interface DtoHorario {
+  diaSemana: string;  // "LUNES", "MARTES", etc.
+  horaInicio: string; // LocalTime se serializa como "HH:mm:ss"
+  horaFin: string;
+}
 
+// ============================================================================
+// GESTION - Coincide con Gestion.java
+// ============================================================================
+export interface DtoGestion {
+  codigo: string;
+  nombre: string;
+  anio: number;
+  periodo: number;
+  fechaInicio: string;  // Formato "yyyy-MM-dd"
+  fechaFin: string;
+  fechaInicioMatricula: string;
+  fechaFinMatricula: string;
+  estado: string;  // "EN_CURSO", "CERRADA", "PLANIFICADA"
+  materias?: DtoMateria[];
+}
+
+// ============================================================================
+// PARALELO/GRUPO - Coincide con ParaleloMateria.java
+// Backend: codigo, materia, docente, aula, gestion, cupoMaximo, estudiantes, horarios
+// ============================================================================
 export interface DtoParaleloMateria {
-  codigo: string;  // String en backend
-  nroParalelo: number;
-  cupoMaximo: number;
+  codigo: string;
   materia: DtoMateria;
   docente: DtoDocente;
   aula: DtoAula;
-  horarios: DtoHorario[];
-  turno: Turno;
+  gestion?: DtoGestion;
+  cupoMaximo: number;
+  estudiantes?: DtoEstudiante[];
+  horarios?: DtoHorario[];
 }
 
 // ============================================================================
-// INSCRIPCIÓN (Matrícula)
+// MATRICULA - Coincide con Matricula.java
+// Backend: estado, paraleloMateria, estudiante
 // ============================================================================
-
-export interface DtoInscripcion {
-  codigo: string;  // String en backend
-  estudiante: DtoEstudiante;
-  paralelo: DtoParaleloMateria;
-  estado: EstadoInscripcion;  // PENDIENTE | ACEPTADA | RECHAZADA
-  fechaInscripcion: string;  // ISO 8601: "2024-01-15T10:30:00"
-}
-
-// ============================================================================
-// MATRÍCULA (para PUT /inscripciones/aceptar)
-// ============================================================================
-
 export interface DtoMatricula {
-  estado: string;  // "PENDIENTE" | "ACEPTADA" | "RECHAZADA"
+  estado: string;  // "PENDIENTE", "ACEPTADA", "RECHAZADA"
   paraleloMateria: DtoParaleloMateria;
   estudiante: DtoEstudiante;
 }
 
+// Alias: El controlador de inscripciones retorna Matricula
+export type DtoInscripcion = DtoMatricula;
+
+// Estados de inscripción/matrícula
+export type EstadoInscripcion = 'PENDIENTE' | 'ACEPTADA' | 'RECHAZADA';
+
 // ============================================================================
-// EVALUACIÓN
+// EVALUACIÓN - Coincide con Evaluacion.java
+// Backend usa: codigo (UUID autogenerado), nombre, porcentaje, paraleloMateria
 // ============================================================================
 
 export interface DtoEvaluacion {
-  codigo: string;  // String en backend
-  tipo: string;  // "PARCIAL", "FINAL", "PROYECTO"
-  descripcion: string;
-  fecha: string;  // ISO 8601: "2024-03-15"
-  porcentaje: number;  // 0-100
-  paralelo: DtoParaleloMateria;
+  codigo?: string;  // UUID autogenerado por backend
+  nombre: string;
+  porcentaje: number;  // Double en backend (0-100)
+  paraleloMateria: DtoParaleloMateria;
+  calificaciones?: DtoCalificacionSimple[];  // Lista opcional
+}
+
+// Calificación simple para usar dentro de Evaluación
+export interface DtoCalificacionSimple {
+  valor: number;
+  observaciones: string;
+  estudiante: DtoEstudiante;
 }
 
 // ============================================================================
-// CALIFICACIÓN
+// CALIFICACIÓN - Coincide con Calificacion.java
+// Backend usa: valor, observaciones, estudiante, evaluacion (NO tiene codigo)
 // ============================================================================
 
 export interface DtoCalificacion {
-  codigo: string;  // String en backend
-  evaluacion: DtoEvaluacion;
-  estudiante: DtoEstudiante;
-  nota: number;  // 0-100
+  valor: number;  // Double en backend
   observaciones: string;
+  estudiante: DtoEstudiante;
+  evaluacion: DtoEvaluacion;
 }
 
 // ============================================================================
@@ -233,7 +253,7 @@ export interface DtoCalificacionRequest {
  * Request para aprobar/rechazar inscripción
  */
 export interface DtoInscripcionAprobacionRequest {
-  inscripcion: DtoInscripcion;
+  inscripcion: DtoMatricula;
   aprobar: boolean;
 }
 
@@ -378,7 +398,7 @@ export interface DtoReporteEstudiantesPorCarrera {
 
 export interface DtoReporteInscripciones {
   gestion: string;
-  inscripciones: DtoInscripcion[];
+  inscripciones: DtoMatricula[];
   totalInscripciones: number;
   fechaGeneracion: string;
 }

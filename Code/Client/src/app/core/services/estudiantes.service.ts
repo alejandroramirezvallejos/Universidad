@@ -39,6 +39,9 @@ export class EstudiantesService {
   async crearEstudiante(estudiante: any): Promise<any> {
     try {
       const dtoEstudiante = this.mappers.estudianteToDto(estudiante);
+      console.log('🔍 Datos del estudiante a enviar:', dtoEstudiante);
+      console.log('🔍 Carrera:', dtoEstudiante.carrera);
+      
       const creado = await firstValueFrom(
         this.api.post<DtoEstudiante>('/estudiantes', dtoEstudiante)
       );

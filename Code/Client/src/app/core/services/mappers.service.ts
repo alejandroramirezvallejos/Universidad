@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
-import { Estudiante, Carrera, Matricula, Calificacion } from '../../models';
+import { Estudiante, Carrera, Matricula, Docente } from '../../models';
 import { 
   DtoEstudiante, 
   DtoCarrera, 
-  DtoInscripcion, 
+  DtoMatricula, 
   DtoCalificacion, 
   DtoHistorialAcademico,
   DtoMateria,
   DtoAula,
   DtoDocente,
-  DtoActaEstudiante,
-  EstadoInscripcion 
+  DtoParaleloMateria,
+  DtoGestion,
+  DtoHorario
 } from '../../models/backend-dtos';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MappersService {
+  
+  // ============================================================================
+  // CARRERA
+  // ============================================================================
+  
   dtoToCarrera(dto: DtoCarrera): Carrera {
     return {
-      id: parseInt(dto.codigo) || 0,
+      id: this.codigoToId(dto.codigo),
       codigo: dto.codigo,
       nombre: dto.nombre,
-      duracionSemestres: 10, // Backend no incluye duración, usamos valor por defecto
+      duracionSemestres: 10,
       facultad: 'General'
     };
   }
@@ -31,52 +37,86 @@ export class MappersService {
     return {
       codigo: carrera.codigo,
       nombre: carrera.nombre
-      // Backend no acepta duracion en DtoCarrera
     };
   }
 
+  // ============================================================================
+  // ESTUDIANTE - Backend envía: codigo, nombre, apellido, email, semestre, carrera
+  // ============================================================================
+  
   dtoToEstudiante(dto: DtoEstudiante): Estudiante {
-    const nombres = dto.nombre.split(' ');
     return {
-      id: parseInt(dto.codigo) || 0,
-      nombre: nombres[0] || dto.nombre,
-      apellido: nombres.slice(1).join(' ') || '',
+      id: this.codigoToId(dto.codigo),
+      nombre: dto.nombre,
+      apellido: dto.apellido || '',
       email: dto.email,
       rol: 'ESTUDIANTE',
       activo: true,
       codigoEstudiante: dto.codigo,
-      carrera: {
-        id: 0,
-        codigo: 'ING-SIS',
-        nombre: 'Ingeniería de Sistemas',
-        duracionSemestres: 10,
-        facultad: 'General'
-      }, // Backend no incluye carrera en DtoEstudiante
-      semestre: 1,
+      carrera: dto.carrera ? this.dtoToCarrera(dto.carrera) : this.carreraPorDefecto(),
+      semestre: dto.semestre || 1,
       fechaIngreso: new Date()
     };
   }
 
-  estudianteToDto(estudiante: Estudiante): DtoEstudiante {
+  estudianteToDto(estudiante: any): DtoEstudiante {
     return {
-      codigo: estudiante.codigoEstudiante,
-      nombre: estudiante.nombre + ' ' + estudiante.apellido,
-      email: estudiante.email
-      // Backend no incluye carrera en DtoEstudiante
+      codigo: estudiante.codigoEstudiante || estudiante.codigo,
+      nombre: estudiante.nombre,
+      apellido: estudiante.apellido || '',
+      email: estudiante.email,
+      contrasenna: estudiante.contrasenna || estudiante.password,
+      semestre: estudiante.semestre,
+      carrera: estudiante.carrera ? this.carreraToDto(estudiante.carrera) : undefined
     };
   }
 
+  // ============================================================================
+  // DOCENTE - Backend envía: codigo, nombre, apellido, email, especialidad, departamento, activo
+  // ============================================================================
+  
+  dtoToDocente(dto: DtoDocente): Docente {
+    return {
+      id: this.codigoToId(dto.codigo),
+      nombre: dto.nombre,
+      apellido: dto.apellido || '',
+      email: dto.email,
+      rol: 'DOCENTE',
+      activo: dto.activo !== false,
+      codigoDocente: dto.codigo,
+      especialidad: dto.especialidad || 'General',
+      departamento: dto.departamento || 'General'
+    };
+  }
+
+  docenteToDto(docente: any): DtoDocente {
+    return {
+      codigo: docente.codigoDocente || docente.codigo,
+      nombre: docente.nombre,
+      apellido: docente.apellido || '',
+      email: docente.email,
+      contrasenna: docente.contrasenna || docente.password,
+      especialidad: docente.especialidad || 'General',
+      departamento: docente.departamento || 'General',
+      activo: docente.activo !== false
+    };
+  }
+
+  // ============================================================================
+  // MATERIA
+  // ============================================================================
+  
   dtoToMateria(dto: DtoMateria): any {
     return {
-      id: parseInt(dto.codigo) || 0,
+      id: this.codigoToId(dto.codigo),
       codigo: dto.codigo,
       nombre: dto.nombre,
-      creditos: dto.creditos,
-      horasTeoricas: 4, // Backend no incluye horas, usamos valor por defecto
+      creditos: dto.creditos || 0,
+      horasTeoricas: 4,
       horasPracticas: 2,
       semestre: dto.semestre || 1,
-      prerrequisitos: [],
-      activa: true
+      prerrequisitos: dto.materiasCorrelativas?.map(m => this.dtoToMateria(m)) || [],
+      activa: dto.activa !== false
     };
   }
 
@@ -85,19 +125,24 @@ export class MappersService {
       codigo: materia.codigo,
       nombre: materia.nombre,
       creditos: materia.creditos,
-      semestre: materia.semestre
+      semestre: materia.semestre,
+      activa: materia.activa !== false
     };
   }
 
+  // ============================================================================
+  // AULA
+  // ============================================================================
+  
   dtoToAula(dto: DtoAula): any {
     return {
-      id: parseInt(dto.codigo) || 0,
+      id: this.codigoToId(dto.codigo),
       codigo: dto.codigo,
-      nombre: dto.edificio, // Backend usa "edificio" no "nombre"
+      nombre: `${dto.edificio} - ${dto.codigo}`,
       capacidad: dto.capacidad,
       edificio: dto.edificio,
       piso: 1,
-      tipoAula: 'TEORIA', // Backend no incluye tipo
+      tipoAula: 'TEORIA',
       disponible: dto.disponible
     };
   }
@@ -111,136 +156,144 @@ export class MappersService {
     };
   }
 
-  dtoToDocente(dto: DtoDocente): any {
-    const nombres = dto.nombre.split(' ');
+  // ============================================================================
+  // GESTION
+  // ============================================================================
+  
+  dtoToGestion(dto: DtoGestion): any {
     return {
-      id: parseInt(dto.codigo) || 0,
-      nombre: nombres[0] || dto.nombre,
-      apellido: nombres.slice(1).join(' ') || '',
-      email: dto.codigo + '@universidad.edu',
-      rol: 'DOCENTE',
-      activo: true,
-      codigoDocente: dto.codigo,
-      especialidad: dto.especialidad,
-      departamento: 'General'
+      id: this.codigoToId(dto.codigo),
+      codigo: dto.codigo,
+      nombre: dto.nombre,
+      anio: dto.anio,
+      periodo: dto.periodo,
+      fechaInicio: new Date(dto.fechaInicio),
+      fechaFin: new Date(dto.fechaFin),
+      fechaInicioMatricula: new Date(dto.fechaInicioMatricula),
+      fechaFinMatricula: new Date(dto.fechaFinMatricula),
+      estado: dto.estado
     };
   }
 
-  docenteToDto(docente: any): DtoDocente {
+  // ============================================================================
+  // HORARIO - Backend usa: diaSemana, horaInicio, horaFin
+  // ============================================================================
+  
+  dtoToHorario(dto: DtoHorario): any {
     return {
-      codigo: docente.codigoDocente || docente.codigo,
-      nombre: docente.nombre + ' ' + docente.apellido,
-      especialidad: docente.especialidad || 'General'
+      id: Math.random(),
+      dia: dto.diaSemana,
+      horaInicio: dto.horaInicio,
+      horaFin: dto.horaFin
     };
   }
 
-  dtoToGrupo(dto: any, gestion: any): any {
+  horarioToDto(horario: any): DtoHorario {
     return {
-      id: parseInt(dto.codigo),
-      codigo: dto.nroParalelo?.toString() || '1',
-      materia: this.dtoToMateria(dto.materia),
-      docente: {
-        id: parseInt(dto.docente.codigo),
-        nombre: dto.docente.nombre.split(' ')[0],
-        apellido: dto.docente.nombre.split(' ').slice(1).join(' '),
-        email: dto.docente.codigo + '@universidad.edu'
-      },
-      aula: this.dtoToAula(dto.aula),
-      horarios: [],
-      cupoMaximo: dto.cupoMaximo,
-      cupoDisponible: dto.cupoMaximo,
-      gestion: gestion,
+      diaSemana: horario.dia || horario.diaSemana,
+      horaInicio: horario.horaInicio,
+      horaFin: horario.horaFin
+    };
+  }
+
+  // ============================================================================
+  // PARALELO/GRUPO - Backend envía: codigo, materia, docente, aula, gestion, cupoMaximo, estudiantes, horarios
+  // ============================================================================
+  
+  dtoToGrupo(dto: DtoParaleloMateria, gestion?: any): any {
+    const gestionMapeada = dto.gestion ? this.dtoToGestion(dto.gestion) : (gestion || this.gestionPorDefecto());
+    
+    return {
+      id: this.codigoToId(dto.codigo),
+      codigo: dto.codigo,
+      materia: dto.materia ? this.dtoToMateria(dto.materia) : null,
+      docente: dto.docente ? {
+        id: this.codigoToId(dto.docente.codigo),
+        nombre: dto.docente.nombre,
+        apellido: dto.docente.apellido || '',
+        email: dto.docente.email
+      } : null,
+      aula: dto.aula ? this.dtoToAula(dto.aula) : null,
+      horarios: dto.horarios?.map(h => this.dtoToHorario(h)) || [],
+      cupoMaximo: dto.cupoMaximo || 30,
+      cupoDisponible: dto.cupoMaximo - (dto.estudiantes?.length || 0),
+      gestion: gestionMapeada,
       activo: true
     };
   }
 
-  /**
-   * Convierte DtoInscripcion (backend) a Matricula (frontend)
-   */
-  dtoToMatricula(dto: DtoInscripcion, gestion?: any): Matricula {
-    // Crear una gestión por defecto si no se proporciona
-    const gestionActual = gestion || {
-      id: 1,
-      nombre: 'II-2025',
-      anio: 2025,
-      periodo: 2,
-      fechaInicio: new Date('2025-08-01'),
-      fechaFin: new Date('2025-12-15'),
-      fechaInicioMatricula: new Date('2025-07-15'),
-      fechaFinMatricula: new Date('2025-07-30'),
-      estado: 'EN_CURSO' as any
-    };
-
+  grupoToDto(grupo: any): DtoParaleloMateria {
     return {
-      id: parseInt(dto.codigo),
+      codigo: grupo.codigo,
+      materia: this.materiaToDto(grupo.materia),
+      docente: this.docenteToDto(grupo.docente),
+      aula: this.aulaToDto(grupo.aula),
+      cupoMaximo: grupo.cupoMaximo,
+      horarios: grupo.horarios?.map((h: any) => this.horarioToDto(h)) || []
+    };
+  }
+
+  // ============================================================================
+  // MATRICULA - Backend envía: estado, paraleloMateria, estudiante
+  // ============================================================================
+  
+  dtoToMatricula(dto: DtoMatricula, gestion?: any): Matricula {
+    const gestionActual = gestion || this.gestionPorDefecto();
+    
+    return {
+      id: Math.random() * 10000,
       estudiante: this.dtoToEstudiante(dto.estudiante),
-      grupo: this.dtoToGrupo(dto.paralelo, gestionActual),
+      grupo: this.dtoToGrupo(dto.paraleloMateria, gestionActual),
       gestion: gestionActual,
-      fechaMatricula: new Date(dto.fechaInscripcion),
-      estado: this.mapEstadoInscripcion(dto.estado)
+      fechaMatricula: new Date(),
+      estado: this.mapEstadoMatricula(dto.estado)
     };
   }
 
-  /**
-   * Mapea estado de inscripción del backend al frontend
-   */
-  private mapEstadoInscripcion(estado: EstadoInscripcion): any {
-    switch (estado) {
-      case EstadoInscripcion.ACEPTADA:
-        return 'INSCRITO';
-      case EstadoInscripcion.PENDIENTE:
-        return 'PENDIENTE';
-      case EstadoInscripcion.RECHAZADA:
-        return 'RECHAZADA';
-      default:
-        return 'PENDIENTE';
-    }
-  }
-
-  /**
-   * Convierte DtoCalificacion (backend) a Calificacion (frontend)
-   */
-  dtoToCalificacion(dto: DtoCalificacion): any {
-    // Crear matrícula mock para la calificación
-    const matriculaMock: any = {
-      id: parseInt(dto.codigo),
-      estudiante: this.dtoToEstudiante(dto.estudiante),
-      grupo: this.dtoToGrupo(dto.evaluacion.paralelo, null)
-    };
-
+  matriculaToDto(matricula: any): DtoMatricula {
     return {
-      id: parseInt(dto.codigo),
-      matricula: matriculaMock,
-      tipoEvaluacion: dto.evaluacion.tipo as any,
-      nombre: dto.evaluacion.descripcion,
-      nota: dto.nota,
-      porcentaje: dto.evaluacion.porcentaje,
-      fecha: new Date(dto.evaluacion.fecha)
+      estado: matricula.estado === 'INSCRITO' ? 'ACEPTADA' : matricula.estado,
+      paraleloMateria: this.grupoToDto(matricula.grupo),
+      estudiante: this.estudianteToDto(matricula.estudiante)
     };
   }
 
-  /**
-   * Convierte DtoHistorialAcademico (backend) a formato frontend
-   */
+  // ============================================================================
+  // CALIFICACIÓN - Backend usa: valor, observaciones, estudiante, evaluacion
+  // ============================================================================
+  
+  dtoToCalificacion(dto: DtoCalificacion): any {
+    return {
+      id: Math.random(),  // Backend no tiene codigo en Calificacion
+      nota: dto.valor,    // Backend usa 'valor', frontend usa 'nota'
+      observaciones: dto.observaciones,
+      estudiante: this.dtoToEstudiante(dto.estudiante),
+      evaluacion: dto.evaluacion
+    };
+  }
+
+  // ============================================================================
+  // HISTORIAL ACADÉMICO
+  // ============================================================================
+  
   dtoToHistorial(registros: DtoHistorialAcademico[]): any {
-    // Agrupar por gestión
     const porGestion = new Map<string, any[]>();
     
     registros.forEach(reg => {
-      if (!porGestion.has(reg.gestion)) {
-        porGestion.set(reg.gestion, []);
+      const gestionKey = reg.gestion || 'Sin Gestión';
+      if (!porGestion.has(gestionKey)) {
+        porGestion.set(gestionKey, []);
       }
-      porGestion.get(reg.gestion)!.push({
+      porGestion.get(gestionKey)!.push({
         materia: this.dtoToMateria(reg.materia),
         nota: reg.notaFinal,
         estado: reg.estado
       });
     });
 
-    // Convertir a array de gestiones
     const gestiones = Array.from(porGestion.entries()).map(([gestionNombre, materias]) => {
       const promedio = materias.reduce((sum, m) => sum + m.nota, 0) / materias.length;
-      const creditos = materias.reduce((sum, m) => sum + m.materia.creditos, 0);
+      const creditos = materias.reduce((sum, m) => sum + (m.materia.creditos || 0), 0);
       
       return {
         gestion: { nombre: gestionNombre },
@@ -250,10 +303,9 @@ export class MappersService {
       };
     });
 
-    // Calcular totales
     const creditosAprobados = registros
       .filter(r => r.estado === 'APROBADO')
-      .reduce((sum, r) => sum + r.materia.creditos, 0);
+      .reduce((sum, r) => sum + (r.materia.creditos || 0), 0);
     
     const promedioGeneral = registros.length > 0
       ? registros.reduce((sum, r) => sum + r.notaFinal, 0) / registros.length
@@ -262,8 +314,56 @@ export class MappersService {
     return {
       gestiones,
       creditosAprobados,
-      creditosTotales: 240, // Valor fijo estándar
+      creditosTotales: 240,
       promedioGeneral
+    };
+  }
+
+  // ============================================================================
+  // HELPERS PRIVADOS
+  // ============================================================================
+  
+  private codigoToId(codigo: string): number {
+    if (!codigo) return 0;
+    const num = parseInt(codigo.replace(/\D/g, ''));
+    return isNaN(num) ? Math.abs(codigo.split('').reduce((a, b) => a + b.charCodeAt(0), 0)) : num;
+  }
+
+  private mapEstadoMatricula(estado: string): any {
+    switch (estado?.toUpperCase()) {
+      case 'ACEPTADA':
+        return 'INSCRITO';
+      case 'PENDIENTE':
+        return 'PENDIENTE';
+      case 'RECHAZADA':
+        return 'RECHAZADA';
+      default:
+        return 'PENDIENTE';
+    }
+  }
+
+  private carreraPorDefecto(): Carrera {
+    return {
+      id: 1,
+      codigo: 'ING-SIS',
+      nombre: 'Ingeniería de Sistemas',
+      duracionSemestres: 10,
+      facultad: 'General'
+    };
+  }
+
+  private gestionPorDefecto(): any {
+    return {
+      id: 1,
+      codigo: 'II-2025',
+      nombre: 'Segundo Semestre 2025',
+      anio: 2025,
+      periodo: 2,
+      fechaInicio: new Date('2025-08-01'),
+      fechaFin: new Date('2025-12-15'),
+      fechaInicioMatricula: new Date('2025-07-15'),
+      fechaFinMatricula: new Date('2025-07-30'),
+      estado: 'EN_CURSO'
     };
   }
 }

@@ -2,6 +2,7 @@ package com.example.Server.modelos.implementaciones;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IMatricula;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import lombok.Builder;
 @NoArgsConstructor
 public class Matricula implements IMatricula {
     private String estado;
+    @JsonIgnoreProperties({"estudiantes", "horarios"})
     private IParaleloMateria paraleloMateria;
+    @JsonIgnoreProperties({"materiasInscritas", "materiasAprobadas", "carrera"})
     private IEstudiante estudiante;
 }

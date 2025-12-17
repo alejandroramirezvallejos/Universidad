@@ -2,6 +2,7 @@ package com.example.Server.modelos.implementaciones;
 import com.example.Server.modelos.abstracciones.ICalificacion;
 import com.example.Server.modelos.abstracciones.IEvaluacion;
 import com.example.Server.modelos.abstracciones.IParaleloMateria;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,9 @@ public class Evaluacion implements IEvaluacion {
     private String codigo = UUID.randomUUID().toString();
     private String nombre;
     private Double porcentaje;
+    @JsonIgnoreProperties({"materia", "docente", "estudiantes", "horarios"})
     private IParaleloMateria paraleloMateria;
     @Builder.Default
+    @JsonIgnoreProperties({"evaluacion"})
     private List<ICalificacion> calificaciones = new ArrayList<>();
 }

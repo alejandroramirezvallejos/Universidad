@@ -2,25 +2,30 @@
  * Servicio de Evaluaciones
  * Conecta con ControladorEvaluacion del backend
  * Endpoints: /api/evaluaciones
+ * 
+ * Backend Evaluacion tiene: codigo (UUID), nombre, porcentaje, paraleloMateria
+ * Backend Calificacion tiene: valor, observaciones, estudiante, evaluacion
  */
 
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
 
+// Coincide con Evaluacion.java del backend
 export interface Evaluacion {
-  codigo: string;
+  codigo?: string;  // UUID autogenerado por backend
   nombre: string;
   porcentaje: number;
-  paraleloMateria: any;
+  paraleloMateria: any;  // DtoParaleloMateria
   calificaciones?: Calificacion[];
 }
 
+// Coincide con Calificacion.java del backend
 export interface Calificacion {
-  valor: number;
+  valor: number;  // Double en backend
   observaciones: string;
-  estudiante: any;
-  evaluacion: any;
+  estudiante: any;  // DtoEstudiante con codigo, nombre, apellido, email
+  evaluacion: any;  // La evaluación a la que pertenece
 }
 
 @Injectable({

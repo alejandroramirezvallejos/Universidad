@@ -279,7 +279,8 @@ export class SidebarComponent {
       { label: 'Gestión de Aulas', icono: this.iconos.aulas, ruta: '/gestion-aulas', roles: ['DIRECTOR'] },
       { label: 'Gestión de Materias', icono: this.iconos.oferta, ruta: '/gestion-materias', roles: ['DIRECTOR'] },
       { label: 'Gestión de Grupos', icono: this.iconos.horario, ruta: '/gestion-grupos', roles: ['DIRECTOR'] },
-      { label: 'Gestión de Períodos', icono: this.iconos.gestiones, ruta: '/gestiones', roles: ['DIRECTOR'] },
+      // ⚠️ DESHABILITADO: El backend no tiene gestión de períodos académicos
+      // { label: 'Gestión de Períodos', icono: this.iconos.gestiones, ruta: '/gestiones', roles: ['DIRECTOR'] },
       { label: 'Reportes', icono: this.iconos.reportes, ruta: '/reportes', roles: ['DIRECTOR'] }
     ];
 

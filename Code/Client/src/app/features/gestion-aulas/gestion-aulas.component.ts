@@ -175,6 +175,9 @@ import { DtoAula } from '../../models/backend-dtos';
                   </span>
                 </td>
                 <td class="acciones-col">
+                  <!-- ⚠️ EDICIÓN DESHABILITADA: El backend no tiene endpoint PUT /api/aulas/{codigo} -->
+                  <!-- Para modificar un aula: eliminarla y crear una nueva -->
+                  <!--
                   <button 
                     class="btn btn-ghost btn-sm" 
                     (click)="editarAula(aula)"
@@ -185,6 +188,7 @@ import { DtoAula } from '../../models/backend-dtos';
                       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                   </button>
+                  -->
                   <button 
                     class="btn btn-error btn-sm" 
                     (click)="eliminarAula(aula)"
@@ -444,6 +448,12 @@ export class GestionAulasComponent implements OnInit {
     }
   }
 
+  /*
+   * ⚠️ MÉTODO DESHABILITADO
+   * El backend no tiene endpoint PUT /api/aulas/{codigo}
+   * Para modificar un aula: eliminarla y crear una nueva
+   */
+  /*
   editarAula(aula: DtoAula): void {
     this.modoEdicion = true;
     this.aulaEditando = aula;
@@ -456,6 +466,7 @@ export class GestionAulasComponent implements OnInit {
     this.mostrarFormulario = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  */
 
   async eliminarAula(aula: DtoAula): Promise<void> {
     const confirmar = window.confirm(

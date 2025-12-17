@@ -115,6 +115,38 @@ export class AuthService {
     private api: ApiService
   ) {
     console.log('AuthService inicializado');
+    
+    // FIX: Reparar director sin carrera
+    this.repararDirectorSinCarrera();
+  }
+
+  /**
+   * FIX TEMPORAL: Repara directores que no tienen carrera asignada
+   */
+  private repararDirectorSinCarrera(): void {
+    const usuario = this.usuarioActual();
+    if (usuario && usuario.rol === 'DIRECTOR' && !(usuario as any).carrera) {
+      console.warn('[AUTH-FIX] Director sin carrera detectado, reparando...');
+      
+      // Asignar carrera por defecto basado en el código del director
+      const carrera = {
+        id: 1,
+        codigo: 'ING-SIS',
+        nombre: 'Ingeniería de Sistemas',
+        duracionSemestres: 10,
+        facultad: 'Ingeniería'
+      };
+      
+      const usuarioReparado = {
+        ...usuario,
+        carrera
+      };
+      
+      this.usuarioActual.set(usuarioReparado as Usuario);
+      this.guardarUsuario(usuarioReparado as Usuario);
+      
+      console.log('[AUTH-FIX] Director reparado con carrera:', carrera.nombre);
+    }
   }
 
   /**
@@ -244,7 +276,14 @@ export class AuthService {
         rol: 'DIRECTOR',
         activo: true,
         codigoDirector: response.codigo,
-        departamento: 'Dirección Académica'
+        departamento: response.departamento || 'Dirección Académica',
+        carrera: response.carrera ? {
+          id: 1,
+          codigo: response.carrera.codigo,
+          nombre: response.carrera.nombre,
+          duracionSemestres: 10,
+          facultad: 'Ingeniería'
+        } : undefined
       } as Director;
     } else {
       usuario = {
@@ -320,12 +359,20 @@ export class AuthService {
       rol: 'DIRECTOR',
       activo: true,
       codigoDirector: data.codigo,
-      departamento: data.departamento
+      departamento: data.departamento,
+      carrera: data.carrera ? {
+        id: 1,
+        codigo: data.carrera.codigo,
+        nombre: data.carrera.nombre,
+        duracionSemestres: 10,
+        facultad: 'Ingeniería'
+      } : undefined
     };
   }
 
   /**
    * REGISTER - Crea un nuevo estudiante
+   * Backend espera: codigo, nombre, apellido, email, contrasenna, carrera: {codigo}
    */
   async register(datos: {
     nombre: string;
@@ -334,18 +381,24 @@ export class AuthService {
     password: string;
     codigoEstudiante: string;
     carreraId: number;
+    carreraCodigo?: string;
   }): Promise<{ exito: boolean; mensaje: string }> {
     try {
       console.log('[NOTE] Registrando nuevo estudiante:', datos.email);
 
       // Intentar con el backend primero
+      // Backend espera Estudiante con: codigo, nombre, apellido, email, contrasenna, semestre, carrera
       const nuevoEstudiante = {
         codigo: datos.codigoEstudiante,
         nombre: datos.nombre,
         apellido: datos.apellido,
         email: datos.email,
         contrasenna: datos.password,
-        carrera: { codigo: 'ING-SIS' }
+        semestre: 1,
+        carrera: { 
+          codigo: datos.carreraCodigo || 'ING-SIS',
+          nombre: '' // Backend busca la carrera por código
+        }
       };
 
       const estudianteCreado = await firstValueFrom(

@@ -36,6 +36,7 @@ export interface Director extends Usuario {
   rol: 'DIRECTOR';
   codigoDirector: string;
   departamento: string;
+  carrera?: Carrera;  // Director está asociado a una carrera
 }
 
 export interface Carrera {

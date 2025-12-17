@@ -14,7 +14,8 @@ import { DtoNotificacion, DtoEstudiante, DtoMateria } from '../../models/backend
 export class TestObserverComponent {
   estudiante: DtoEstudiante = {
     codigo: 'EST-001',
-    nombre: 'Juan Perez',
+    nombre: 'Juan',
+    apellido: 'Perez',
     email: 'juan@test.com'
   };
 

@@ -92,65 +92,24 @@ import { Materia } from '../../models';
 
           <!-- Semestre -->
           <div class="form-group">
-            <label class="form-label">Semestre Sugerido *</label>
+            <label class="form-label">Semestre *</label>
             <select class="form-select" [(ngModel)]="materiaForm.semestre" name="semestre" required>
               <option value="">Seleccione</option>
               <option *ngFor="let sem of [1,2,3,4,5,6,7,8,9,10]" [value]="sem">{{ sem }}</option>
             </select>
           </div>
 
-          <!-- Horas Teóricas -->
-          <div class="form-group">
-            <label class="form-label">Horas Teóricas *</label>
-            <input 
-              type="number" 
-              class="form-input" 
-              [(ngModel)]="materiaForm.horasTeoricas" 
-              name="horasTeoricas"
-              min="0"
-              max="10"
-              required
-            >
-          </div>
-
-          <!-- Horas Prácticas -->
-          <div class="form-group">
-            <label class="form-label">Horas Prácticas *</label>
-            <input 
-              type="number" 
-              class="form-input" 
-              [(ngModel)]="materiaForm.horasPracticas" 
-              name="horasPracticas"
-              min="0"
-              max="10"
-              required
-            >
-          </div>
-
-          <!-- Descripción -->
-          <div class="form-group form-group-full">
-            <label class="form-label">Descripción *</label>
-            <textarea 
-              class="form-textarea" 
-              [(ngModel)]="materiaForm.descripcion" 
-              name="descripcion"
-              rows="3"
-              placeholder="Descripción breve de la materia"
-              required
-            ></textarea>
-          </div>
-
           <!-- Prerequisitos -->
           <div class="form-group form-group-full">
-            <label class="form-label">Prerequisitos</label>
+            <label class="form-label">Prerequisitos (Materias Correlativas)</label>
             <div class="prerequisitos-selector">
               <div class="checkbox-group">
                 <label *ngFor="let materia of materiasDisponibles()" class="checkbox-label">
                   <input 
                     type="checkbox" 
-                    [value]="materia.id"
-                    [checked]="materiaForm.prerequisitosIds.includes(materia.id)"
-                    (change)="togglePrerequisito(materia.id)"
+                    [value]="materia.codigo"
+                    [checked]="materiaForm.prerequisitosCodigos.includes(materia.codigo)"
+                    (change)="togglePrerequisito(materia.codigo)"
                   >
                   <span>{{ materia.codigo }} - {{ materia.nombre }}</span>
                 </label>
@@ -189,7 +148,6 @@ import { Materia } from '../../models';
               <div>
                 <div class="materia-codigo-badge">{{ materia.codigo }}</div>
                 <h3>{{ materia.nombre }}</h3>
-                <p class="materia-descripcion">{{ materia.descripcion }}</p>
               </div>
               <span class="badge badge-primario">Semestre {{ materia.semestre }}</span>
             </div>
@@ -198,10 +156,6 @@ import { Materia } from '../../models';
               <div class="info-row">
                 <span class="info-label">Créditos:</span>
                 <span class="info-valor">{{ materia.creditos }}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Horas:</span>
-                <span class="info-valor">{{ materia.horasTeoricas }}T / {{ materia.horasPracticas }}P</span>
               </div>
               <div class="info-row" *ngIf="materia.prerrequisitos && materia.prerrequisitos.length > 0">
                 <span class="info-label">Prerequisitos:</span>
@@ -495,15 +449,13 @@ export class GestionMateriasComponent implements OnInit {
   materiaEditandoId: number | null = null;
   filtroSemestre = '';
   
+  // Formulario simplificado: SOLO los campos que usa el backend
   materiaForm = {
     codigo: '',
     nombre: '',
     creditos: 4,
     semestre: '',
-    horasTeoricas: 0,
-    horasPracticas: 0,
-    descripcion: '',
-    prerequisitosIds: [] as number[]
+    prerequisitosCodigos: [] as string[]
   };
 
   materias = signal<Materia[]>([]);
@@ -554,12 +506,12 @@ export class GestionMateriasComponent implements OnInit {
     );
   }
 
-  togglePrerequisito(materiaId: number): void {
-    const index = this.materiaForm.prerequisitosIds.indexOf(materiaId);
+  togglePrerequisito(materiaCodigo: string): void {
+    const index = this.materiaForm.prerequisitosCodigos.indexOf(materiaCodigo);
     if (index > -1) {
-      this.materiaForm.prerequisitosIds.splice(index, 1);
+      this.materiaForm.prerequisitosCodigos.splice(index, 1);
     } else {
-      this.materiaForm.prerequisitosIds.push(materiaId);
+      this.materiaForm.prerequisitosCodigos.push(materiaCodigo);
     }
   }
 
@@ -568,9 +520,7 @@ export class GestionMateriasComponent implements OnInit {
       this.materiaForm.codigo &&
       this.materiaForm.nombre &&
       this.materiaForm.creditos > 0 &&
-      this.materiaForm.semestre &&
-      this.materiaForm.descripcion &&
-      (this.materiaForm.horasTeoricas > 0 || this.materiaForm.horasPracticas > 0)
+      this.materiaForm.semestre
     );
   }
 
@@ -580,9 +530,46 @@ export class GestionMateriasComponent implements OnInit {
       return;
     }
 
-    const prerequisitos = this.materias().filter(m => 
-      this.materiaForm.prerequisitosIds.includes(m.id)
-    );
+    // Obtener materias correlativas seleccionadas
+    const materiasCorrelativas = this.materias()
+      .filter(m => this.materiaForm.prerequisitosCodigos.includes(m.codigo))
+      .map(m => ({
+        codigo: m.codigo,
+        nombre: m.nombre,
+        creditos: m.creditos,
+        semestre: m.semestre
+      }));
+
+    // Obtener la carrera del director actual
+    const usuario = this.authService.usuario();
+    console.log('[DEBUG] Usuario completo:', usuario);
+    console.log('[DEBUG] Carrera del usuario:', (usuario as any)?.carrera);
+    
+    let carreraDelDirector = (usuario as any)?.carrera;
+    
+    // FIX TEMPORAL: Si el director no tiene carrera, asignar la carrera por defecto
+    if (!carreraDelDirector && usuario?.rol === 'DIRECTOR') {
+      console.warn('[FIX] Director sin carrera, asignando ING-SIS por defecto');
+      carreraDelDirector = {
+        codigo: 'ING-SIS',
+        nombre: 'Ingeniería de Sistemas',
+        id: 1,
+        duracionSemestres: 10,
+        facultad: 'Ingeniería'
+      };
+      
+      // Actualizar el usuario en memoria y localStorage
+      const usuarioActualizado = {
+        ...usuario,
+        carrera: carreraDelDirector
+      };
+      
+      // Guardar en localStorage
+      localStorage.setItem('usuario_actual', JSON.stringify(usuarioActualizado));
+      
+      // Mostrar notificación
+      this.notificacion.info('Se ha asignado la carrera ING-SIS al director. Recarga la página si persisten errores.');
+    }
 
     try {
       if (this.modoEdicion && this.materiaEditandoId) {
@@ -597,29 +584,47 @@ export class GestionMateriasComponent implements OnInit {
           codigo: this.materiaForm.codigo,
           nombre: this.materiaForm.nombre,
           creditos: this.materiaForm.creditos,
-          nivel: parseInt(this.materiaForm.semestre)
+          semestre: parseInt(this.materiaForm.semestre),
+          carrera: carreraDelDirector ? {
+            codigo: carreraDelDirector.codigo,
+            nombre: carreraDelDirector.nombre
+          } : undefined
         };
 
         await this.materiasService.actualizarMateria(materiaActualizar.codigo, materiaDTO);
         this.notificacion.exito('Materia actualizada exitosamente en el backend');
       } else {
-        // USANDO BACKEND: Crear nueva materia
+        // USANDO BACKEND: Crear nueva materia con carrera
+        // Validar que el director tenga carrera asignada
+        if (!carreraDelDirector || !carreraDelDirector.codigo) {
+          this.notificacion.error('Error: El director no tiene una carrera asignada');
+          return;
+        }
+
         const materiaDTO = {
           codigo: this.materiaForm.codigo,
           nombre: this.materiaForm.nombre,
           creditos: this.materiaForm.creditos,
-          nivel: parseInt(this.materiaForm.semestre)
+          semestre: parseInt(this.materiaForm.semestre),
+          carrera: {
+            codigo: carreraDelDirector.codigo,
+            nombre: carreraDelDirector.nombre
+          }
         };
 
-        await this.materiasService.crearMateria(materiaDTO);
+        console.log('Enviando materia al backend:', materiaDTO);
+
+        // Usar el endpoint que agrega a la carrera
+        await this.materiasService.crearMateriaConCarrera(materiaDTO);
         this.notificacion.exito('Materia creada exitosamente en el backend');
       }
 
       await this.cargarDatos();
       this.cancelar();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error guardando materia:', error);
-      this.notificacion.error('Error al guardar la materia. Verifica los datos.');
+      const mensaje = error.error?.message || error.message || 'Error al guardar la materia';
+      this.notificacion.error(mensaje);
     }
   }
 
@@ -631,10 +636,7 @@ export class GestionMateriasComponent implements OnInit {
       nombre: materia.nombre,
       creditos: materia.creditos,
       semestre: materia.semestre.toString(),
-      horasTeoricas: materia.horasTeoricas,
-      horasPracticas: materia.horasPracticas,
-      descripcion: materia.descripcion || '',
-      prerequisitosIds: materia.prerrequisitos?.map(p => p.id) || []
+      prerequisitosCodigos: materia.prerrequisitos?.map(p => p.codigo) || []
     };
     this.mostrarFormulario = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -699,10 +701,7 @@ export class GestionMateriasComponent implements OnInit {
       nombre: '',
       creditos: 4,
       semestre: '',
-      horasTeoricas: 0,
-      horasPracticas: 0,
-      descripcion: '',
-      prerequisitosIds: []
+      prerequisitosCodigos: []
     };
   }
 }

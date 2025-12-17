@@ -584,7 +584,8 @@ export class GestionGruposComponent implements OnInit {
 
     try {
       // USANDO BACKEND: Crear paralelo
-      const docenteConCodigo = docente as any; // Cast temporal porque docentes viene con codigo del servicio
+      // Backend espera ParaleloMateria con: codigo, materia, docente (codigo, nombre, apellido, email, especialidad), aula, cupoMaximo, horarios
+      const docenteConCodigo = docente as any;
       const nuevoParalelo = {
         codigo: this.nuevoGrupo.codigo,
         materia: {
@@ -594,9 +595,13 @@ export class GestionGruposComponent implements OnInit {
           semestre: materia.semestre
         },
         docente: {
-          codigoDocente: docenteConCodigo.codigo || docenteConCodigo.codigoDocente || 'DOC-001',
+          codigo: docenteConCodigo.codigoDocente || docenteConCodigo.codigo || 'DOC-001',
           nombre: docente.nombre,
-          especialidad: 'General'
+          apellido: docenteConCodigo.apellido || '',
+          email: docenteConCodigo.email || '',
+          especialidad: docenteConCodigo.especialidad || 'General',
+          departamento: docenteConCodigo.departamento || 'General',
+          activo: true
         },
         aula: {
           codigo: this.nuevoGrupo.aula,
@@ -606,7 +611,7 @@ export class GestionGruposComponent implements OnInit {
         },
         cupoMaximo: this.nuevoGrupo.cupoMaximo,
         horarios: this.nuevoGrupo.horarios.map(h => ({
-          dia: h.dia,
+          diaSemana: h.dia,
           horaInicio: h.horaInicio,
           horaFin: h.horaFin
         }))

@@ -2,6 +2,7 @@ package com.example.Server.modelos.implementaciones;
 import com.example.Server.modelos.abstracciones.ICarrera;
 import com.example.Server.modelos.abstracciones.IDirectorCarrera;
 import com.example.Server.modelos.abstracciones.AUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class DirectorCarrera extends AUsuario implements IDirectorCarrera {
     private String departamento;
+    @JsonIgnoreProperties({"director", "estudiantes", "materias"})
     private ICarrera carrera;
 
     @Override

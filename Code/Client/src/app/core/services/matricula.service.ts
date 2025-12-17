@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { DatosMockService } from './datos-mock.service';
 import { ApiService } from './api.service';
 import { MappersService } from './mappers.service';
-import { DtoInscripcion, DtoInscripcionRequest, DtoMatricula, EstadoInscripcion } from '../../models/backend-dtos';
+import { DtoInscripcion, DtoInscripcionRequest, DtoMatricula } from '../../models/backend-dtos';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -132,41 +132,57 @@ export class MatriculaService {
 
     try {
       // USANDO ENDPOINT BATCH: POST /api/inscripciones/batch
-      // Preparar todas las inscripciones en un solo payload
-      const inscripciones = gruposEnProceso.map(grupo => ({
-        estudiante: this.mappers.estudianteToDto(usuario as any),
+      // El backend espera List<Matricula> directamente (no un objeto wrapper)
+      // Matricula tiene: estado, estudiante, paraleloMateria
+      const inscripciones: DtoMatricula[] = gruposEnProceso.map(grupo => ({
+        estado: 'PENDIENTE',
+        estudiante: {
+          codigo: (usuario as any).codigoEstudiante || usuario.id?.toString(),
+          nombre: usuario.nombre,
+          apellido: usuario.apellido || '',
+          email: usuario.email,
+          semestre: (usuario as any).semestre,
+          carrera: (usuario as any).carrera ? {
+            codigo: (usuario as any).carrera.codigo,
+            nombre: (usuario as any).carrera.nombre
+          } : undefined
+        },
         paraleloMateria: {
-          codigo: grupo.id.toString(),
-          nroParalelo: parseInt(grupo.codigo),
-          cupoMaximo: grupo.cupoMaximo,
+          codigo: grupo.codigo || grupo.id.toString(),
           materia: {
             codigo: grupo.materia.codigo,
             nombre: grupo.materia.nombre,
             creditos: grupo.materia.creditos,
-            carrera: this.mappers.carreraToDto((usuario as any).carrera),
-            nivel: grupo.materia.semestre,
-            materiasCorrelativas: []
+            semestre: grupo.materia.semestre
           },
           docente: {
-            codigo: grupo.docente.id.toString(),
-            nombre: `${grupo.docente.nombre} ${grupo.docente.apellido}`,
-            especialidad: 'General'
+            codigo: (grupo.docente as any).codigoDocente || (grupo.docente as any).codigo || grupo.docente.id?.toString(),
+            nombre: grupo.docente.nombre,
+            apellido: grupo.docente.apellido || '',
+            email: grupo.docente.email || '',
+            especialidad: (grupo.docente as any).especialidad || 'General',
+            departamento: (grupo.docente as any).departamento || 'General',
+            activo: true
           },
           aula: {
             codigo: grupo.aula.codigo,
-            nombre: grupo.aula.nombre,
+            edificio: grupo.aula.edificio || 'Edificio Principal',
             capacidad: grupo.aula.capacidad,
-            tipo: grupo.aula.tipoAula
+            disponible: true
           },
-          horarios: [],
-          turno: 'MANANA'
+          cupoMaximo: grupo.cupoMaximo,
+          // Backend usa diaSemana, no dia
+          horarios: grupo.horarios?.map(h => ({
+            diaSemana: (h as any).diaSemana || h.dia,
+            horaInicio: h.horaInicio,
+            horaFin: h.horaFin
+          })) || []
         }
       }));
 
-      // Enviar batch de inscripciones en una sola petición
-      const dtoInscripcionesBatch = { inscripciones };
+      // Enviar array de inscripciones directamente (no wrapper)
       const dtoMatriculas = await firstValueFrom(
-        this.api.post<DtoInscripcion[]>('/inscripciones/batch', dtoInscripcionesBatch)
+        this.api.post<DtoInscripcion[]>('/inscripciones/batch', inscripciones)
       );
       
       // Convertir respuestas a modelos frontend
@@ -243,13 +259,12 @@ export class MatriculaService {
         estado: 'ACEPTADA',
         estudiante: {
           codigo: matricula.estudiante.codigoEstudiante,
-          nombre: `${matricula.estudiante.nombre} ${matricula.estudiante.apellido}`,
+          nombre: matricula.estudiante.nombre,
+          apellido: matricula.estudiante.apellido || '',
           email: matricula.estudiante.email
         },
         paraleloMateria: {
           codigo: matricula.grupo.codigo.toString(),
-          nroParalelo: parseInt(matricula.grupo.codigo),
-          turno: 'MANANA' as any,
           materia: {
             codigo: matricula.grupo.materia.codigo,
             nombre: matricula.grupo.materia.nombre,
@@ -258,7 +273,9 @@ export class MatriculaService {
           },
           docente: {
             codigo: (matricula.grupo.docente as any).codigoDocente || matricula.grupo.docente.id.toString(),
-            nombre: `${matricula.grupo.docente.nombre} ${matricula.grupo.docente.apellido}`,
+            nombre: matricula.grupo.docente.nombre,
+            apellido: matricula.grupo.docente.apellido || '',
+            email: matricula.grupo.docente.email || '',
             especialidad: (matricula.grupo.docente as any).especialidad || 'General'
           },
           aula: {
@@ -269,7 +286,7 @@ export class MatriculaService {
           },
           cupoMaximo: matricula.grupo.cupoMaximo,
           horarios: matricula.grupo.horarios.map(h => ({
-            dia: h.dia as any,
+            diaSemana: h.dia as any,
             horaInicio: h.horaInicio,
             horaFin: h.horaFin
           }))
@@ -298,7 +315,7 @@ export class MatriculaService {
       
       // Filtrar solo las pendientes
       const inscripcionesPendientes = dtoInscripciones.filter(
-        dto => dto.estado === EstadoInscripcion.PENDIENTE
+        dto => dto.estado === 'PENDIENTE'
       );
       
       return inscripcionesPendientes.map(dto => this.mappers.dtoToMatricula(dto));

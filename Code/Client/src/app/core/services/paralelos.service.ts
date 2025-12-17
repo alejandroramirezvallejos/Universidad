@@ -33,10 +33,10 @@ export class ParalelosService {
 
   async crearParalelo(paralelo: any): Promise<any> {
     try {
+      // Backend espera ParaleloMateria con: codigo, materia, docente, aula, cupoMaximo, horarios
+      // Horarios usan: diaSemana, horaInicio, horaFin
       const dtoParalelo: DtoParaleloMateria = {
         codigo: paralelo.codigo,
-        nroParalelo: parseInt(paralelo.codigo),
-        turno: paralelo.turno || 'MANANA',
         materia: {
           codigo: paralelo.materia.codigo,
           nombre: paralelo.materia.nombre,
@@ -44,18 +44,27 @@ export class ParalelosService {
           semestre: paralelo.materia.semestre
         },
         docente: {
-          codigo: paralelo.docente.codigoDocente || paralelo.docente.codigo,
+          codigo: paralelo.docente.codigo || paralelo.docente.codigoDocente,
           nombre: paralelo.docente.nombre,
-          especialidad: paralelo.docente.especialidad || 'General'
+          apellido: paralelo.docente.apellido || '',
+          email: paralelo.docente.email || '',
+          especialidad: paralelo.docente.especialidad || 'General',
+          departamento: paralelo.docente.departamento || 'General',
+          activo: paralelo.docente.activo !== false
         },
         aula: {
           codigo: paralelo.aula.codigo,
-          edificio: paralelo.aula.edificio,
+          edificio: paralelo.aula.edificio || 'Edificio Principal',
           capacidad: paralelo.aula.capacidad,
           disponible: paralelo.aula.disponible !== false
         },
         cupoMaximo: paralelo.cupoMaximo,
-        horarios: paralelo.horarios || []
+        // Backend usa diaSemana, no dia
+        horarios: (paralelo.horarios || []).map((h: any) => ({
+          diaSemana: h.diaSemana || h.dia,
+          horaInicio: h.horaInicio,
+          horaFin: h.horaFin
+        }))
       };
 
       const creado = await firstValueFrom(
@@ -171,8 +180,6 @@ export class ParalelosService {
     try {
       const dtoParalelo: DtoParaleloMateria = {
         codigo: paralelo.codigo,
-        nroParalelo: parseInt(paralelo.codigo),
-        turno: paralelo.turno || 'MANANA',
         materia: {
           codigo: paralelo.materia.codigo,
           nombre: paralelo.materia.nombre,
@@ -182,6 +189,8 @@ export class ParalelosService {
         docente: {
           codigo: paralelo.docente.codigoDocente || paralelo.docente.codigo,
           nombre: paralelo.docente.nombre,
+          apellido: paralelo.docente.apellido || '',
+          email: paralelo.docente.email || '',
           especialidad: paralelo.docente.especialidad || 'General'
         },
         aula: {
