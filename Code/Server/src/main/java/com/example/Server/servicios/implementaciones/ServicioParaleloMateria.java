@@ -26,12 +26,18 @@ public class ServicioParaleloMateria implements IServicioParaleloMateria {
         IDocente docenteExistente = repositorioDocente.buscarPorCodigo(paralelo.getDocente().getCodigo());
 
         if (docenteExistente != null) {
+            if (docenteExistente.getParaleloMaterias() == null) {
+                docenteExistente.setParaleloMaterias(new ArrayList<>());
+            }
             docenteExistente.getParaleloMaterias().add(paralelo);
             repositorioDocente.guardar(docenteExistente);
         }
     }
 
     private void asociarMateria(IParaleloMateria paralelo) {
+        if (paralelo.getMateria().getParaleloMaterias() == null) {
+            paralelo.getMateria().setParaleloMaterias(new ArrayList<>());
+        }
         paralelo.getMateria().getParaleloMaterias().add(paralelo);
     }
 

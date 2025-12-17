@@ -91,60 +91,7 @@ interface AccesoRapido {
         </div>
       </section>
 
-      <!-- Sección de actividad reciente y calendario (lado a lado) -->
-      <div class="dashboard-grid">
-        <!-- Actividad reciente -->
-        <section class="actividad-reciente card">
-          <div class="card-header">
-            <h3 class="card-titulo">Actividad Reciente</h3>
-          </div>
-          <div class="card-body">
-            <div class="actividad-lista">
-              <div *ngFor="let actividad of actividadesRecientes()" class="actividad-item">
-                <div class="actividad-icono" [class]="'actividad-' + actividad.tipo">
-                  <span [innerHTML]="actividad.icono"></span>
-                </div>
-                <div class="actividad-contenido">
-                  <p class="actividad-texto">{{ actividad.texto }}</p>
-                  <span class="actividad-tiempo">{{ actividad.tiempo }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Próximos eventos -->
-        <section class="proximos-eventos card">
-          <div class="card-header">
-            <h3 class="card-titulo">Próximos Eventos</h3>
-          </div>
-          <div class="card-body">
-            <div class="eventos-lista">
-              <div *ngFor="let evento of proximosEventos()" class="evento-item">
-                <div class="evento-fecha">
-                  <span class="evento-dia">{{ evento.fecha | date:'d' }}</span>
-                  <span class="evento-mes">{{ evento.fecha | date:'MMM' }}</span>
-                </div>
-                <div class="evento-info">
-                  <h4>{{ evento.titulo }}</h4>
-                  <p>{{ evento.descripcion }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
       <!-- Alertas y notificaciones -->
-      <section class="alertas" *ngIf="alertas().length > 0">
-        <div *ngFor="let alerta of alertas()" class="alerta" [class]="'alerta-' + alerta.tipo">
-          <span [innerHTML]="alerta.icono"></span>
-          <div class="alerta-contenido">
-            <strong>{{ alerta.titulo }}</strong>
-            <p>{{ alerta.mensaje }}</p>
-          </div>
-        </div>
-      </section>
     </div>
   `,
   styles: [`
@@ -337,159 +284,6 @@ interface AccesoRapido {
       color: var(--color-primario);
     }
 
-    /* Grid dashboard */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: var(--espaciado-lg);
-      margin-bottom: var(--espaciado-xl);
-    }
-
-    /* Actividad reciente */
-    .actividad-lista {
-      display: flex;
-      flex-direction: column;
-      gap: var(--espaciado-md);
-    }
-
-    .actividad-item {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--espaciado-md);
-    }
-
-    .actividad-icono {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radio-full);
-      flex-shrink: 0;
-    }
-
-    .actividad-exito {
-      background-color: var(--color-exito-light);
-      color: var(--color-exito);
-    }
-
-    .actividad-info {
-      background-color: var(--color-info-light);
-      color: var(--color-info);
-    }
-
-    .actividad-advertencia {
-      background-color: var(--color-advertencia-light);
-      color: var(--color-advertencia);
-    }
-
-    .actividad-contenido {
-      flex: 1;
-    }
-
-    .actividad-texto {
-      font-size: var(--texto-sm);
-      color: var(--color-texto);
-      margin: 0 0 2px 0;
-    }
-
-    .actividad-tiempo {
-      font-size: var(--texto-xs);
-      color: var(--color-texto-claro);
-    }
-
-    /* Próximos eventos */
-    .eventos-lista {
-      display: flex;
-      flex-direction: column;
-      gap: var(--espaciado-md);
-    }
-
-    .evento-item {
-      display: flex;
-      gap: var(--espaciado-md);
-    }
-
-    .evento-fecha {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      background-color: var(--color-primario-light);
-      border-radius: var(--radio-md);
-      flex-shrink: 0;
-    }
-
-    .evento-dia {
-      font-size: var(--texto-lg);
-      font-weight: 700;
-      color: var(--color-primario);
-      line-height: 1;
-    }
-
-    .evento-mes {
-      font-size: var(--texto-xs);
-      color: var(--color-primario);
-      text-transform: uppercase;
-    }
-
-    .evento-info h4 {
-      font-size: var(--texto-sm);
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .evento-info p {
-      font-size: var(--texto-xs);
-      color: var(--color-texto-secundario);
-      margin: 0;
-    }
-
-    /* Alertas */
-    .alertas {
-      display: flex;
-      flex-direction: column;
-      gap: var(--espaciado-md);
-    }
-
-    .alerta {
-      position: relative;
-      padding-right: 3rem;
-    }
-
-    .alerta-contenido {
-      flex: 1;
-    }
-
-    .alerta-contenido strong {
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .alerta-contenido p {
-      margin: 0;
-      font-size: var(--texto-sm);
-    }
-
-    .btn-cerrar-alerta {
-      position: absolute;
-      right: var(--espaciado-md);
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: inherit;
-      opacity: 0.7;
-      padding: var(--espaciado-xs);
-    }
-
-    .btn-cerrar-alerta:hover {
-      opacity: 1;
-    }
-
     @media (max-width: 768px) {
       .dashboard-header {
         flex-direction: column;
@@ -623,125 +417,18 @@ export class DashboardComponent implements OnInit {
     return [];
   });
 
-  actividadesRecientes = computed<any[]>(() => {
-    const rol = this.authService.rol();
-
-    if (rol === 'ESTUDIANTE') {
-      return [
-        {
-          texto: 'Te inscribiste en Cálculo II - Grupo A',
-          tiempo: 'Hace 2 horas',
-          tipo: 'exito',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
-        },
-        {
-          texto: 'Se publicó la nota de Programación I',
-          tiempo: 'Hace 1 día',
-          tipo: 'info',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>'
-        },
-        {
-          texto: 'Recordatorio: Entrega de proyecto mañana',
-          tiempo: 'Hace 2 días',
-          tipo: 'advertencia',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
-        }
-      ];
-    }
-
-    if (rol === 'DOCENTE') {
-      return [
-        {
-          texto: 'Ingresaste notas del Parcial 2 - Programación I',
-          tiempo: 'Hace 3 horas',
-          tipo: 'exito',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
-        },
-        {
-          texto: '5 estudiantes con calificación menor a 51 en Cálculo I',
-          tiempo: 'Hace 1 día',
-          tipo: 'advertencia',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
-        },
-        {
-          texto: 'Recordatorio: Registrar asistencia de hoy',
-          tiempo: 'Hace 2 horas',
-          tipo: 'info',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>'
-        }
-      ];
-    }
-
-    if (rol === 'DIRECTOR') {
-      return [
-        {
-          texto: 'Gestión II-2025 entró en período de exámenes',
-          tiempo: 'Hace 1 hora',
-          tipo: 'info',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>'
-        },
-        {
-          texto: '3 materias tienen tasa de aprobación menor al 60%',
-          tiempo: 'Hace 1 día',
-          tipo: 'advertencia',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
-        },
-        {
-          texto: 'Se completaron 156 inscripciones nuevas',
-          tiempo: 'Hace 2 días',
-          tipo: 'exito',
-          icono: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
-        }
-      ];
-    }
-
-    return [];
-  });
-
-  proximosEventos = computed<any[]>(() => {
-    const rol = this.authService.rol();
-
-    if (rol === 'ESTUDIANTE') {
-      return [
-        { fecha: new Date('2025-12-02'), titulo: 'Examen Parcial', descripcion: 'Cálculo I - Aula A-101' },
-        { fecha: new Date('2025-12-05'), titulo: 'Entrega Proyecto', descripcion: 'Programación II' },
-        { fecha: new Date('2025-12-10'), titulo: 'Cierre de Matrícula', descripcion: 'Gestión II-2025' }
-      ];
-    }
-
-    if (rol === 'DOCENTE') {
-      return [
-        { fecha: new Date('2025-12-02'), titulo: 'Examen Parcial 3', descripcion: 'Cálculo I - Aula A-101' },
-        { fecha: new Date('2025-12-04'), titulo: 'Clase de Recuperación', descripcion: 'Programación I - Aula B-205' },
-        { fecha: new Date('2025-12-08'), titulo: 'Fecha límite registro notas', descripcion: 'Todas las materias' }
-      ];
-    }
-
-    if (rol === 'DIRECTOR') {
-      return [
-        { fecha: new Date('2025-11-30'), titulo: 'Inicio Período de Exámenes', descripcion: 'Gestión II-2025 (automático)' },
-        { fecha: new Date('2025-12-10'), titulo: 'Cierre Registro de Notas', descripcion: 'Todos los docentes' },
-        { fecha: new Date('2025-12-31'), titulo: 'Fin Gestión II-2025', descripcion: 'Cierre automático del período' }
-      ];
-    }
-
-    return [];
-  });
-
   tarjetasResumen = computed<TarjetaResumen[]>(() => {
     const rol = this.authService.rol();
 
     if (rol === 'ESTUDIANTE') {
-      // Datos básicos para estudiante
-      const materiasEnProceso = this.matriculaService.cantidadEnProceso();
-      const creditos = this.matriculaService.creditosTotales();
-
-      return [
-        { titulo: 'Materias en Proceso', valor: materiasEnProceso, icono: this.iconos.materias, color: 'primario' },
-        { titulo: 'Créditos Seleccionados', valor: creditos, icono: this.iconos.creditos, color: 'info' },
-        { titulo: 'Promedio', valor: '85.5', icono: this.iconos.promedio, color: 'exito' },
-        { titulo: 'Estado', valor: 'Activo', icono: this.iconos.pendientes, color: 'advertencia' }
-      ];
+      // Tarjetas deshabilitadas para estudiante - funcionalidad en desarrollo
+      return [];
+      // const materiasEnProceso = this.matriculaService.cantidadEnProceso();
+      // const creditos = this.matriculaService.creditosTotales();
+      // return [
+      //   { titulo: 'Materias en Proceso', valor: materiasEnProceso, icono: this.iconos.materias, color: 'primario' },
+      //   { titulo: 'Créditos Seleccionados', valor: creditos, icono: this.iconos.creditos, color: 'info' }
+      // ];
     }
 
     if (rol === 'DOCENTE') {
@@ -762,8 +449,7 @@ export class DashboardComponent implements OnInit {
     return [
       { titulo: 'Estudiantes Activos', valor: estudiantes.length, icono: this.iconos.materias, color: 'primario' },
       { titulo: 'Docentes', valor: docentes.length, icono: this.iconos.creditos, color: 'info' },
-      { titulo: 'Materias', valor: materias.length, icono: this.iconos.pendientes, color: 'advertencia' },
-      { titulo: 'Total Recursos', valor: estudiantes.length + docentes.length + materias.length, icono: this.iconos.promedio, color: 'exito' }
+      { titulo: 'Materias', valor: materias.length, icono: this.iconos.pendientes, color: 'advertencia' }
     ];
   });
 
@@ -774,9 +460,10 @@ export class DashboardComponent implements OnInit {
     if (rol === 'ESTUDIANTE') {
       accesos.push(
         { titulo: 'Inscribir Materias', descripcion: 'Gestión II-2025', icono: this.iconos.matricula, ruta: '/matricula', roles: ['ESTUDIANTE'] },
-        { titulo: 'Mi Horario', descripcion: 'Ver horario semanal', icono: this.iconos.horario, ruta: '/horario', roles: ['ESTUDIANTE'] },
-        { titulo: 'Consultar Notas', descripcion: 'Calificaciones actuales', icono: this.iconos.notas, ruta: '/calificaciones', roles: ['ESTUDIANTE'] },
-        { titulo: 'Historial', descripcion: 'Historial académico', icono: this.iconos.historial, ruta: '/historial', roles: ['ESTUDIANTE'] }
+        { titulo: 'Mi Horario', descripcion: 'Ver horario semanal', icono: this.iconos.horario, ruta: '/horario', roles: ['ESTUDIANTE'] }
+        // Calificaciones e Historial deshabilitados - funcionalidad en desarrollo
+        // { titulo: 'Consultar Notas', descripcion: 'Calificaciones actuales', icono: this.iconos.notas, ruta: '/calificaciones', roles: ['ESTUDIANTE'] },
+        // { titulo: 'Historial', descripcion: 'Historial académico', icono: this.iconos.historial, ruta: '/historial', roles: ['ESTUDIANTE'] }
       );
     }
 
@@ -793,7 +480,8 @@ export class DashboardComponent implements OnInit {
         { titulo: 'Gestión de Grupos', descripcion: 'Grupos y docentes', icono: this.iconos.horario, ruta: '/gestion-grupos', roles: ['DIRECTOR'] },
         // ⚠️ DESHABILITADO: El backend no tiene gestión de períodos académicos
         // { titulo: 'Gestión de Períodos', descripcion: 'Períodos académicos', icono: this.iconos.historial, ruta: '/gestiones', roles: ['DIRECTOR'] },
-        { titulo: 'Reportes', descripcion: 'Estadísticas y reportes', icono: this.iconos.matricula, ruta: '/reportes', roles: ['DIRECTOR'] }
+        // Reportes deshabilitado - funcionalidad en desarrollo
+        // { titulo: 'Reportes', descripcion: 'Estadísticas y reportes', icono: this.iconos.matricula, ruta: '/reportes', roles: ['DIRECTOR'] }
       );
     }
 

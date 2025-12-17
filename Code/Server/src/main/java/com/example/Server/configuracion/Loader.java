@@ -1,4 +1,5 @@
 package com.example.Server.configuracion;
+
 import com.example.Server.modelos.implementaciones.*;
 import com.example.Server.servicios.abstracciones.*;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class Loader implements ApplicationRunner {
     private final IServicioParaleloMateria paraleloMateriaServicio;
 
     @Override
-    public void run(ApplicationArguments args){
+    public void run(ApplicationArguments args) {
         System.out.println("\n════════════════════════════════════════════════════════════");
         System.out.println("🔧 INICIALIZANDO DATOS DE PRUEBA (Backend)");
         System.out.println("════════════════════════════════════════════════════════════\n");
@@ -39,11 +40,14 @@ public class Loader implements ApplicationRunner {
 
     private void crearGestiones() {
         System.out.println("📅 Creando Gestiones...");
-        crearGestion("II-2025", "Segundo Semestre 2025", 2025, 2, "2025-08-01", "2025-12-15", "2025-07-15", "2025-07-30", "EN_CURSO");
-        crearGestion("I-2025", "Primer Semestre 2025", 2025, 1, "2025-02-01", "2025-06-30", "2025-01-15", "2025-01-30", "CERRADA");
+        crearGestion("II-2025", "Segundo Semestre 2025", 2025, 2, "2025-08-01", "2025-12-15", "2025-07-15",
+                "2025-07-30", "EN_CURSO");
+        crearGestion("I-2025", "Primer Semestre 2025", 2025, 1, "2025-02-01", "2025-06-30", "2025-01-15", "2025-01-30",
+                "CERRADA");
     }
 
-    private void crearGestion(String codigo, String nombre, int anio, int periodo, String inicio, String fin, String inicioMatricula, String finMatricula, String estado) {
+    private void crearGestion(String codigo, String nombre, int anio, int periodo, String inicio, String fin,
+            String inicioMatricula, String finMatricula, String estado) {
         Gestion gestion = new Gestion();
         gestion.setCodigo(codigo);
         gestion.setNombre(nombre);
@@ -80,7 +84,8 @@ public class Loader implements ApplicationRunner {
         crearEstudiante("EST002", "Ana", "Martínez", "ana.martinez@ucb.edu.bo", "password123", ingInd);
     }
 
-    private void crearEstudiante(String codigo, String nombre, String apellido, String email, String contrasenna, Carrera carrera) {
+    private void crearEstudiante(String codigo, String nombre, String apellido, String email, String contrasenna,
+            Carrera carrera) {
         Estudiante estudiante = new Estudiante();
         estudiante.setCodigo(codigo);
         estudiante.setNombre(nombre);
@@ -93,11 +98,13 @@ public class Loader implements ApplicationRunner {
 
     private void crearDocentes() {
         System.out.println("👩‍🏫 Creando Docentes...");
-        crearDocente("DOC001", "María", "González", "maria.gonzalez@ucb.edu.bo", "password123", "Ingeniería de Software");
+        crearDocente("DOC001", "María", "González", "maria.gonzalez@ucb.edu.bo", "password123",
+                "Ingeniería de Software");
         crearDocente("DOC002", "Pedro", "López", "pedro.lopez@ucb.edu.bo", "password123", "Base de Datos");
     }
 
-    private void crearDocente(String codigo, String nombre, String apellido, String email, String contrasenna, String especialidad) {
+    private void crearDocente(String codigo, String nombre, String apellido, String email, String contrasenna,
+            String especialidad) {
         Docente docente = new Docente();
         docente.setCodigo(codigo);
         docente.setNombre(nombre);
@@ -117,7 +124,8 @@ public class Loader implements ApplicationRunner {
         crearDirector("DIR002", "Laura", "Fernández", "laura.fernandez@ucb.edu.bo", "password123", ingInd);
     }
 
-    private void crearDirector(String codigo, String nombre, String apellido, String email, String contrasenna, Carrera carrera) {
+    private void crearDirector(String codigo, String nombre, String apellido, String email, String contrasenna,
+            Carrera carrera) {
         DirectorCarrera director = new DirectorCarrera();
         director.setCodigo(codigo);
         director.setNombre(nombre);
@@ -189,30 +197,35 @@ public class Loader implements ApplicationRunner {
         Aula aula202 = (Aula) aulaServicio.getAulas().get(1);
         Aula aulaB101 = (Aula) aulaServicio.getAulas().get(2);
 
-        crearParalelo("SIS-101-A", prog1, doc1, aula201, 30,
-            new Horario("LUNES", LocalTime.of(8, 0), LocalTime.of(10, 0)),
-            new Horario("MIERCOLES", LocalTime.of(8, 0), LocalTime.of(10, 0)));
+        // Obtener la gestión actual (EN_CURSO) para asignar a los paralelos
+        Gestion gestionActual = (Gestion) gestionServicio.getGestion();
 
-        crearParalelo("SIS-101-B", prog1, doc2, aula202, 35,
-            new Horario("MARTES", LocalTime.of(10, 0), LocalTime.of(12, 0)),
-            new Horario("JUEVES", LocalTime.of(10, 0), LocalTime.of(12, 0)));
+        crearParalelo("SIS-101-A", prog1, doc1, aula201, 30, gestionActual,
+                new Horario("LUNES", LocalTime.of(8, 0), LocalTime.of(10, 0)),
+                new Horario("MIERCOLES", LocalTime.of(8, 0), LocalTime.of(10, 0)));
 
-        crearParalelo("SIS-203-A", bd1, doc2, aulaB101, 40,
-            new Horario("LUNES", LocalTime.of(14, 0), LocalTime.of(16, 0)),
-            new Horario("MIERCOLES", LocalTime.of(14, 0), LocalTime.of(16, 0)));
+        crearParalelo("SIS-101-B", prog1, doc2, aula202, 35, gestionActual,
+                new Horario("MARTES", LocalTime.of(10, 0), LocalTime.of(12, 0)),
+                new Horario("JUEVES", LocalTime.of(10, 0), LocalTime.of(12, 0)));
 
-        crearParalelo("SIS-303-A", ingSw, doc1, aula201, 45,
-            new Horario("MARTES", LocalTime.of(8, 0), LocalTime.of(10, 0)),
-            new Horario("JUEVES", LocalTime.of(8, 0), LocalTime.of(10, 0)));
+        crearParalelo("SIS-203-A", bd1, doc2, aulaB101, 40, gestionActual,
+                new Horario("LUNES", LocalTime.of(14, 0), LocalTime.of(16, 0)),
+                new Horario("MIERCOLES", LocalTime.of(14, 0), LocalTime.of(16, 0)));
+
+        crearParalelo("SIS-303-A", ingSw, doc1, aula201, 45, gestionActual,
+                new Horario("MARTES", LocalTime.of(8, 0), LocalTime.of(10, 0)),
+                new Horario("JUEVES", LocalTime.of(8, 0), LocalTime.of(10, 0)));
     }
 
-    private void crearParalelo(String codigo, Materia materia, Docente docente, Aula aula, int cupo, Horario... horarios) {
+    private void crearParalelo(String codigo, Materia materia, Docente docente, Aula aula, int cupo, Gestion gestion,
+            Horario... horarios) {
         ParaleloMateria paralelo = new ParaleloMateria();
         paralelo.setCodigo(codigo);
         paralelo.setMateria(materia);
         paralelo.setDocente(docente);
         paralelo.setAula(aula);
         paralelo.setCupoMaximo(cupo);
+        paralelo.setGestion(gestion); // Asignar gestión para que los validadores funcionen
 
         for (Horario horario : horarios)
             paralelo.getHorarios().add(horario);

@@ -58,9 +58,11 @@ import { Materia } from '../../models';
               [(ngModel)]="materiaForm.codigo" 
               name="codigo"
               placeholder="Ej: MAT-101"
+              [disabled]="modoEdicion"
               required
             >
-            <span class="form-hint">Formato: XXX-###</span>
+            <span class="form-hint" *ngIf="!modoEdicion">Formato: XXX-###</span>
+            <span class="form-hint" *ngIf="modoEdicion">El código no se puede modificar</span>
           </div>
 
           <!-- Nombre -->
@@ -175,7 +177,6 @@ import { Materia } from '../../models';
               <span class="badge" [class.badge-exito]="materia.activa" [class.badge-error]="!materia.activa">
                 {{ materia.activa ? 'Activa' : 'Inactiva' }}
               </span>
-              <span class="info-secundario">{{ contarGrupos(materia.id) }} grupos</span>
             </div>
 
             <div class="materia-acciones">
@@ -483,17 +484,22 @@ export class GestionMateriasComponent implements OnInit {
 
   async cargarDatos(): Promise<void> {
     try {
+      console.log('[DEBUG] Cargando materias desde el backend...');
+      
       // USANDO MateriasService en lugar de mocks
       const materias = await this.materiasService.obtenerTodasLasMaterias();
       await this.carrerasService.obtenerCarreras();
+      
+      console.log('[DEBUG] Materias cargadas:', materias.length, 'materias');
+      console.log('[DEBUG] Primera materia como ejemplo:', materias[0]);
       
       // Convertir DTOs a modelo frontend si es necesario
       this.materias.set(materias as any);
       this.aplicarFiltros();
       
-      console.log(`${materias.length} materias cargadas desde backend`);
+      console.log(`✅ ${materias.length} materias cargadas y mostradas en UI`);
     } catch (error) {
-      console.error('Error cargando materias:', error);
+      console.error('❌ Error cargando materias:', error);
       this.notificacion.error('Error al cargar las materias');
       this.materias.set([]);
     }
@@ -585,14 +591,27 @@ export class GestionMateriasComponent implements OnInit {
           nombre: this.materiaForm.nombre,
           creditos: this.materiaForm.creditos,
           semestre: parseInt(this.materiaForm.semestre),
+          activa: materiaActualizar.activa, // Mantener estado actual
           carrera: carreraDelDirector ? {
             codigo: carreraDelDirector.codigo,
             nombre: carreraDelDirector.nombre
           } : undefined
         };
 
-        await this.materiasService.actualizarMateria(materiaActualizar.codigo, materiaDTO);
-        this.notificacion.exito('Materia actualizada exitosamente en el backend');
+        console.log('[DEBUG] Actualizando materia:', materiaActualizar.codigo, 'con DTO:', materiaDTO);
+        
+        const materiaActualizada = await this.materiasService.actualizarMateria(materiaActualizar.codigo, materiaDTO);
+        
+        if (materiaActualizada) {
+          console.log('[DEBUG] Materia actualizada desde API:', materiaActualizada);
+          this.notificacion.exito('Materia actualizada exitosamente');
+          
+          // Recargar todas las materias para asegurar datos frescos
+          await this.cargarDatos();
+        } else {
+          this.notificacion.error('Error al actualizar la materia');
+          return;
+        }
       } else {
         // USANDO BACKEND: Crear nueva materia con carrera
         // Validar que el director tenga carrera asignada
@@ -668,27 +687,14 @@ export class GestionMateriasComponent implements OnInit {
     }
   }
 
-  async contarGrupos(materiaId: number): Promise<number> {
-    // USANDO BACKEND: Contar paralelos por materia
-    try {
-      const materia = this.materias().find(m => m.id === materiaId);
-      if (!materia) return 0;
-      
-      const paralelos = await this.paralelosService.obtenerParalelosPorMateriaBackend(materia.codigo);
-      return paralelos.length;
-    } catch (error) {
-      console.error('Error contando grupos:', error);
-      return 0;
-    }
-  }
-
   aplicarFiltros(): void {
-    let filtradas = this.materias();
+    let filtradas = [...this.materias()]; // Crear nueva referencia para forzar detección de cambios
 
     if (this.filtroSemestre) {
       filtradas = filtradas.filter(m => m.semestre === parseInt(this.filtroSemestre));
     }
 
+    console.log('[DEBUG] Aplicando filtros, materias filtradas:', filtradas.length);
     this.materiasFiltradas.set(filtradas);
   }
 

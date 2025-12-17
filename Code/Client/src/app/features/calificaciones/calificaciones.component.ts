@@ -252,7 +252,8 @@ import { NotificacionService } from '../../core/services/notificacion.service';
                     <input 
                       type="number" 
                       class="nota-input"
-                      [value]="est.notas['Parcial 1']"
+                      [value]="est.notas['Parcial 1'] ?? ''"
+                      [placeholder]="est.notas['Parcial 1'] === null ? '0-100' : ''"
                       min="0" 
                       max="100"
                       (blur)="guardarNota(est.estudianteId, 'Parcial 1', $event)"
@@ -262,7 +263,8 @@ import { NotificacionService } from '../../core/services/notificacion.service';
                     <input 
                       type="number" 
                       class="nota-input"
-                      [value]="est.notas['Parcial 2']"
+                      [value]="est.notas['Parcial 2'] ?? ''"
+                      [placeholder]="est.notas['Parcial 2'] === null ? '0-100' : ''"
                       min="0" 
                       max="100"
                       (blur)="guardarNota(est.estudianteId, 'Parcial 2', $event)"
@@ -272,7 +274,8 @@ import { NotificacionService } from '../../core/services/notificacion.service';
                     <input 
                       type="number" 
                       class="nota-input"
-                      [value]="est.notas['Proyecto']"
+                      [value]="est.notas['Proyecto'] ?? ''"
+                      [placeholder]="est.notas['Proyecto'] === null ? '0-100' : ''"
                       min="0" 
                       max="100"
                       (blur)="guardarNota(est.estudianteId, 'Proyecto', $event)"
@@ -282,7 +285,8 @@ import { NotificacionService } from '../../core/services/notificacion.service';
                     <input 
                       type="number" 
                       class="nota-input"
-                      [value]="est.notas['Examen Final']"
+                      [value]="est.notas['Examen Final'] ?? ''"
+                      [placeholder]="est.notas['Examen Final'] === null ? '0-100' : ''"
                       min="0" 
                       max="100"
                       (blur)="guardarNota(est.estudianteId, 'Examen Final', $event)"
@@ -687,7 +691,7 @@ export class CalificacionesComponent implements OnInit {
     private authService: AuthService,
     private calificacionesService: CalificacionesService,
     private notificacion: NotificacionService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Cargar datos según el rol
@@ -704,7 +708,7 @@ export class CalificacionesComponent implements OnInit {
   }
 
   // ====== VISTA ESTUDIANTE ======
-  
+
   private _materiasInscritas = signal<NotaMateria[]>([]);
   materiasInscritas = computed(() => this._materiasInscritas());
 
@@ -719,17 +723,17 @@ export class CalificacionesComponent implements OnInit {
   });
 
   materiasEnRiesgo = computed(() => {
-    return this._materiasInscritas().filter((m: NotaMateria) => 
+    return this._materiasInscritas().filter((m: NotaMateria) =>
       m.notaFinal < 51 && m.porcentajeEvaluado >= 50
     ).length;
   });
-  
+
   async cargarMateriasEstudiante() {
     if (this.esDocente) return;
     try {
       const materias = await this.calificacionesService.obtenerMisNotas();
       this._materiasInscritas.set(materias);
-      
+
       const promedio = await this.calificacionesService.calcularPromedioActual();
       this._promedioActual.set(promedio);
     } catch (error) {
@@ -754,14 +758,18 @@ export class CalificacionesComponent implements OnInit {
   estudiantesGrupo = computed(() => this._estudiantesGrupo());
 
   grupoActualNombre = computed(() => {
-    const grupo = this._gruposDocente().find((g: GrupoDocente) => g.grupoId === parseInt(this.grupoSeleccionadoId));
+    const grupo = this._gruposDocente().find((g: GrupoDocente) => g.grupoId === this.grupoSeleccionadoId);
     return grupo ? `${grupo.materiaNombre} - Grupo ${grupo.grupoCodigo}` : '';
   });
-  
+
   async cargarGruposDocente() {
+    console.log('=== cargarGruposDocente ===');
+    console.log('esDocente:', this.esDocente);
+    
     if (!this.esDocente) return;
     try {
       const grupos = await this.calificacionesService.obtenerMisGrupos();
+      console.log('Grupos obtenidos:', grupos);
       this._gruposDocente.set(grupos);
     } catch (error) {
       console.error('Error al cargar grupos del docente:', error);
@@ -770,15 +778,20 @@ export class CalificacionesComponent implements OnInit {
   }
 
   async cargarEstudiantes(): Promise<void> {
+    console.log('=== cargarEstudiantes ===');
+    console.log('grupoSeleccionadoId:', this.grupoSeleccionadoId);
+    
     if (!this.grupoSeleccionadoId) {
       this._estudiantesGrupo.set([]);
       return;
     }
-    
+
     try {
+      console.log('Llamando a obtenerEstudiantesGrupo con:', this.grupoSeleccionadoId);
       const estudiantes = await this.calificacionesService.obtenerEstudiantesGrupo(
-        parseInt(this.grupoSeleccionadoId)
+        this.grupoSeleccionadoId
       );
+      console.log('Estudiantes recibidos:', estudiantes);
       this._estudiantesGrupo.set(estudiantes);
     } catch (error) {
       console.error('Error al cargar estudiantes:', error);
@@ -804,21 +817,21 @@ export class CalificacionesComponent implements OnInit {
     return est.notaFinal >= 51 ? 'Aprobado' : 'Reprobado';
   }
 
-  async guardarNota(estudianteId: number, evaluacion: string, event: Event): Promise<void> {
+  async guardarNota(estudianteId: string, evaluacion: string, event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
     const nota = input.value ? parseFloat(input.value) : null;
-    
+
     if (nota !== null && (nota < 0 || nota > 100)) {
       this.notificacion.error('La nota debe estar entre 0 y 100');
       return;
     }
 
-    const grupoId = parseInt(this.grupoSeleccionadoId);
+    const grupoId = this.grupoSeleccionadoId;
     const resultado = await this.calificacionesService.guardarNota(grupoId, estudianteId, evaluacion, nota);
 
     if (resultado.exito) {
       this.notificacion.exito('Nota guardada');
-      
+
       if (resultado.alerta) {
         this.notificacion.advertencia(resultado.alerta);
       }
@@ -835,7 +848,7 @@ export class CalificacionesComponent implements OnInit {
 
   generarActaPDF(): void {
     // Generar PDF del acta de notas
-    const grupo = this._gruposDocente().find((g: GrupoDocente) => g.grupoId === parseInt(this.grupoSeleccionadoId));
+    const grupo = this._gruposDocente().find((g: GrupoDocente) => g.grupoId === this.grupoSeleccionadoId);
     if (!grupo) return;
 
     // Crear contenido del acta

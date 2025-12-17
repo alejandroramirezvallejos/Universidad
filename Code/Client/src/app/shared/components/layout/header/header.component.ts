@@ -38,21 +38,6 @@ import { ActasService } from '../../../../core/services/actas.service';
         </a>
       </div>
 
-      <div class="header-centro">
-        <div class="busqueda">
-          <svg class="busqueda-icono" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input
-            type="search"
-            class="busqueda-input"
-            placeholder="Buscar materias, docentes..."
-            aria-label="Buscar"
-          >
-        </div>
-      </div>
-
       <div class="header-derecha">
         <!-- Notificaciones -->
         <a routerLink="/notificaciones" class="btn-icono" aria-label="Notificaciones">
@@ -157,43 +142,6 @@ import { ActasService } from '../../../../core/services/actas.service';
       font-size: var(--texto-xl);
       font-weight: 700;
       color: var(--color-texto);
-    }
-
-    .header-centro {
-      flex: 1;
-      max-width: 500px;
-    }
-
-    .busqueda {
-      position: relative;
-      width: 100%;
-    }
-
-    .busqueda-icono {
-      position: absolute;
-      left: var(--espaciado-md);
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--color-texto-claro);
-      pointer-events: none;
-    }
-
-    .busqueda-input {
-      width: 100%;
-      padding: var(--espaciado-sm) var(--espaciado-md);
-      padding-left: 2.75rem;
-      background-color: var(--color-fondo);
-      border: 1px solid transparent;
-      border-radius: var(--radio-full);
-      font-size: var(--texto-sm);
-      transition: all var(--transicion-rapida);
-    }
-
-    .busqueda-input:focus {
-      outline: none;
-      background-color: var(--color-fondo-card);
-      border-color: var(--color-primario);
-      box-shadow: 0 0 0 3px var(--color-primario-light);
     }
 
     .header-derecha {
@@ -340,10 +288,6 @@ import { ActasService } from '../../../../core/services/actas.service';
     @media (max-width: 768px) {
       .btn-menu {
         display: flex;
-      }
-
-      .header-centro {
-        display: none;
       }
 
       .usuario-info {

@@ -29,16 +29,24 @@ export class MateriasService {
    */
   async obtenerTodasLasMaterias(): Promise<DtoMateria[]> {
     try {
+      console.log('[MateriasService] Obteniendo todas las materias...');
+      
       const materias = await firstValueFrom(
         this.api.get<DtoMateria[]>('/materias')
       );
-      console.log(`${materias.length} materias obtenidas del backend`);
+      
+      console.log(`[MateriasService] ${materias.length} materias obtenidas del backend`);
+      console.log('[MateriasService] Muestra de datos (primeras 2 materias):', materias.slice(0, 2));
       
       // Mapear a estructura completa con valores por defecto
       // Evitar referencias circulares en materiasCorrelativas
-      return materias.map(m => this.mapearMateriaCompleta(m, true));
+      const materiasMapeadas = materias.map(m => this.mapearMateriaCompleta(m, true));
+      
+      console.log('[MateriasService] Materias mapeadas para frontend:', materiasMapeadas.length);
+      
+      return materiasMapeadas;
     } catch (error) {
-      console.error('Error al obtener materias:', error);
+      console.error('[MateriasService] Error al obtener materias:', error);
       return [];
     }
   }
@@ -157,16 +165,19 @@ export class MateriasService {
    * Actualiza una materia existente
    * USANDO: PUT /api/materias/{codigo}
    */
-  async actualizarMateria(codigo: string, materia: DtoMateria): Promise<boolean> {
+  async actualizarMateria(codigo: string, materia: DtoMateria): Promise<DtoMateria | null> {
     try {
-      await firstValueFrom(
-        this.api.put(`/materias/${codigo}`, materia)
+      console.log(`[MateriasService] Actualizando materia ${codigo} con datos:`, materia);
+      
+      const materiaActualizada = await firstValueFrom(
+        this.api.put<DtoMateria>(`/materias/${codigo}`, materia)
       );
-      console.log(`Materia ${codigo} actualizada exitosamente`);
-      return true;
+      
+      console.log(`[MateriasService] Materia ${codigo} actualizada exitosamente:`, materiaActualizada);
+      return materiaActualizada;
     } catch (error) {
-      console.error(`Error al actualizar materia ${codigo}:`, error);
-      return false;
+      console.error(`[MateriasService] Error al actualizar materia ${codigo}:`, error);
+      return null;
     }
   }
 
@@ -177,7 +188,7 @@ export class MateriasService {
   async toggleEstadoMateria(codigo: string): Promise<DtoMateria | null> {
     try {
       const materiaActualizada = await firstValueFrom(
-        this.api.put<DtoMateria>(`/materias/${codigo}/estado`, {})
+        this.api.patch<DtoMateria>(`/materias/${codigo}/estado`, {})
       );
       console.log(`Estado de materia ${codigo} cambiado a ${materiaActualizada.activa ? 'ACTIVA' : 'INACTIVA'}`);
       return materiaActualizada;

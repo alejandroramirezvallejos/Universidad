@@ -16,7 +16,29 @@ public class Calificacion implements ICalificacion {
     private Double valor;
     private String observaciones;
     @JsonIgnoreProperties({"materiasInscritas", "materiasAprobadas", "carrera"})
-    private IEstudiante estudiante;
+    private Estudiante estudiante;  // Cambiado de IEstudiante a Estudiante
     @JsonIgnoreProperties({"calificaciones", "paraleloMateria"})
-    private IEvaluacion evaluacion;
+    private Evaluacion evaluacion;  // Cambiado de IEvaluacion a Evaluacion
+
+    // Getters para las interfaces (requeridos por ICalificacion)
+    @Override
+    public IEstudiante getEstudiante() {
+        return estudiante;
+    }
+
+    @Override
+    public IEvaluacion getEvaluacion() {
+        return evaluacion;
+    }
+
+    // Setters para las interfaces
+    @Override
+    public void setEstudiante(IEstudiante estudiante) {
+        this.estudiante = (Estudiante) estudiante;
+    }
+
+    @Override
+    public void setEvaluacion(IEvaluacion evaluacion) {
+        this.evaluacion = (Evaluacion) evaluacion;
+    }
 }

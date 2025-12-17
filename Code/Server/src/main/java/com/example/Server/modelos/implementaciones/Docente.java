@@ -21,10 +21,19 @@ public class Docente extends AUsuario implements IDocente {
     private String departamento;
     private String especialidad;
     @Builder.Default
-    private boolean activo = true;
+    private Boolean activo = true;  // Cambiado de boolean a Boolean para permitir null en JSON
     @Builder.Default
     @JsonIgnoreProperties({"docente", "materia", "estudiantes", "horarios"})
     private List<IParaleloMateria> paraleloMaterias = new ArrayList<>();
+
+    // Sobrescribir métodos para Boolean en lugar de boolean
+    public Boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
 
     @Override
     public String toString() {

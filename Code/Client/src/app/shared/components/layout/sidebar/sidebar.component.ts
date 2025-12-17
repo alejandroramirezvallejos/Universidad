@@ -263,8 +263,9 @@ export class SidebarComponent {
       { label: 'Oferta Académica', icono: this.iconos.oferta, ruta: '/oferta-academica', roles: ['ESTUDIANTE'] },
       { label: 'Mi Matrícula', icono: this.iconos.matricula, ruta: '/matricula', roles: ['ESTUDIANTE'] },
       { label: 'Mi Horario', icono: this.iconos.horario, ruta: '/horario', roles: ['ESTUDIANTE'] },
-      { label: 'Mis Calificaciones', icono: this.iconos.notas, ruta: '/calificaciones', roles: ['ESTUDIANTE'] },
-      { label: 'Historial Académico', icono: this.iconos.historial, ruta: '/historial', roles: ['ESTUDIANTE'] },
+      // Calificaciones e Historial deshabilitados - funcionalidad en desarrollo
+      // { label: 'Mis Calificaciones', icono: this.iconos.notas, ruta: '/calificaciones', roles: ['ESTUDIANTE'] },
+      // { label: 'Historial Académico', icono: this.iconos.historial, ruta: '/historial', roles: ['ESTUDIANTE'] },
       { label: 'Registro de Notas', icono: this.iconos.notas, ruta: '/calificaciones', roles: ['DOCENTE'] }
     ];
 
@@ -281,7 +282,8 @@ export class SidebarComponent {
       { label: 'Gestión de Grupos', icono: this.iconos.horario, ruta: '/gestion-grupos', roles: ['DIRECTOR'] },
       // ⚠️ DESHABILITADO: El backend no tiene gestión de períodos académicos
       // { label: 'Gestión de Períodos', icono: this.iconos.gestiones, ruta: '/gestiones', roles: ['DIRECTOR'] },
-      { label: 'Reportes', icono: this.iconos.reportes, ruta: '/reportes', roles: ['DIRECTOR'] }
+      // Reportes deshabilitado - funcionalidad en desarrollo
+      // { label: 'Reportes', icono: this.iconos.reportes, ruta: '/reportes', roles: ['DIRECTOR'] }
     ];
 
     return items.filter(item => !rol || item.roles.includes(rol as RolUsuario));

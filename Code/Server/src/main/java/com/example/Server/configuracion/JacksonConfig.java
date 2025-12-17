@@ -8,12 +8,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Configuración de Jackson para manejar deserialización de interfaces
- * 
- * Problema: Jackson no puede crear instancias de interfaces (ICarrera, IEstudiante, etc.)
- * Solución: Registrar las clases concretas que deben usarse para cada interfaz usando SimpleAbstractTypeResolver
- */
 @Configuration
 public class JacksonConfig {
     

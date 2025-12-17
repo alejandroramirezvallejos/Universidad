@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,17 +20,28 @@ public class Materia implements IMateria {
     private Integer semestre;
     private Integer creditos;
     @Builder.Default
-    private boolean activa = true;
+    private Boolean activa = true;  // Cambiado de boolean a Boolean para permitir null en JSON
     @Builder.Default
     @JsonIgnoreProperties({"paraleloMaterias", "carrera"})
+    @ToString.Exclude
     private List<IMateria> materiasCorrelativas = new ArrayList<>();
     @Builder.Default
     @JsonIgnoreProperties({"materia", "estudiantes", "horarios"})
+    @ToString.Exclude
     private List<IParaleloMateria> paraleloMaterias = new ArrayList<>();
     
     // Campo de tipo Carrera (clase concreta) - Jackson puede deserializarlo sin problemas
     @JsonIgnoreProperties({"estudiantes", "materias", "director"})
     private Carrera carrera;
+
+    // Sobrescribir métodos para Boolean en lugar de boolean
+    public Boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(Boolean activa) {
+        this.activa = activa;
+    }
 
     public Materia clonar() {
         List<IMateria> correlativas = new ArrayList<>();

@@ -91,6 +91,26 @@ export class ApiService {
   }
 
   /**
+   * PATCH - Actualizar parcialmente recursos
+   */
+  patch<T>(endpoint: string, body: any, showLog: boolean = true): Observable<T> {
+    const url = `${this.API_URL}${endpoint}`;
+    
+    if (showLog) {
+      console.log(`PATCH ${url}`, body);
+    }
+    
+    return this.http.patch<T>(url, body, this.httpOptions).pipe(
+      tap(response => {
+        if (showLog) {
+          console.log(`PATCH ${endpoint} - Respuesta:`, response);
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
    * DELETE - Eliminar recursos
    */
   delete<T>(endpoint: string, body?: any, showLog: boolean = true): Observable<T> {

@@ -551,10 +551,10 @@ export class OfertaAcademicaComponent implements OnInit {
   terminoBusqueda = '';
   filtroSemestre = '';
   filtroDisponibilidad = '';
-  
+
   materiaExpandida = signal<number | null>(null);
   semestres = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  
+
   // Listas de materias que no se pueden agregar
   materiasAprobadas: number[] = [];
   materiasInscritas: number[] = [];
@@ -564,14 +564,14 @@ export class OfertaAcademicaComponent implements OnInit {
     public matriculaService: MatriculaService,
     private notificacion: NotificacionService,
     private calificacionesService: CalificacionesService
-  ) {}
+  ) { }
 
   materiasFiltradas = computed(() => {
     let materias = this.ofertaService.materias$();
 
     if (this.terminoBusqueda) {
       const termino = this.terminoBusqueda.toLowerCase();
-      materias = materias.filter(m => 
+      materias = materias.filter(m =>
         m.nombre.toLowerCase().includes(termino) ||
         m.codigo.toLowerCase().includes(termino)
       );
@@ -614,7 +614,7 @@ export class OfertaAcademicaComponent implements OnInit {
     return this.matriculaService.matriculasEnProceso$().some(g => g.id === grupoId);
   }
 
-  agregarMateria(grupo: Grupo): void {
+  async agregarMateria(grupo: Grupo): Promise<void> {
     // Validar primero si puede agregar la materia
     if (!this.puedaAgregarMateria(grupo.materia.id)) {
       const motivo = this.obtenerMotivoBloqueo(grupo.materia.id);
@@ -622,8 +622,8 @@ export class OfertaAcademicaComponent implements OnInit {
       return;
     }
 
-    const resultado = this.matriculaService.agregarAlCarrito(grupo);
-    
+    const resultado = await this.matriculaService.agregarAlCarrito(grupo);
+
     if (resultado.valido) {
       this.notificacion.exito(`${grupo.materia.nombre} seleccionada correctamente`);
       // Actualizar lista de materias inscritas
@@ -653,8 +653,8 @@ export class OfertaAcademicaComponent implements OnInit {
    * No se puede agregar si ya fue aprobada o está inscrita actualmente
    */
   puedaAgregarMateria(materiaId: number): boolean {
-    return !this.materiasAprobadas.includes(materiaId) && 
-           !this.materiasInscritas.includes(materiaId);
+    return !this.materiasAprobadas.includes(materiaId) &&
+      !this.materiasInscritas.includes(materiaId);
   }
 
   /**

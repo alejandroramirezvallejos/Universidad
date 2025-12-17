@@ -15,7 +15,7 @@ export class MatriculaService {
 
   readonly matriculasEnProceso$ = this.matriculasEnProceso.asReadonly();
   readonly cantidadEnProceso = computed(() => this.matriculasEnProceso().length);
-  readonly creditosTotales = computed(() => 
+  readonly creditosTotales = computed(() =>
     this.matriculasEnProceso().reduce((sum, g) => sum + g.materia.creditos, 0)
   );
 
@@ -24,7 +24,7 @@ export class MatriculaService {
     private datosMock: DatosMockService,
     private api: ApiService,
     private mappers: MappersService
-  ) {}
+  ) { }
 
   /**
    * Obtiene las matrículas del estudiante desde el backend
@@ -34,13 +34,13 @@ export class MatriculaService {
     const userId = this.authService.usuarioId();
     const usuario = this.authService.usuario();
     const userCodigo = (usuario as any)?.codigoEstudiante || userId.toString();
-    
+
     try {
       // Usar endpoint específico por estudiante
       const dtoInscripciones = await firstValueFrom(
         this.api.get<DtoInscripcion[]>(`/inscripciones/estudiante/${userCodigo}`)
       );
-      
+
       // Convertir DTOs a modelos frontend
       console.log(`${dtoInscripciones.length} inscripciones obtenidas del backend`);
       return dtoInscripciones.map(dto => this.mappers.dtoToMatricula(dto));
@@ -61,7 +61,7 @@ export class MatriculaService {
       const dtoInscripciones = await firstValueFrom(
         this.api.get<DtoInscripcion[]>(`/inscripciones/paralelo/${codigoParalelo}`)
       );
-      
+
       console.log(`${dtoInscripciones.length} inscripciones obtenidas para paralelo ${codigoParalelo}`);
       return dtoInscripciones.map(dto => this.mappers.dtoToMatricula(dto));
     } catch (error) {
@@ -79,7 +79,7 @@ export class MatriculaService {
       await firstValueFrom(
         this.api.delete(`/inscripciones/${estudianteCodigo}/${paraleloCodigo}`)
       );
-      
+
       console.log(`Inscripción cancelada: Estudiante ${estudianteCodigo} - Paralelo ${paraleloCodigo}`);
       return true;
     } catch (error) {
@@ -96,17 +96,17 @@ export class MatriculaService {
     return matriculas.filter(m => m.estado === 'INSCRITO');
   }
 
-  agregarAlCarrito(grupo: Grupo): { 
-    valido: boolean; 
-    errores: any[]; 
-    advertencias?: string[] 
-  } {
-    const validacion = this.validarInscripcion(grupo);
-    
+  async agregarAlCarrito(grupo: Grupo): Promise<{
+    valido: boolean;
+    errores: any[];
+    advertencias?: string[]
+  }> {
+    const validacion = await this.validarInscripcion(grupo);
+
     if (validacion.valido) {
       this.matriculasEnProceso.update(list => [...list, grupo]);
     }
-    
+
     return validacion;
   }
 
@@ -125,7 +125,7 @@ export class MatriculaService {
   async confirmarMatricula(): Promise<{ exito: boolean; mensaje: string; matriculas?: Matricula[] }> {
     const gruposEnProceso = this.matriculasEnProceso();
     const usuario = this.authService.usuario();
-    
+
     if (!usuario) {
       return { exito: false, mensaje: 'Debe iniciar sesión' };
     }
@@ -184,23 +184,39 @@ export class MatriculaService {
       const dtoMatriculas = await firstValueFrom(
         this.api.post<DtoInscripcion[]>('/inscripciones/batch', inscripciones)
       );
-      
+
+      // 🔧 PASO 2: Aceptar automáticamente todas las inscripciones creadas
+      // Esto es necesario para que las materias se agreguen al horario del estudiante
+      console.log('🔄 Aceptando inscripciones automáticamente...');
+      for (const dtoMatricula of dtoMatriculas) {
+        try {
+          // Cambiar estado a ACEPTADA y actualizar en el backend
+          dtoMatricula.estado = 'ACEPTADA';
+          await firstValueFrom(
+            this.api.put('/inscripciones/aceptar', dtoMatricula)
+          );
+          console.log(`✅ Inscripción aceptada: ${dtoMatricula.paraleloMateria.materia.nombre}`);
+        } catch (error) {
+          console.error('❌ Error al aceptar inscripción:', error);
+        }
+      }
+
       // Convertir respuestas a modelos frontend
       const matriculasCreadas = dtoMatriculas.map(dto => this.mappers.dtoToMatricula(dto));
-      
+
       // Limpiar carrito después de confirmar
       this.limpiarCarrito();
-      
-      console.log(`${matriculasCreadas.length} matrícula(s) confirmada(s) mediante endpoint batch`);
-      
-      return { 
-        exito: true, 
-        mensaje: `${matriculasCreadas.length} matrícula(s) confirmada(s) exitosamente`, 
-        matriculas: matriculasCreadas 
+
+      console.log(`${matriculasCreadas.length} matrícula(s) confirmada(s) y aceptada(s) exitosamente`);
+
+      return {
+        exito: true,
+        mensaje: `${matriculasCreadas.length} matrícula(s) confirmada(s) y agregada(s) a tu horario exitosamente`,
+        matriculas: matriculasCreadas
       };
     } catch (error: any) {
       console.error('Error al confirmar matrícula con backend:', error);
-      
+
       // Fallback: guardar en mock
       const nuevasMatriculas: Matricula[] = gruposEnProceso.map((grupo, index) => ({
         id: Date.now() + index,
@@ -215,20 +231,20 @@ export class MatriculaService {
       this.limpiarCarrito();
 
       console.warn('Usando datos mock como fallback');
-      
-      return { 
-        exito: true, 
-        mensaje: 'Matrícula confirmada (mock - backend no disponible)', 
-        matriculas: nuevasMatriculas 
+
+      return {
+        exito: true,
+        mensaje: 'Matrícula confirmada (mock - backend no disponible)',
+        matriculas: nuevasMatriculas
       };
     }
   }
 
-  validarInscripcion(grupo: Grupo): { 
-    valido: boolean; 
-    errores: any[]; 
-    advertencias?: string[] 
-  } {
+  async validarInscripcion(grupo: Grupo): Promise<{
+    valido: boolean;
+    errores: any[];
+    advertencias?: string[]
+  }> {
     const errores: any[] = [];
     const advertencias: string[] = [];
 
@@ -236,16 +252,45 @@ export class MatriculaService {
       errores.push({ tipo: 'CUPO', mensaje: 'No hay cupos disponibles' });
     }
 
+    // Verificar duplicados en el carrito actual
     const materiasInscritas = this.obtenerMateriasInscritas();
     if (materiasInscritas.includes(grupo.materia.id)) {
       errores.push({ tipo: 'DUPLICADO', mensaje: 'Ya inscrito en esta materia' });
     }
 
-    return { 
-      valido: errores.length === 0, 
+    // Verificar duplicados contra matrículas existentes en el backend
+    try {
+      const matriculasExistentes = await this.obtenerMatriculasActivas();
+      const materiaYaInscrita = matriculasExistentes.some(m =>
+        m.grupo.materia.id === grupo.materia.id && m.estado === 'INSCRITO'
+      );
+
+      if (materiaYaInscrita) {
+        errores.push({ tipo: 'DUPLICADO_BACKEND', mensaje: 'Ya estás inscrito en esta materia' });
+      }
+    } catch (error) {
+      console.warn('No se pudo verificar matrículas existentes:', error);
+      // No agregar error, permitir continuar pero con advertencia
+      advertencias.push('No se pudo verificar matrículas existentes. Verifica manualmente.');
+    }
+
+    return {
+      valido: errores.length === 0,
       errores,
-      advertencias 
+      advertencias
     };
+  }
+
+  private formatearDia(dia: string): string {
+    const dias: Record<string, string> = {
+      'LUNES': 'Lun',
+      'MARTES': 'Mar',
+      'MIERCOLES': 'Mié',
+      'JUEVES': 'Jue',
+      'VIERNES': 'Vie',
+      'SABADO': 'Sáb'
+    };
+    return dias[dia] || dia;
   }
 
   /**
@@ -312,12 +357,12 @@ export class MatriculaService {
       const dtoInscripciones = await firstValueFrom(
         this.api.get<DtoInscripcion[]>('/inscripciones')
       );
-      
+
       // Filtrar solo las pendientes
       const inscripcionesPendientes = dtoInscripciones.filter(
         dto => dto.estado === 'PENDIENTE'
       );
-      
+
       return inscripcionesPendientes.map(dto => this.mappers.dtoToMatricula(dto));
     } catch (error) {
       console.error('Error al obtener inscripciones pendientes:', error);

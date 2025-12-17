@@ -205,7 +205,7 @@ import { Materia, Usuario, Grupo, Horario, DiaSemana, Aula } from '../../models'
               <span class="badge" [class.badge-exito]="grupo.cupoDisponible > 5" 
                                    [class.badge-advertencia]="grupo.cupoDisponible <= 5 && grupo.cupoDisponible > 0"
                                    [class.badge-error]="grupo.cupoDisponible === 0">
-                {{ (grupo.cupoMaximo - grupo.cupoDisponible) }}/{{ grupo.cupoMaximo }}
+                {{ grupo.cupoDisponible }}/{{ grupo.cupoMaximo }} disponibles
               </span>
             </div>
 
@@ -667,21 +667,50 @@ export class GestionGruposComponent implements OnInit {
     }
 
     try {
-      // USANDO BACKEND: Actualizar paralelo
+      // USANDO BACKEND: Actualizar paralelo con TODOS los campos requeridos
+      const docenteConCodigo = docente as any;
       const paraleloActualizado = {
         codigo: this.nuevoGrupo.codigo,
+        materia: {
+          codigo: materia.codigo,
+          nombre: materia.nombre,
+          creditos: materia.creditos,
+          semestre: materia.semestre
+        },
+        docente: {
+          codigo: docenteConCodigo.codigoDocente || docenteConCodigo.codigo || 'DOC-001',
+          nombre: docente.nombre,
+          apellido: docenteConCodigo.apellido || '',
+          email: docenteConCodigo.email || '',
+          especialidad: docenteConCodigo.especialidad || 'General',
+          departamento: docenteConCodigo.departamento || 'General',
+          activo: true
+        },
+        aula: {
+          codigo: this.nuevoGrupo.aula,
+          edificio: 'Edificio Principal',
+          capacidad: this.nuevoGrupo.cupoMaximo,
+          disponible: true
+        },
         cupoMaximo: this.nuevoGrupo.cupoMaximo,
         horarios: this.nuevoGrupo.horarios.map(h => ({
-          dia: h.dia,
+          diaSemana: h.dia,
           horaInicio: h.horaInicio,
           horaFin: h.horaFin
         }))
       };
 
-      await this.paralelosService.actualizarParalelo(this.grupoEnEdicion.codigo, paraleloActualizado);
-      await this.cargarDatos();
-      this.cancelar();
-      this.notificacion.exito('Grupo actualizado exitosamente en el backend');
+      console.log('[DEBUG] Actualizando paralelo:', this.grupoEnEdicion.codigo, 'con datos:', paraleloActualizado);
+      
+      const resultado = await this.paralelosService.actualizarParalelo(this.grupoEnEdicion.codigo, paraleloActualizado);
+      
+      if (resultado) {
+        await this.cargarDatos();
+        this.cancelar();
+        this.notificacion.exito('Grupo actualizado exitosamente');
+      } else {
+        this.notificacion.error('Error al actualizar el grupo en el servidor');
+      }
     } catch (error) {
       console.error('Error actualizando grupo:', error);
       this.notificacion.error('Error al actualizar el grupo.');

@@ -1,7 +1,9 @@
 package com.example.Server.servicios.implementaciones;
+
 import com.example.Server.modelos.abstracciones.ICalificacion;
 import com.example.Server.modelos.abstracciones.IEstudiante;
 import com.example.Server.modelos.abstracciones.IEvaluacion;
+import com.example.Server.modelos.abstracciones.IParaleloMateria;
 import com.example.Server.repositorios.abstracciones.IRepositorioCalificacion;
 import com.example.Server.repositorios.abstracciones.IRepositorioEstudiante;
 import com.example.Server.servicios.abstracciones.IServicioCalificacion;
@@ -18,6 +20,15 @@ public class ServicioCalificacion implements IServicioCalificacion {
 
     @Override
     public ICalificacion crear(ICalificacion calificacion) {
+        // Nota: La validación de que el estudiante esté inscrito se realiza del lado
+        // del cliente
+        // Ya que el paralelo que viene en el DTO puede no tener los estudiantes
+        // actualizados
+
+        // VALIDACIÓN DESHABILITADA - permitir que docentes pongan notas libremente
+        // Si fuera necesario validar, se debería buscar el paralelo real desde el
+        // repositorio
+
         return repositorio.guardar(calificacion);
     }
 

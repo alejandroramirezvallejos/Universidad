@@ -123,10 +123,10 @@ import { AuthService } from '../../core/services/auth.service';
             </div>
           </div>
 
-          <!-- Link a registro -->
-          <div class="registro-link">
+          <!-- Link a registro deshabilitado - funcionalidad en desarrollo -->
+          <!-- <div class="registro-link">
             <p>¿No tienes cuenta? <a routerLink="/registro">Regístrate aquí</a></p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -325,7 +325,8 @@ export class LoginComponent {
 
   usuariosPrueba = [
     { email: 'juan.perez@ucb.edu.bo', nombre: 'Estudiante' },
-    { email: 'maria.gonzalez@ucb.edu.bo', nombre: 'Docente' },
+    // DOCENTE deshabilitado temporalmente - funcionalidad de calificaciones en desarrollo
+    // { email: 'maria.gonzalez@ucb.edu.bo', nombre: 'Docente' },
     { email: 'carlos.rodriguez@ucb.edu.bo', nombre: 'Director' }
   ];
 
