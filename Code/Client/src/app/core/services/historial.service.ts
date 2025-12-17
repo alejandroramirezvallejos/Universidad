@@ -37,34 +37,34 @@ export class HistorialService {
 
   /**
    * Obtiene el historial académico completo de un estudiante
-   * ✅ USANDO: GET /api/historial/estudiante/{codigo}
+   * USANDO: GET /api/historial/estudiante/{codigo}
    */
   async obtenerHistorialEstudiante(codigoEstudiante: string): Promise<DtoHistorialAcademico | null> {
     try {
       const historial = await firstValueFrom(
         this.api.get<DtoHistorialAcademico>(`/historial/estudiante/${codigoEstudiante}`)
       );
-      console.log(`✅ Historial académico obtenido para estudiante ${codigoEstudiante}`);
+      console.log(`Historial académico obtenido para estudiante ${codigoEstudiante}`);
       return historial;
     } catch (error) {
-      console.error(`❌ Error al obtener historial de ${codigoEstudiante}:`, error);
+      console.error(`Error al obtener historial de ${codigoEstudiante}:`, error);
       return null;
     }
   }
 
   /**
    * Obtiene el promedio general de un estudiante
-   * ✅ USANDO: GET /api/historial/estudiante/{codigo}/promedio
+   * USANDO: GET /api/historial/estudiante/{codigo}/promedio
    */
   async obtenerPromedioGeneral(codigoEstudiante: string): Promise<DtoPromedio | null> {
     try {
       const promedio = await firstValueFrom(
         this.api.get<DtoPromedio>(`/historial/estudiante/${codigoEstudiante}/promedio`)
       );
-      console.log(`✅ Promedio general obtenido: ${promedio.promedio.toFixed(2)} (${promedio.totalMaterias} materias)`);
+      console.log(`Promedio general obtenido: ${promedio.promedio.toFixed(2)} (${promedio.totalMaterias} materias)`);
       return promedio;
     } catch (error) {
-      console.error(`❌ Error al obtener promedio de ${codigoEstudiante}:`, error);
+      console.error(`Error al obtener promedio de ${codigoEstudiante}:`, error);
       return null;
     }
   }
@@ -108,7 +108,7 @@ export class HistorialService {
         creditosCumplidos
       };
     } catch (error) {
-      console.error(`❌ Error al obtener estadísticas de ${codigoEstudiante}:`, error);
+      console.error(`Error al obtener estadísticas de ${codigoEstudiante}:`, error);
       return null;
     }
   }
@@ -123,7 +123,7 @@ export class HistorialService {
   } | null> {
     // Este endpoint aún no existe en el backend
     // Se puede implementar cuando esté disponible
-    console.warn('⚠️ Endpoint de ranking no implementado en backend');
+    console.warn('Endpoint de ranking no implementado en backend');
     return null;
   }
 

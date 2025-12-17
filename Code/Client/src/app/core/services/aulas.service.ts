@@ -30,7 +30,7 @@ export class AulasService {
       this._aulas.set(aulas);
       return aulas;
     } catch (error) {
-      console.error('❌ Error al obtener aulas del backend:', error);
+      console.error('Error al obtener aulas del backend:', error);
       // Fallback a datos mock
       const aulasMock = this.datosMock.aulas;
       this._aulas.set(aulasMock);
@@ -54,7 +54,7 @@ export class AulasService {
       
       return aulaCreada;
     } catch (error) {
-      console.error('❌ Error al crear aula:', error);
+      console.error('Error al crear aula:', error);
       throw error;
     }
   }
@@ -74,7 +74,7 @@ export class AulasService {
         aulas.filter(a => a.codigo !== aula.codigo)
       );
     } catch (error) {
-      console.error('❌ Error al eliminar aula:', error);
+      console.error('Error al eliminar aula:', error);
       throw error;
     }
   }

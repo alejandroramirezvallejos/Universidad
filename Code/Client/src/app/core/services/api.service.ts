@@ -15,7 +15,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ApiService {
-  // ⚠️ IMPORTANTE: Asegúrate que el backend esté corriendo en puerto 8080
+  // IMPORTANTE: Asegurate que el backend este corriendo en puerto 8080
   private readonly API_URL = 'http://localhost:8080/api';
   
   // Headers por defecto
@@ -27,7 +27,7 @@ export class ApiService {
   };
 
   constructor(private http: HttpClient) {
-    console.log('🔗 ApiService inicializado. Backend URL:', this.API_URL);
+    console.log('ApiService inicializado. Backend URL:', this.API_URL);
   }
 
   /**
@@ -37,13 +37,13 @@ export class ApiService {
     const url = `${this.API_URL}${endpoint}`;
     
     if (showLog) {
-      console.log(`📡 GET ${url}`);
+      console.log(`GET ${url}`);
     }
     
     return this.http.get<T>(url, this.httpOptions).pipe(
       tap(response => {
         if (showLog) {
-          console.log(`✅ GET ${endpoint} - Respuesta:`, response);
+          console.log(`GET ${endpoint} - Respuesta:`, response);
         }
       }),
       catchError(this.handleError)
@@ -57,13 +57,13 @@ export class ApiService {
     const url = `${this.API_URL}${endpoint}`;
     
     if (showLog) {
-      console.log(`📡 POST ${url}`, body);
+      console.log(`POST ${url}`, body);
     }
     
     return this.http.post<T>(url, body, this.httpOptions).pipe(
       tap(response => {
         if (showLog) {
-          console.log(`✅ POST ${endpoint} - Respuesta:`, response);
+          console.log(`POST ${endpoint} - Respuesta:`, response);
         }
       }),
       catchError(this.handleError)
@@ -77,13 +77,13 @@ export class ApiService {
     const url = `${this.API_URL}${endpoint}`;
     
     if (showLog) {
-      console.log(`📡 PUT ${url}`, body);
+      console.log(`PUT ${url}`, body);
     }
     
     return this.http.put<T>(url, body, this.httpOptions).pipe(
       tap(response => {
         if (showLog) {
-          console.log(`✅ PUT ${endpoint} - Respuesta:`, response);
+          console.log(`PUT ${endpoint} - Respuesta:`, response);
         }
       }),
       catchError(this.handleError)
@@ -97,7 +97,7 @@ export class ApiService {
     const url = `${this.API_URL}${endpoint}`;
     
     if (showLog) {
-      console.log(`📡 DELETE ${url}`, body);
+      console.log(`DELETE ${url}`, body);
     }
     
     const options = body ? { ...this.httpOptions, body } : this.httpOptions;
@@ -105,7 +105,7 @@ export class ApiService {
     return this.http.delete<T>(url, options).pipe(
       tap(response => {
         if (showLog) {
-          console.log(`✅ DELETE ${endpoint} - Respuesta:`, response);
+          console.log(`DELETE ${endpoint} - Respuesta:`, response);
         }
       }),
       catchError(this.handleError)
@@ -121,11 +121,11 @@ export class ApiService {
     if (error.error instanceof ErrorEvent) {
       // Error del cliente o de red
       errorMessage = `Error del cliente: ${error.error.message}`;
-      console.error('❌ Error del cliente:', error.error.message);
+      console.error('Error del cliente:', error.error.message);
     } else {
       // Error del backend
       errorMessage = `Error del servidor: ${error.status} - ${error.message}`;
-      console.error(`❌ Error del backend:`, {
+      console.error(`Error del backend:`, {
         status: error.status,
         statusText: error.statusText,
         message: error.message,
@@ -159,10 +159,10 @@ export class ApiService {
     try {
       // Intentar obtener materias como test
       await this.get('/materias', false).toPromise();
-      console.log('✅ Conexión con backend exitosa');
+      console.log('Conexion con backend exitosa');
       return true;
     } catch (error) {
-      console.error('❌ No se pudo conectar con el backend:', error);
+      console.error('No se pudo conectar con el backend:', error);
       return false;
     }
   }

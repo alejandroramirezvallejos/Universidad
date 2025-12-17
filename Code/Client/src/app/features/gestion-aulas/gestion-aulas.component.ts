@@ -120,28 +120,28 @@ import { DtoAula } from '../../models/backend-dtos';
       <!-- Estadísticas -->
       <section class="estadisticas-grid">
         <div class="card estadistica">
-          <div class="estadistica-icono">🏫</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ aulas().length }}</span>
             <span class="estadistica-label">Total Aulas</span>
           </div>
         </div>
         <div class="card estadistica">
-          <div class="estadistica-icono">✅</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ aulasDisponibles() }}</span>
             <span class="estadistica-label">Disponibles</span>
           </div>
         </div>
         <div class="card estadistica">
-          <div class="estadistica-icono">🏢</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ edificiosUnicos().length }}</span>
             <span class="estadistica-label">Edificios</span>
           </div>
         </div>
         <div class="card estadistica">
-          <div class="estadistica-icono">👥</div>
+          <div class="estadistica-icono"></div>
           <div class="estadistica-info">
             <span class="estadistica-valor">{{ capacidadTotal() }}</span>
             <span class="estadistica-label">Capacidad Total</span>
@@ -202,7 +202,7 @@ import { DtoAula } from '../../models/backend-dtos';
         </div>
 
         <div class="estado-vacio" *ngIf="aulasFiltradas().length === 0">
-          <div class="estado-vacio-icono">🏫</div>
+          <div class="estado-vacio-icono"></div>
           <p>No se encontraron aulas</p>
         </div>
       </section>

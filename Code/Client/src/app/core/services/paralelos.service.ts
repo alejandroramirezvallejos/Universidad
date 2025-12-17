@@ -26,7 +26,7 @@ export class ParalelosService {
       this._paralelos.set(paralelos);
       return paralelos;
     } catch (error) {
-      console.error('❌ Error al obtener paralelos:', error);
+      console.error('Error al obtener paralelos:', error);
       return [];
     }
   }
@@ -67,10 +67,10 @@ export class ParalelosService {
       
       this._paralelos.update(paralelos => [...paralelos, paraleloCreado]);
       
-      console.log('✅ Paralelo creado:', paraleloCreado.codigo);
+      console.log('Paralelo creado:', paraleloCreado.codigo);
       return paraleloCreado;
     } catch (error) {
-      console.error('❌ Error al crear paralelo:', error);
+      console.error('Error al crear paralelo:', error);
       throw error;
     }
   }
@@ -85,9 +85,9 @@ export class ParalelosService {
         paralelos.filter(p => p.codigo !== codigoParalelo)
       );
       
-      console.log('✅ Paralelo eliminado:', codigoParalelo);
+      console.log('Paralelo eliminado:', codigoParalelo);
     } catch (error) {
-      console.error('❌ Error al eliminar paralelo:', error);
+      console.error('Error al eliminar paralelo:', error);
       throw error;
     }
   }
@@ -108,7 +108,7 @@ export class ParalelosService {
 
   /**
    * Obtiene un paralelo específico desde el backend
-   * ✅ USANDO: GET /api/paralelos/{codigo}
+   * USANDO: GET /api/paralelos/{codigo}
    */
   async obtenerParaleloBackend(codigo: string): Promise<any | null> {
     try {
@@ -117,17 +117,17 @@ export class ParalelosService {
       );
       const gestionActual = { id: 1, nombre: 'II-2025', anio: 2025, periodo: 2 };
       const paralelo = this.mappers.dtoToGrupo(dtoParalelo, gestionActual);
-      console.log(`✅ Paralelo ${codigo} obtenido del backend`);
+      console.log(`Paralelo ${codigo} obtenido del backend`);
       return paralelo;
     } catch (error) {
-      console.error(`❌ Error al obtener paralelo ${codigo}:`, error);
+      console.error(`Error al obtener paralelo ${codigo}:`, error);
       return null;
     }
   }
 
   /**
    * Obtiene todos los paralelos de un docente desde el backend
-   * ✅ USANDO: GET /api/paralelos/docente/{codigo}
+   * USANDO: GET /api/paralelos/docente/{codigo}
    */
   async obtenerParalelosPorDocenteBackend(codigoDocente: string): Promise<any[]> {
     try {
@@ -136,17 +136,17 @@ export class ParalelosService {
       );
       const gestionActual = { id: 1, nombre: 'II-2025', anio: 2025, periodo: 2 };
       const paralelos = dtoParalelos.map(dto => this.mappers.dtoToGrupo(dto, gestionActual));
-      console.log(`✅ ${paralelos.length} paralelos obtenidos para docente ${codigoDocente}`);
+      console.log(`${paralelos.length} paralelos obtenidos para docente ${codigoDocente}`);
       return paralelos;
     } catch (error) {
-      console.error(`❌ Error al obtener paralelos del docente ${codigoDocente}:`, error);
+      console.error(`Error al obtener paralelos del docente ${codigoDocente}:`, error);
       return [];
     }
   }
 
   /**
    * Obtiene todos los paralelos de una materia desde el backend
-   * ✅ USANDO: GET /api/paralelos/materia/{codigo}
+   * USANDO: GET /api/paralelos/materia/{codigo}
    */
   async obtenerParalelosPorMateriaBackend(codigoMateria: string): Promise<any[]> {
     try {
@@ -155,17 +155,17 @@ export class ParalelosService {
       );
       const gestionActual = { id: 1, nombre: 'II-2025', anio: 2025, periodo: 2 };
       const paralelos = dtoParalelos.map(dto => this.mappers.dtoToGrupo(dto, gestionActual));
-      console.log(`✅ ${paralelos.length} paralelos obtenidos para materia ${codigoMateria}`);
+      console.log(`${paralelos.length} paralelos obtenidos para materia ${codigoMateria}`);
       return paralelos;
     } catch (error) {
-      console.error(`❌ Error al obtener paralelos de la materia ${codigoMateria}:`, error);
+      console.error(`Error al obtener paralelos de la materia ${codigoMateria}:`, error);
       return [];
     }
   }
 
   /**
    * Actualiza un paralelo existente
-   * ✅ USANDO: PUT /api/paralelos/{codigo}
+   * USANDO: PUT /api/paralelos/{codigo}
    */
   async actualizarParalelo(codigo: string, paralelo: any): Promise<boolean> {
     try {
@@ -203,10 +203,10 @@ export class ParalelosService {
         paralelos.map(p => p.codigo === codigo ? paralelo : p)
       );
       
-      console.log(`✅ Paralelo ${codigo} actualizado exitosamente`);
+      console.log(`Paralelo ${codigo} actualizado exitosamente`);
       return true;
     } catch (error) {
-      console.error(`❌ Error al actualizar paralelo ${codigo}:`, error);
+      console.error(`Error al actualizar paralelo ${codigo}:`, error);
       return false;
     }
   }

@@ -281,7 +281,7 @@ export class DatosMockService {
   }
 
   // ============ MATRÍCULAS (Estado mutable - SEPARADO POR USUARIO) ============
-  // 🔒 CORRECCIÓN CRÍTICA: Cada usuario tiene sus propias matrículas
+  // [LOCK] CORRECCIÓN CRÍTICA: Cada usuario tiene sus propias matrículas
   // En vez de un array global, usamos Map con userId como clave
   private _matriculasPorUsuario = new Map<number, Matricula[]>();
   
@@ -300,7 +300,7 @@ export class DatosMockService {
 
   // Compatibilidad: mantener getter para código existente pero con warning
   get matriculas(): Matricula[] {
-    console.warn('⚠️ USAR obtenerMatriculasUsuario(userId) en vez de matriculas global');
+    console.warn('USAR obtenerMatriculasUsuario(userId) en vez de matriculas global');
     // Retornar TODAS las matrículas de TODOS los usuarios (solo para admin/director)
     const todasLasMatriculas: Matricula[] = [];
     this._matriculasPorUsuario.forEach(matriculas => {
@@ -331,7 +331,7 @@ export class DatosMockService {
   }
 
   // ============ CALIFICACIONES (Estado mutable - SEPARADO POR USUARIO) ============
-  // 🔒 CORRECCIÓN CRÍTICA: Cada usuario tiene sus propias calificaciones
+  // [LOCK] CORRECCIÓN CRÍTICA: Cada usuario tiene sus propias calificaciones
   private _calificacionesPorUsuario = new Map<number, Calificacion[]>();
 
   // Inicializar calificaciones de un usuario
@@ -349,7 +349,7 @@ export class DatosMockService {
 
   // Compatibilidad: getter para código existente
   get calificaciones(): Calificacion[] {
-    console.warn('⚠️ USAR obtenerCalificacionesUsuario(userId) en vez de calificaciones global');
+    console.warn('USAR obtenerCalificacionesUsuario(userId) en vez de calificaciones global');
     const todasLasCalificaciones: Calificacion[] = [];
     this._calificacionesPorUsuario.forEach(calificaciones => {
       todasLasCalificaciones.push(...calificaciones);
@@ -483,7 +483,7 @@ export class DatosMockService {
       });
     });
 
-    // 🔒 INICIALIZAR MATRÍCULAS POR USUARIO
+    // [LOCK] INICIALIZAR MATRÍCULAS POR USUARIO
     // Agrupar matrículas por estudiante
     const matriculasPorEstudiante = new Map<number, Matricula[]>();
     matriculasIniciales.forEach(m => {
@@ -526,7 +526,7 @@ export class DatosMockService {
       }
     });
 
-    // 🔒 INICIALIZAR CALIFICACIONES POR USUARIO
+    // [LOCK] INICIALIZAR CALIFICACIONES POR USUARIO
     // Agrupar calificaciones por estudiante
     const calificacionesPorEstudiante = new Map<number, Calificacion[]>();
     califsIniciales.forEach(c => {

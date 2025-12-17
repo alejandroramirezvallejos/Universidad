@@ -245,7 +245,7 @@ import { Materia } from '../../models';
         </div>
 
         <div class="estado-vacio" *ngIf="materias().length === 0">
-          <div class="estado-vacio-icono">📚</div>
+          <div class="estado-vacio-icono"></div>
           <p>No hay materias registradas</p>
           <p class="texto-secundario">Crea la primera materia para comenzar</p>
         </div>
@@ -531,7 +531,7 @@ export class GestionMateriasComponent implements OnInit {
 
   async cargarDatos(): Promise<void> {
     try {
-      // ✅ USANDO MateriasService en lugar de mocks
+      // USANDO MateriasService en lugar de mocks
       const materias = await this.materiasService.obtenerTodasLasMaterias();
       await this.carrerasService.obtenerCarreras();
       
@@ -539,9 +539,9 @@ export class GestionMateriasComponent implements OnInit {
       this.materias.set(materias as any);
       this.aplicarFiltros();
       
-      console.log(`✅ ${materias.length} materias cargadas desde backend`);
+      console.log(`${materias.length} materias cargadas desde backend`);
     } catch (error) {
-      console.error('❌ Error cargando materias:', error);
+      console.error('Error cargando materias:', error);
       this.notificacion.error('Error al cargar las materias');
       this.materias.set([]);
     }
@@ -586,7 +586,7 @@ export class GestionMateriasComponent implements OnInit {
 
     try {
       if (this.modoEdicion && this.materiaEditandoId) {
-        // ✅ USANDO BACKEND: Actualizar materia existente
+        // USANDO BACKEND: Actualizar materia existente
         const materiaActualizar = this.materias().find(m => m.id === this.materiaEditandoId);
         if (!materiaActualizar) {
           this.notificacion.error('Materia no encontrada');
@@ -603,7 +603,7 @@ export class GestionMateriasComponent implements OnInit {
         await this.materiasService.actualizarMateria(materiaActualizar.codigo, materiaDTO);
         this.notificacion.exito('Materia actualizada exitosamente en el backend');
       } else {
-        // ✅ USANDO BACKEND: Crear nueva materia
+        // USANDO BACKEND: Crear nueva materia
         const materiaDTO = {
           codigo: this.materiaForm.codigo,
           nombre: this.materiaForm.nombre,
@@ -641,9 +641,9 @@ export class GestionMateriasComponent implements OnInit {
   }
 
   async toggleEstado(materia: Materia): Promise<void> {
-    // 🔒 VALIDACIÓN CRÍTICA: No permitir desactivar materia con estudiantes inscritos
+    // [LOCK] VALIDACIÓN CRÍTICA: No permitir desactivar materia con estudiantes inscritos
     if (materia.activa) {
-      // ✅ USANDO BACKEND: Verificar inscripciones activas
+      // USANDO BACKEND: Verificar inscripciones activas
       // Por ahora simplificamos, en producción se debe consultar al backend
       const confirmar = window.confirm(
         `¿Estás seguro de que deseas ${materia.activa ? 'desactivar' : 'activar'} esta materia?`
@@ -654,7 +654,7 @@ export class GestionMateriasComponent implements OnInit {
     }
 
     try {
-      // ✅ USANDO BACKEND: Toggle estado de materia
+      // USANDO BACKEND: Toggle estado de materia
       await this.materiasService.toggleEstadoMateria(materia.codigo);
       await this.cargarDatos();
       this.notificacion.exito(
@@ -667,7 +667,7 @@ export class GestionMateriasComponent implements OnInit {
   }
 
   async contarGrupos(materiaId: number): Promise<number> {
-    // ✅ USANDO BACKEND: Contar paralelos por materia
+    // USANDO BACKEND: Contar paralelos por materia
     try {
       const materia = this.materias().find(m => m.id === materiaId);
       if (!materia) return 0;
